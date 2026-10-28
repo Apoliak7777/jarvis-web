@@ -73,7 +73,7 @@ window.JARVIS_DATA = {
     { id: 'baliky', nazov: 'Pacchetti' }
   ],
   produkty: [
-    { id: 'instalacia', kategoria: 'plany', nazov: 'Installazione e configurazione di Jarvis', cena: 500, ikona: 'install',
+    { id: 'instalacia', kategoria: 'plany', nazov: 'Installazione e configurazione di Jarvis', cena: 99, povodne: 149, ikona: 'install',
       kratko: 'Jarvis installato e configurato per il Suo lavoro. Obbligatoria al primo ordine.',
       popis: 'Installo e configuro Jarvis in modo che lo usi fin dal primo giorno per lavorare davvero, non per fare prove. Collegheremo i Suoi account IA, la posta e il calendario, imposteremo le Sue aziende, i prezzi e lo stile delle risposte e in un’ora Le mostrerò tutto l’essenziale.',
       obsahuje: 'instalacia', poznamka: 'Si paga una sola volta. Insieme all’installazione sceglie un piano mensile o annuale.' },
@@ -174,11 +174,11 @@ window.JARVIS_DATA = {
       kratko: 'Quando c’è un’emergenza: mi faccio sentire entro 2 ore in un giorno lavorativo.',
       popis: 'Un aiuto una tantum quando la cosa non può aspettare: mi faccio sentire entro 2 ore in un giorno lavorativo tra le 8:00 e le 18:00 e risolviamo il problema tramite condivisione dello schermo.' },
 
-    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis per il lavoratore autonomo', cena: 899, povodne: 1028, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis per il lavoratore autonomo', cena: 498, povodne: 627, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
       kratko: 'Installazione, piano Business per 12 mesi, Commerciante su misura e formazione.',
       popis: 'Tutto ciò di cui un lavoratore autonomo ha bisogno per il primo anno: installazione e configurazione, piano Business per 12 mesi (fino a 3 computer, Jarvis sul telefono), Commerciante configurato per la Sua attività e formazione online.',
       vBaliku: ['Installazione e configurazione di Jarvis', 'Piano Business per 12 mesi', 'Jarvis sul telefono', 'Commerciante su misura', 'Formazione online (90 min)'] },
-    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis per l’azienda', cena: 1190, povodne: 1356, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis per l’azienda', cena: 789, povodne: 955, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
       kratko: 'Installazione, piano Pro per 12 mesi, 2 computer in più, trasferimento dei dati e formazione del team.',
       popis: 'Jarvis per un’intera piccola azienda per il primo anno: installazione, piano Pro per 12 mesi (IA offline e un’ora di lavoro su misura ogni mese), Jarvis su altri due computer, trasferimento di contatti e dati e formazione del team.',
       vBaliku: ['Installazione e configurazione di Jarvis', 'Piano Pro per 12 mesi', 'Jarvis su 2 computer in più', 'Modello IA offline personale', 'Trasferimento di contatti e dati', 'Formazione online per il team (90 min)'] },
@@ -303,7 +303,7 @@ window.JARVIS_DATA = {
   otazky: [
     ['Su quale computer funziona Jarvis?', 'Su Windows 10 o 11 (64 bit). Consigliamo almeno 16 GB di RAM. Per un modello IA offline personale è adatta una scheda grafica NVIDIA con 12 GB di memoria oppure 32 GB di RAM; prima dell’ordine controllo volentieri il Suo computer.'],
     ['Devo avere un abbonamento a ChatGPT o Claude?', 'No. Jarvis funziona anche con i servizi di IA gratuiti (ad esempio Google AI Studio o Groq) e con un modello offline. Con un abbonamento (ChatGPT Plus, Claude Pro, Gemini) otterrà le risposte migliori. L’abbonamento lo paga direttamente al fornitore, senza ricarichi: Jarvis si limita a usare i Suoi account.'],
-    ['Che cosa ricevo esattamente con l’installazione?', 'Jarvis installato e configurato per il Suo lavoro: account IA, posta, calendario e WhatsApp collegati, aziende, prezzi e stile delle risposte impostati, importazione dei contatti, 60 minuti di formazione e 14 giorni di assistenza prioritaria. L’installazione si paga una sola volta.'],
+    ['Che cosa ricevo esattamente con l’installazione?', 'Jarvis installato e configurato per il Suo lavoro: account IA, posta, calendario e WhatsApp collegati, aziende, prezzi e stile delle risposte impostati, importazione dei contatti, 60 minuti di formazione e 14 giorni di assistenza prioritaria. L’installazione si paga una sola volta – ora 99 € invece di 149 €.'],
     ['Perché si paga ogni mese?', 'Il piano mensile è la licenza d’uso di Jarvis più la sua manutenzione: aggiornamenti continui e nuove funzioni, correzioni, un controllo dopo ogni nuova versione e assistenza in base al piano. Con il pagamento annuale paga 12 mesi al prezzo di 10.'],
     ['Cosa succede se smetto di pagare?', 'La licenza è valida fino all’ultimo giorno pagato. Poi ha 14 giorni di tempo per rinnovarla, prima che Jarvis si blocchi. I Suoi dati restano sul Suo computer e può esportarli in qualsiasi momento.'],
     ['Dove sono i miei dati e chi li vede?', 'Tutto si trova sul Suo computer. Le password sono cifrate da Windows e l’IA non le riceve mai. Il testo che scrive va soltanto al servizio di IA che sceglie Lei; con un modello offline non lascia mai il computer. Io, in quanto venditore, non ho accesso ai Suoi dati; in caso di assistenza da remoto vi accedo soltanto durante la connessione che solo Lei autorizza e che può interrompere in qualsiasi momento.'],

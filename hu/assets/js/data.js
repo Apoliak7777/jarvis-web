@@ -73,7 +73,7 @@ window.JARVIS_DATA = {
     { id: 'baliky', nazov: 'Csomagajánlatok' }
   ],
   produkty: [
-    { id: 'instalacia', kategoria: 'plany', nazov: 'A Jarvis telepítése és beállítása', cena: 500, ikona: 'install',
+    { id: 'instalacia', kategoria: 'plany', nazov: 'A Jarvis telepítése és beállítása', cena: 99, povodne: 149, ikona: 'install',
       kratko: 'A Jarvis telepítve és az Ön munkájához beállítva. Az első megrendelésnél kötelező.',
       popis: 'A Jarvist úgy telepítem és állítom be, hogy már az első naptól valódi munkára használhassa – ne csak kipróbálásra. Összekapcsoljuk az AI-fiókjait, a levelezését és a naptárát, beállítjuk a cégeit, az árait és a válaszok stílusát, és egy óra alatt megmutatok mindent, ami fontos.',
       obsahuje: 'instalacia', poznamka: 'Egyszer kell fizetni. A telepítéshez havi vagy éves csomagot választ.' },
@@ -174,11 +174,11 @@ window.JARVIS_DATA = {
       kratko: 'Ha ég a ház: munkanapon 2 órán belül jelentkezem.',
       popis: 'Egyszeri segítség, ha a dolog nem várhat: munkanapon 8:00 és 18:00 között 2 órán belül jelentkezem, és a problémát képernyőmegosztással megoldjuk.' },
 
-    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis egyéni vállalkozónak', cena: 899, povodne: 1028, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis egyéni vállalkozónak', cena: 498, povodne: 627, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
       kratko: 'Telepítés, Business csomag 12 hónapra, testre szabott Kereskedő és betanítás.',
       popis: 'Minden, amire egy egyéni vállalkozónak az első évben szüksége van: telepítés és beállítás, Business csomag 12 hónapra (akár 3 számítógép, Jarvis a telefonon), az Ön üzletére beállított Kereskedő és online betanítás.',
       vBaliku: ['A Jarvis telepítése és beállítása', 'Business csomag 12 hónapra', 'Jarvis a telefonon', 'Testre szabott Kereskedő', 'Online betanítás (90 perc)'] },
-    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis cégnek', cena: 1190, povodne: 1356, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis cégnek', cena: 789, povodne: 955, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
       kratko: 'Telepítés, Pro csomag 12 hónapra, 2 további számítógép, adatátvitel és a csapat betanítása.',
       popis: 'Jarvis az egész kis cégnek az első évre: telepítés, Pro csomag 12 hónapra (offline AI és havonta egy óra testre szabott munka), Jarvis két további számítógépen, névjegyek és adatok átvitele, valamint a csapat betanítása.',
       vBaliku: ['A Jarvis telepítése és beállítása', 'Pro csomag 12 hónapra', 'Jarvis 2 további számítógépen', 'Saját offline AI-modell', 'Névjegyek és adatok átvitele', 'A csapat online betanítása (90 perc)'] },
@@ -303,7 +303,7 @@ window.JARVIS_DATA = {
   otazky: [
     ['Milyen számítógépen fut a Jarvis?', 'Windows 10 vagy 11 rendszeren (64 bites). Legalább 16 GB RAM-ot ajánlunk. Saját offline AI-modellhez 12 GB memóriás NVIDIA videokártya vagy 32 GB RAM megfelelő – a megrendelés előtt szívesen megnézem a számítógépét.'],
     ['Szükségem van ChatGPT- vagy Claude-előfizetésre?', 'Nem. A Jarvis ingyenes AI-szolgáltatásokkal (például Google AI Studio vagy Groq) és offline modellel is működik. Előfizetéssel (ChatGPT Plus, Claude Pro, Gemini) kapja a legjobb válaszokat. Az előfizetést közvetlenül a szolgáltatónak fizeti – felár nélkül, a Jarvis csak az Ön fiókjait használja.'],
-    ['Pontosan mit kapok a telepítésért?', 'Az Ön munkájához telepített és beállított Jarvist: csatlakoztatott AI-fiókokat, levelezést, naptárat és WhatsAppot, beállított cégeket, árakat és válaszstílust, névjegyimportot, 60 perc betanítást és 14 nap elsőbbségi segítséget. A telepítést egyszer kell fizetni.'],
+    ['Pontosan mit kapok a telepítésért?', 'Az Ön munkájához telepített és beállított Jarvist: csatlakoztatott AI-fiókokat, levelezést, naptárat és WhatsAppot, beállított cégeket, árakat és válaszstílust, névjegyimportot, 60 perc betanítást és 14 nap elsőbbségi segítséget. A telepítést egyszer kell fizetni – most 99 € 149 € helyett.'],
     ['Miért kell havonta fizetni?', 'A havi csomag a Jarvis használati licence és a róla való gondoskodás: folyamatos frissítések és új funkciók, javítások, ellenőrzés minden új verzió után, valamint a csomagnak megfelelő támogatás. Éves fizetéssel 12 hónapot fizet 10 hónap áráért.'],
     ['Mi történik, ha nem fizetek tovább?', 'A licenc a kifizetett időszak utolsó napjáig érvényes. Utána 14 napja van a megújításra, mielőtt a Jarvis zárolódik. Az adatai az Ön számítógépén maradnak, és bármikor kiexportálhatja őket.'],
     ['Hol vannak az adataim, és ki látja őket?', 'Minden az Ön számítógépén van. A jelszavakat a Windows titkosítja, és az AI soha nem kapja meg őket. A szöveg, amelyet beír, csak az Ön által választott AI-szolgáltatásnak megy el – offline modell esetén sehová sem kerül ki. Én eladóként nem férek hozzá az adataihoz; távsegítségnél is csak a kapcsolat idejére, amelyet Ön maga engedélyez, és bármikor megszakíthat.'],

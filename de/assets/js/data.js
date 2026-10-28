@@ -73,7 +73,7 @@ window.JARVIS_DATA = {
     { id: 'baliky', nazov: 'Pakete' }
   ],
   produkty: [
-    { id: 'instalacia', kategoria: 'plany', nazov: 'Installation und Einrichtung von Jarvis', cena: 500, ikona: 'install',
+    { id: 'instalacia', kategoria: 'plany', nazov: 'Installation und Einrichtung von Jarvis', cena: 99, povodne: 149, ikona: 'install',
       kratko: 'Jarvis installiert und auf Ihre Arbeit eingerichtet. Pflicht bei der ersten Bestellung.',
       popis: 'Ich installiere und konfiguriere Jarvis so, dass Sie ihn vom ersten Tag an für echte Arbeit nutzen – nicht zum Ausprobieren. Wir verbinden Ihre KI-Konten, Ihre E-Mails und Ihren Kalender, richten Firmen, Preise und Antwortstil ein, und in einer Stunde zeige ich Ihnen alles Wesentliche.',
       obsahuje: 'instalacia', poznamka: 'Wird nur einmal bezahlt. Zur Installation wählen Sie einen Monats- oder Jahrestarif.' },
@@ -174,11 +174,11 @@ window.JARVIS_DATA = {
       kratko: 'Wenn es brennt: Ich melde mich innerhalb von 2 Stunden an einem Arbeitstag.',
       popis: 'Einmalige Hilfe, wenn es nicht warten kann: Ich melde mich innerhalb von 2 Stunden an einem Arbeitstag zwischen 8:00 und 18:00 Uhr, und wir lösen die Sache per Bildschirmfreigabe.' },
 
-    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis für Selbstständige', cena: 899, povodne: 1028, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis für Selbstständige', cena: 498, povodne: 627, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
       kratko: 'Installation, Tarif Business für 12 Monate, Händler nach Maß und Schulung.',
       popis: 'Alles, was ein Selbstständiger im ersten Jahr braucht: Installation und Einrichtung, Tarif Business für 12 Monate (bis zu 3 Computer, Jarvis auf dem Handy), ein auf Ihr Geschäft eingerichteter Händler und Online-Schulung.',
       vBaliku: ['Installation und Einrichtung von Jarvis', 'Tarif Business für 12 Monate', 'Jarvis auf dem Handy', 'Händler nach Maß', 'Online-Schulung (90 Min.)'] },
-    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis für Unternehmen', cena: 1190, povodne: 1356, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis für Unternehmen', cena: 789, povodne: 955, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
       kratko: 'Installation, Tarif Pro für 12 Monate, 2 weitere Computer, Datenübertragung und Team-Schulung.',
       popis: 'Jarvis für das ganze kleine Unternehmen im ersten Jahr: Installation, Tarif Pro für 12 Monate (Offline-KI und jeden Monat eine Stunde Maßarbeit), Jarvis auf zwei weiteren Computern, Übertragung von Kontakten und Daten und Team-Schulung.',
       vBaliku: ['Installation und Einrichtung von Jarvis', 'Tarif Pro für 12 Monate', 'Jarvis auf 2 weiteren Computern', 'Eigenes Offline-KI-Modell', 'Übertragung von Kontakten und Daten', 'Online-Schulung für das Team (90 Min.)'] },
@@ -303,7 +303,7 @@ window.JARVIS_DATA = {
   otazky: [
     ['Auf welchem Computer läuft Jarvis?', 'Unter Windows 10 oder 11 (64 Bit). Wir empfehlen mindestens 16 GB RAM. Für ein eigenes Offline-KI-Modell eignet sich eine NVIDIA-Grafikkarte mit 12 GB Speicher oder 32 GB RAM – vor der Bestellung prüfe ich Ihren Computer gern.'],
     ['Brauche ich ein Abo für ChatGPT oder Claude?', 'Nein. Jarvis funktioniert auch mit kostenlosen KI-Diensten (zum Beispiel Google AI Studio oder Groq) und mit einem Offline-Modell. Mit einem Abo (ChatGPT Plus, Claude Pro, Gemini) erhalten Sie die besten Antworten. Das Abo bezahlen Sie direkt beim Anbieter – ohne Aufschlag, Jarvis nutzt lediglich Ihre Konten.'],
-    ['Was bekomme ich genau für die Installation?', 'Einen installierten und auf Ihre Arbeit eingerichteten Jarvis: verbundene KI-Konten, E-Mails, Kalender und WhatsApp, eingerichtete Firmen, Preise und Antwortstil, Kontaktimport, 60 Minuten Einweisung und 14 Tage Vorrang-Support. Die Installation bezahlen Sie nur einmal.'],
+    ['Was bekomme ich genau für die Installation?', 'Einen installierten und auf Ihre Arbeit eingerichteten Jarvis: verbundene KI-Konten, E-Mails, Kalender und WhatsApp, eingerichtete Firmen, Preise und Antwortstil, Kontaktimport, 60 Minuten Einweisung und 14 Tage Vorrang-Support. Die Installation bezahlen Sie nur einmal – jetzt 99 € statt 149 €.'],
     ['Warum zahlt man monatlich?', 'Der Monatstarif ist die Lizenz zur Nutzung von Jarvis und die Betreuung: laufende Updates und neue Funktionen, Fehlerbehebungen, eine Prüfung nach jeder neuen Version und Support gemäß Tarif. Bei Jahreszahlung bezahlen Sie 12 Monate zum Preis von 10.'],
     ['Was, wenn ich nicht mehr zahle?', 'Die Lizenz gilt bis zum letzten bezahlten Tag. Danach haben Sie 14 Tage Zeit zur Verlängerung, bevor Jarvis gesperrt wird. Ihre Daten bleiben auf Ihrem Computer, und Sie können sie jederzeit exportieren.'],
     ['Wo sind meine Daten, und wer kann sie sehen?', 'Alles liegt auf Ihrem Computer. Passwörter verschlüsselt Windows, und die KI bekommt sie nie zu sehen. Text, den Sie schreiben, geht nur an den KI-Dienst, den Sie wählen – bei einem Offline-Modell verlässt er den Computer nicht. Ich als Verkäufer habe keinen Zugriff auf Ihre Daten; bei Fernhilfe habe ich ihn nur während der Verbindung, die Sie selbst erlauben und jederzeit beenden können.'],

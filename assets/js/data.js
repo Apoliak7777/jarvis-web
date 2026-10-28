@@ -73,7 +73,7 @@ window.JARVIS_DATA = {
     { id: 'baliky', nazov: 'Balíky' }
   ],
   produkty: [
-    { id: 'instalacia', kategoria: 'plany', nazov: 'Inštalácia a nastavenie Jarvisa', cena: 500, ikona: 'install',
+    { id: 'instalacia', kategoria: 'plany', nazov: 'Inštalácia a nastavenie Jarvisa', cena: 99, povodne: 149, ikona: 'install',
       kratko: 'Jarvis nainštalovaný a nastavený na vašu prácu. Povinná pri prvej objednávke.',
       popis: 'Jarvisa vám nainštalujem a nastavím tak, aby ste ho od prvého dňa používali na skutočnú prácu – nie na skúšanie. Pripojíme vaše AI účty, poštu aj kalendár, nastavíme firmy, ceny a štýl odpovedí a za hodinu vám ukážem všetko podstatné.',
       obsahuje: 'instalacia', poznamka: 'Platí sa raz. K inštalácii si vyberiete mesačný alebo ročný plán.' },
@@ -174,11 +174,11 @@ window.JARVIS_DATA = {
       kratko: 'Keď niečo horí: ozvem sa do 2 hodín v pracovný deň.',
       popis: 'Jednorazová pomoc, keď to nepočká: ozvem sa do 2 hodín v pracovný deň medzi 8:00 a 18:00 a vec vyriešime cez zdieľanie obrazovky.' },
 
-    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis pre živnostníka', cena: 899, povodne: 1028, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis pre živnostníka', cena: 498, povodne: 627, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
       kratko: 'Inštalácia, plán Biznis na 12 mesiacov, Obchodník na mieru a zaškolenie.',
       popis: 'Všetko, čo živnostník potrebuje na prvý rok: inštalácia a nastavenie, plán Biznis na 12 mesiacov (až 3 počítače, Jarvis v mobile), Obchodník nastavený na váš biznis a online zaškolenie.',
       vBaliku: ['Inštalácia a nastavenie Jarvisa', 'Plán Biznis na 12 mesiacov', 'Jarvis v mobile', 'Obchodník na mieru', 'Zaškolenie online (90 min)'] },
-    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis pre firmu', cena: 1190, povodne: 1356, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis pre firmu', cena: 789, povodne: 955, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
       kratko: 'Inštalácia, plán Pro na 12 mesiacov, 2 ďalšie počítače, prenos dát a zaškolenie tímu.',
       popis: 'Jarvis pre celú malú firmu na prvý rok: inštalácia, plán Pro na 12 mesiacov (offline AI a hodina práce na mieru každý mesiac), Jarvis na ďalšie dva počítače, prenos kontaktov a dát a zaškolenie tímu.',
       vBaliku: ['Inštalácia a nastavenie Jarvisa', 'Plán Pro na 12 mesiacov', 'Jarvis na 2 ďalšie počítače', 'Vlastný offline AI model', 'Prenos kontaktov a dát', 'Zaškolenie tímu online (90 min)'] },
@@ -303,7 +303,7 @@ window.JARVIS_DATA = {
   otazky: [
     ['Na akom počítači Jarvis beží?', 'Na Windows 10 alebo 11 (64-bit). Odporúčame aspoň 16 GB RAM. Pre vlastný offline AI model je vhodná grafika NVIDIA s 12 GB pamäte alebo 32 GB RAM – pred objednávkou vám počítač rád skontrolujem.'],
     ['Musím mať predplatné ChatGPT alebo Claude?', 'Nie. Jarvis funguje aj s bezplatnými AI službami (napríklad Google AI Studio alebo Groq) a s offline modelom. S predplatným (ChatGPT Plus, Claude Pro, Gemini) dostanete najlepšie odpovede. Predplatné platíte priamo poskytovateľovi – bez prirážky, Jarvis len použije vaše účty.'],
-    ['Čo presne dostanem za inštaláciu?', 'Jarvisa nainštalovaného a nastaveného na vašu prácu: pripojené AI účty, poštu, kalendár a WhatsApp, nastavené firmy, ceny a štýl odpovedí, import kontaktov, 60 minút zaškolenia a 14 dní prednostnej pomoci. Inštalácia sa platí raz.'],
+    ['Čo presne dostanem za inštaláciu?', 'Jarvisa nainštalovaného a nastaveného na vašu prácu: pripojené AI účty, poštu, kalendár a WhatsApp, nastavené firmy, ceny a štýl odpovedí, import kontaktov, 60 minút zaškolenia a 14 dní prednostnej pomoci. Inštalácia sa platí raz – teraz 99 € namiesto 149 €.'],
     ['Prečo sa platí mesačne?', 'Mesačný plán je licencia na používanie Jarvisa a starostlivosť oň: priebežné aktualizácie a nové funkcie, opravy, kontrola po každej novej verzii a podpora podľa plánu. Ročne zaplatíte 12 mesiacov za cenu 10.'],
     ['Čo keď prestanem platiť?', 'Licencia platí do posledného zaplateného dňa. Potom máte 14 dní na obnovenie, kým sa Jarvis uzamkne. Vaše dáta ostávajú vo vašom počítači a môžete si ich kedykoľvek vyexportovať.'],
     ['Kde sú moje dáta a kto ich vidí?', 'Všetko je vo vašom počítači. Heslá šifruje Windows a AI ich nikdy nedostane. Text, ktorý napíšete, ide iba AI službe, ktorú zvolíte – pri offline modeli neodchádza nikam. Ja ako predajca k vašim dátam prístup nemám; pri vzdialenej pomoci len počas pripojenia, ktoré sami povolíte a kedykoľvek ukončíte.'],

@@ -73,7 +73,7 @@ window.JARVIS_DATA = {
     { id: 'baliky', nazov: 'Pakiety' }
   ],
   produkty: [
-    { id: 'instalacia', kategoria: 'plany', nazov: 'Instalacja i konfiguracja Jarvisa', cena: 500, ikona: 'install',
+    { id: 'instalacia', kategoria: 'plany', nazov: 'Instalacja i konfiguracja Jarvisa', cena: 99, povodne: 149, ikona: 'install',
       kratko: 'Jarvis zainstalowany i skonfigurowany pod Państwa pracę. Wymagana przy pierwszym zamówieniu.',
       popis: 'Zainstaluję i skonfiguruję Państwu Jarvisa tak, aby od pierwszego dnia służył do prawdziwej pracy, a nie do testów. Podłączymy Państwa konta AI, pocztę i kalendarz, ustawimy firmy, ceny i styl odpowiedzi, a w godzinę pokażę Państwu wszystko, co najważniejsze.',
       obsahuje: 'instalacia', poznamka: 'Płatność jednorazowa. Do instalacji wybierają Państwo plan miesięczny lub roczny.' },
@@ -174,11 +174,11 @@ window.JARVIS_DATA = {
       kratko: 'Gdy coś się pali: odezwę się w ciągu 2 godzin w dzień roboczy.',
       popis: 'Jednorazowa pomoc, gdy sprawa nie może czekać: odezwę się w ciągu 2 godzin w dzień roboczy między 8:00 a 18:00 i rozwiążemy sprawę przez udostępnianie ekranu.' },
 
-    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis dla jednoosobowej firmy', cena: 899, povodne: 1028, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis dla jednoosobowej firmy', cena: 498, povodne: 627, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
       kratko: 'Instalacja, plan Business na 12 miesięcy, Handlowiec na zamówienie i szkolenie.',
       popis: 'Wszystko, czego jednoosobowa firma potrzebuje na pierwszy rok: instalacja i konfiguracja, plan Business na 12 miesięcy (do 3 komputerów, Jarvis w telefonie), Handlowiec skonfigurowany pod Państwa biznes i szkolenie online.',
       vBaliku: ['Instalacja i konfiguracja Jarvisa', 'Plan Business na 12 miesięcy', 'Jarvis w telefonie', 'Handlowiec na zamówienie', 'Szkolenie online (90 min)'] },
-    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis dla firmy', cena: 1190, povodne: 1356, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis dla firmy', cena: 789, povodne: 955, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
       kratko: 'Instalacja, plan Pro na 12 miesięcy, 2 dodatkowe komputery, przeniesienie danych i szkolenie zespołu.',
       popis: 'Jarvis dla całej małej firmy na pierwszy rok: instalacja, plan Pro na 12 miesięcy (AI offline i godzina pracy na zamówienie każdego miesiąca), Jarvis na dwa kolejne komputery, przeniesienie kontaktów i danych oraz szkolenie zespołu.',
       vBaliku: ['Instalacja i konfiguracja Jarvisa', 'Plan Pro na 12 miesięcy', 'Jarvis na 2 kolejne komputery', 'Własny model AI offline', 'Przeniesienie kontaktów i danych', 'Szkolenie zespołu online (90 min)'] },
@@ -303,7 +303,7 @@ window.JARVIS_DATA = {
   otazky: [
     ['Na jakim komputerze działa Jarvis?', 'Na systemie Windows 10 lub 11 (64-bit). Zalecam co najmniej 16 GB RAM. Dla własnego modelu AI offline odpowiednia jest karta graficzna NVIDIA z 12 GB pamięci lub 32 GB RAM – przed zamówieniem chętnie sprawdzę Państwa komputer.'],
     ['Czy muszę mieć subskrypcję ChatGPT lub Claude?', 'Nie. Jarvis działa także z bezpłatnymi usługami AI (na przykład Google AI Studio lub Groq) oraz z modelem offline. Z subskrypcją (ChatGPT Plus, Claude Pro, Gemini) otrzymują Państwo najlepsze odpowiedzi. Subskrypcję opłacają Państwo bezpośrednio dostawcy – bez marży, Jarvis tylko korzysta z Państwa kont.'],
-    ['Co dokładnie otrzymam za instalację?', 'Jarvisa zainstalowanego i skonfigurowanego pod Państwa pracę: podłączone konta AI, pocztę, kalendarz i WhatsApp, ustawione firmy, ceny i styl odpowiedzi, import kontaktów, 60 minut szkolenia i 14 dni priorytetowej pomocy. Za instalację płaci się jednorazowo.'],
+    ['Co dokładnie otrzymam za instalację?', 'Jarvisa zainstalowanego i skonfigurowanego pod Państwa pracę: podłączone konta AI, pocztę, kalendarz i WhatsApp, ustawione firmy, ceny i styl odpowiedzi, import kontaktów, 60 minut szkolenia i 14 dni priorytetowej pomocy. Za instalację płaci się jednorazowo – teraz 99 € zamiast 149 €.'],
     ['Dlaczego płaci się miesięcznie?', 'Plan miesięczny to licencja na korzystanie z Jarvisa i opieka nad nim: bieżące aktualizacje i nowe funkcje, poprawki, kontrola po każdej nowej wersji oraz wsparcie zgodne z planem. Przy płatności rocznej – 12 miesięcy w cenie 10.'],
     ['Co się stanie, jeśli przestanę płacić?', 'Licencja obowiązuje do ostatniego opłaconego dnia. Potem mają Państwo 14 dni na odnowienie, zanim Jarvis się zablokuje. Państwa dane pozostają na Państwa komputerze i mogą je Państwo w każdej chwili wyeksportować.'],
     ['Gdzie są moje dane i kto je widzi?', 'Wszystko jest na Państwa komputerze. Hasła szyfruje Windows, a AI nigdy ich nie otrzymuje. Tekst, który Państwo napiszą, trafia tylko do usługi AI, którą Państwo wybiorą – przy modelu offline nie wychodzi nigdzie. Ja jako sprzedawca nie mam dostępu do Państwa danych; przy zdalnej pomocy – tylko w trakcie połączenia, na które Państwo sami zezwolą i które w każdej chwili mogą zakończyć.'],

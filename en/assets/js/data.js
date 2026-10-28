@@ -73,7 +73,7 @@ window.JARVIS_DATA = {
     { id: 'baliky', nazov: 'Bundles' }
   ],
   produkty: [
-    { id: 'instalacia', kategoria: 'plany', nazov: 'Jarvis installation and setup', cena: 500, ikona: 'install',
+    { id: 'instalacia', kategoria: 'plany', nazov: 'Jarvis installation and setup', cena: 99, povodne: 149, ikona: 'install',
       kratko: 'Jarvis installed and set up for your work. Required with your first order.',
       popis: 'I install Jarvis and set it up so that you use it for real work from day one – not just to try it out. We connect your AI accounts, mail and calendar, set up your companies, prices and reply style, and within an hour I show you everything that matters.',
       obsahuje: 'instalacia', poznamka: 'You pay once. Along with the installation you choose a monthly or yearly plan.' },
@@ -174,11 +174,11 @@ window.JARVIS_DATA = {
       kratko: 'When it’s urgent: I’ll get back to you within 2 hours on a working day.',
       popis: 'One-off help for when it can’t wait: I’ll get back to you within 2 hours on a working day between 8:00 and 18:00, and we’ll sort it out over screen sharing.' },
 
-    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis for sole traders', cena: 899, povodne: 1028, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis for sole traders', cena: 498, povodne: 627, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
       kratko: 'Installation, the Business plan for 12 months, a Custom Salesman and training.',
       popis: 'Everything a sole trader needs for the first year: installation and setup, the Business plan for 12 months (up to 3 computers, Jarvis on your phone), a Salesman set up for your business and online training.',
       vBaliku: ['Jarvis installation and setup', 'Business plan for 12 months', 'Jarvis on your phone', 'Custom Salesman', 'Online training (90 min)'] },
-    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis for companies', cena: 1190, povodne: 1356, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis for companies', cena: 789, povodne: 955, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
       kratko: 'Installation, the Pro plan for 12 months, 2 more computers, data transfer and team training.',
       popis: 'Jarvis for a whole small company for the first year: installation, the Pro plan for 12 months (offline AI and one hour of custom work every month), Jarvis on two more computers, contact and data transfer, and team training.',
       vBaliku: ['Jarvis installation and setup', 'Pro plan for 12 months', 'Jarvis on 2 more computers', 'Your own offline AI model', 'Contact and data transfer', 'Online team training (90 min)'] },
@@ -303,7 +303,7 @@ window.JARVIS_DATA = {
   otazky: [
     ['What kind of computer does Jarvis run on?', 'On Windows 10 or 11 (64-bit). We recommend at least 16 GB of RAM. For your own offline AI model, an NVIDIA graphics card with 12 GB of memory or 32 GB of RAM is suitable – I’m happy to check your computer before you order.'],
     ['Do I need a ChatGPT or Claude subscription?', 'No. Jarvis also works with free AI services (for example Google AI Studio or Groq) and with an offline model. A subscription (ChatGPT Plus, Claude Pro, Gemini) gets you the best answers. You pay the subscription directly to the provider – with no mark-up; Jarvis simply uses your accounts.'],
-    ['What exactly do I get for the installation?', 'Jarvis installed and set up for your work: your AI accounts, mail, calendar and WhatsApp connected, your companies, prices and reply style set up, contacts imported, 60 minutes of training and 14 days of priority help. The installation is paid for once.'],
+    ['What exactly do I get for the installation?', 'Jarvis installed and set up for your work: your AI accounts, mail, calendar and WhatsApp connected, your companies, prices and reply style set up, contacts imported, 60 minutes of training and 14 days of priority help. The installation is paid for once – now 99 € instead of 149 €.'],
     ['Why is there a monthly payment?', 'The monthly plan is a licence to use Jarvis plus ongoing care for it: continuous updates and new features, fixes, a check after every new version, and support according to your plan. Pay yearly and you get 12 months for the price of 10.'],
     ['What if I stop paying?', 'Your licence is valid until the last day you have paid for. After that you have 14 days to renew before Jarvis locks. Your data stays on your computer and you can export it at any time.'],
     ['Where is my data and who can see it?', 'Everything is on your computer. Windows encrypts your passwords and the AI never receives them. The text you write goes only to the AI service you choose – with an offline model it goes nowhere. As the seller, I have no access to your data; during remote help, only for the duration of a connection that you allow yourself and can end at any time.'],
