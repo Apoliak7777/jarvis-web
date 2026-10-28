@@ -1,0 +1,320 @@
+/* Jarvis · web a obchod – JEDINÉ miesto s údajmi predajcu, cenníkom, plánmi, doplnkami, funkciami a otázkami.
+   Číta ho prehliadač (košík počíta ceny odtiaľto) aj zostavenie webu (node nastroje/postav.mjs vyrobí stránky).
+   Po zmene ceny alebo textu spusti zostavenie znova. Ceny sú v eurách, konečné. */
+window.JARVIS_DATA = {
+  // i18n:off – údaje predajcu sa neprekladajú (nastroje/preklad.mjs)
+  predajca: {
+    meno: 'Alex Poliak',
+    znacka: 'Apoliak',
+    adresa: 'Mierová 24, 900 29 Nová Dedinka',
+    krajina: 'Slovenská republika',
+    ico: '',            // keď bude živnosť alebo firma, doplň – zobrazí sa v pätičke, podmienkach a objednávke
+    dic: '',
+    icdph: '',
+    platitelDph: false,
+    email: 'apoliak@apoliak.online',
+    telefon: '0902 464 022',
+    web: 'https://apoliak.online',
+    iban: 'LT06 3250 0031 5962 5775',
+    bic: 'REVOLT21',
+    banka: 'Revolut Bank UAB',
+    dozor: 'Slovenská obchodná inšpekcia, Inšpektorát SOI pre Bratislavský kraj, Bajkalská 21/A, Bratislava'
+  },
+  // i18n:on
+  nastavenia: {
+    mena: '€',
+    splatnostDni: 7,
+    rocneZaMesiacov: 10,       // ročné predplatné = 12 mesiacov za cenu 10
+    objednavkyUrl: '',         // neskôr adresa na VPS (POST JSON); prázdne = objednávka sa pošle e-mailom
+    platbaKartou: false,       // Stripe neskôr
+    verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
+    adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
+    podmienkyOd: '24. 10. 2026'
+  },
+
+  plany: [
+    { id: 'start', nazov: 'Štart', mesacne: 15, pc: 1, pre: 'Pre jedného človeka, ktorý chce mať všetko v jednom okne.',
+      body: ['Všetky funkcie a 70+ appiek', '1 počítač', 'Priebežné aktualizácie a nové funkcie', 'Podpora e-mailom do 2 pracovných dní'] },
+    { id: 'biznis', nazov: 'Biznis', mesacne: 29, pc: 3, odporucany: true, pre: 'Pre živnostníka a malú firmu, ktorá žije z pošty a klientov.',
+      body: ['Všetko zo Štartu', 'Až 3 počítače', 'Jarvis v mobile – nastavenie v cene', 'Podpora do 1 pracovného dňa', 'Vzdialená pomoc raz mesačne', 'Kontrola a vyladenie raz za štvrťrok'] },
+    { id: 'pro', nazov: 'Pro', mesacne: 49, pc: 5, pre: 'Pre firmu, ktorá chce Jarvisa prispôsobiť svojej práci.',
+      body: ['Všetko z Biznisu', 'Až 5 počítačov', 'Vlastný offline AI model – nastavenie v cene', '1 hodina práce na mieru každý mesiac', 'Podpora do 4 hodín v pracovné dni aj telefonicky', 'Nové funkcie skôr ako ostatní'] }
+  ],
+  porovnanie: [
+    ['Všetky funkcie a 70+ appiek', true, true, true],
+    ['Počet počítačov', '1', '3', '5'],
+    ['Aktualizácie a nové funkcie', true, true, true],
+    ['Podpora e-mailom', 'do 2 prac. dní', 'do 1 prac. dňa', 'do 4 hodín'],
+    ['Telefonická podpora', false, false, true],
+    ['Vzdialená pomoc cez zdieľanie obrazovky', false, '1× mesačne', 'podľa potreby'],
+    ['Jarvis v mobile (nastavenie)', '59 €', 'v cene', 'v cene'],
+    ['Vlastný offline AI model (nastavenie)', '149 €', '149 €', 'v cene'],
+    ['Kontrola a vyladenie Jarvisa', false, 'raz za štvrťrok', 'raz mesačne'],
+    ['Práca na mieru', false, false, '1 hodina mesačne'],
+    ['Nové funkcie skôr (skúšobné verzie)', false, false, true]
+  ],
+  instalaciaObsahuje: [
+    'Inštalácia Jarvisa na váš počítač – vzdialene, v okolí Senca a Bratislavy aj osobne',
+    'Pripojenie vašich AI účtov (ChatGPT, Claude, Gemini) alebo bezplatných AI služieb',
+    'Pripojenie pošty – všetky vaše schránky, kalendára a WhatsAppu',
+    'Nastavenie podľa vašej práce: menu, firmy, ceny, podpis a štýl odpovedí',
+    'Import kontaktov z jedného zdroja (Excel, Outlook alebo telefón)',
+    '60 minút zaškolenia, kým nebudete vedieť, čo kde je',
+    '14 dní prednostnej pomoci po inštalácii',
+    'Licencia na prvý počítač'
+  ],
+
+  /* Obchod. kategoria: plany | doplnky | sluzby | baliky. cena = jednorazovo; plán má cenu z plany[]. */
+  kategorie: [
+    { id: 'plany', nazov: 'Inštalácia a plány' },
+    { id: 'doplnky', nazov: 'Doplnky' },
+    { id: 'rozsirenia', nazov: 'Rozšírenia pre firmy' },
+    { id: 'sluzby', nazov: 'Služby' },
+    { id: 'baliky', nazov: 'Balíky' }
+  ],
+  produkty: [
+    { id: 'instalacia', kategoria: 'plany', nazov: 'Inštalácia a nastavenie Jarvisa', cena: 500, ikona: 'install',
+      kratko: 'Jarvis nainštalovaný a nastavený na vašu prácu. Povinná pri prvej objednávke.',
+      popis: 'Jarvisa vám nainštalujem a nastavím tak, aby ste ho od prvého dňa používali na skutočnú prácu – nie na skúšanie. Pripojíme vaše AI účty, poštu aj kalendár, nastavíme firmy, ceny a štýl odpovedí a za hodinu vám ukážem všetko podstatné.',
+      obsahuje: 'instalacia', poznamka: 'Platí sa raz. K inštalácii si vyberiete mesačný alebo ročný plán.' },
+    { id: 'plan-start', kategoria: 'plany', plan: 'start', nazov: 'Plán Štart', ikona: 'plan',
+      kratko: '1 počítač, všetky funkcie, aktualizácie a podpora e-mailom.',
+      popis: 'Celý Jarvis so všetkými funkciami pre jedného človeka na jednom počítači. Aktualizácie a nové funkcie prichádzajú samé, na otázky odpovedám e-mailom do 2 pracovných dní.' },
+    { id: 'plan-biznis', kategoria: 'plany', plan: 'biznis', nazov: 'Plán Biznis', ikona: 'plan',
+      kratko: 'Až 3 počítače, Jarvis v mobile a rýchlejšia podpora.',
+      popis: 'Pre živnostníka alebo malú firmu: Jarvis až na troch počítačoch, v mobile (nastavenie v cene), podpora do jedného pracovného dňa, raz mesačne vzdialená pomoc a raz za štvrťrok kontrola, či všetko beží tak, ako má.' },
+    { id: 'plan-pro', kategoria: 'plany', plan: 'pro', nazov: 'Plán Pro', ikona: 'plan',
+      kratko: 'Až 5 počítačov, offline AI, hodina práce na mieru mesačne.',
+      popis: 'Jarvis prispôsobený vašej firme: až päť počítačov, vlastný offline AI model nastavený v cene, každý mesiac hodina práce na mieru (nová funkcia, automatizácia, napojenie) a podpora do 4 hodín v pracovné dni aj telefonicky.' },
+
+    { id: 'dalsi-pc', kategoria: 'doplnky', nazov: 'Jarvis na ďalší počítač', cena: 99, ikona: 'pc', mnozstvo: true,
+      kratko: 'Inštalácia a nastavenie na ďalší počítač v rámci vášho plánu.',
+      popis: 'Nainštalujem Jarvisa na ďalší počítač vo vašej firme a pripojím k nemu účty daného človeka. Počet počítačov je daný plánom (Štart 1, Biznis 3, Pro 5); keď potrebujete viac, stačí vyšší plán.' },
+    { id: 'mobil', kategoria: 'doplnky', nazov: 'Jarvis v mobile', cena: 59, ikona: 'phone', vCene: ['biznis', 'pro'],
+      kratko: 'Celý Jarvis v telefóne cez súkromné šifrované spojenie s vaším PC.',
+      popis: 'Jarvis v iPhone aj Androide: chat, pošta, úlohy, prehľad dňa, schvaľovanie áno/nie a upozornenia. Spojenie ide cez súkromnú šifrovanú sieť medzi vaším telefónom a počítačom – z internetu ho nikto nevidí. Úloha zadaná z mobilu beží na PC do konca, aj keď telefón zamknete.',
+      poznamka: 'V plánoch Biznis a Pro je nastavenie v cene. Počítač musí byť zapnutý.' },
+    { id: 'offline-ai', kategoria: 'doplnky', nazov: 'Vlastný offline AI model', cena: 149, ikona: 'chip', vCene: ['pro'],
+      kratko: 'AI, ktorá beží iba vo vašom počítači. Nič neodchádza na internet.',
+      popis: 'Nainštalujem a vyladím jazykový model, ktorý beží priamo na vašej grafickej karte. Jarvis ho použije na citlivé veci (pošta, zmluvy, čísla firmy) a ako zálohu, keď nie je internet alebo predplatné. Pred objednávkou vám overím, či to váš počítač zvládne.',
+      poznamka: 'Odporúčaná grafika NVIDIA s 12 GB pamäte alebo 32 GB RAM. V pláne Pro v cene.' },
+    { id: 'obchodnik', kategoria: 'doplnky', nazov: 'Obchodník na mieru', cena: 149, ikona: 'deal',
+      kratko: 'Záujemcovia zo schránok, odpovede vo vašom štýle a pripomienky platieb.',
+      popis: 'Nastavím Obchodníka na váš biznis: čo predávate, aké sú ceny, ako odpovedáte a čo je ďalší krok. Jarvis potom každých 15 minút prečíta firemné schránky, záujemcov zapíše do Klientov, pripraví odpoveď na schválenie a pripomenie ponuku bez odpovede aj nezaplatenú prácu.' },
+    { id: 'prenos-dat', kategoria: 'doplnky', nazov: 'Prenos kontaktov a dát', cena: 79, ikona: 'import',
+      kratko: 'Kontakty a klienti z viacerých zdrojov – Excel, starý CRM, Outlook, telefón.',
+      popis: 'Prenesiem vaše kontakty, klientov a poznámky z viacerých zdrojov do Jarvisa, zlúčim duplicity, skontrolujem e-maily a k firmám doplním údaje z registra podľa IČO.' },
+    { id: 'hlas', kategoria: 'doplnky', nazov: 'Hlas a diktovanie na mieru', cena: 49, ikona: 'mic',
+      kratko: 'Mikrofón, vlastný slovník mien a výrazov, klávesové skratky.',
+      popis: 'Nastavím diktovanie tak, aby rozumelo vašej práci: slovník mien klientov, produktov a odborných výrazov, klávesy na diktovanie do akéhokoľvek okna a preklad do angličtiny. Prepis beží offline na vašom počítači.' },
+    { id: 'automatizacia', kategoria: 'doplnky', nazov: 'Automatizácia na mieru', cena: 149, ikona: 'auto', mnozstvo: true,
+      kratko: 'Jedna opakovaná práca, ktorú Jarvis spraví sám – napr. faktúry z pošty do Excelu.',
+      popis: 'Vyberieme jednu vec, ktorú robíte stále dookola, a Jarvis ju bude robiť sám v nastavený čas: faktúry z pošty do tabuľky, ranný prehľad pošty a úloh, kontrola webu a e-shopu, týždenný súhrn tržieb. Pred odoslaním či platbou sa vždy spýta.' },
+    { id: 'odoo', kategoria: 'doplnky', nazov: 'Prepojenie s Odoo', cena: 290, ikona: 'link',
+      kratko: 'Jarvis číta a zapisuje do vášho Odoo – zákazky, kontakty, faktúry.',
+      popis: 'Prepojím Jarvisa s vaším Odoo cez API: vyhľadá zákazku alebo faktúru, zapíše nový kontakt či úlohu a pripraví prehľad. Základné prepojenie pokrýva do 5 druhov záznamov; väčší rozsah dohodneme vopred.' },
+    { id: 'prepojenie', kategoria: 'doplnky', nazov: 'Prepojenie s vaším systémom', cena: 190, ikona: 'link',
+      kratko: 'Pohoda, Money S3, SuperFaktúra, Shoptet, WooCommerce, Google Workspace alebo Microsoft 365.',
+      popis: 'Prepojím Jarvisa so systémom, ktorý vo firme už používate – účtovný program (Pohoda, Money S3), fakturácia (SuperFaktúra), e-shop (Shoptet, WooCommerce) alebo Google Workspace či Microsoft 365. Jarvis z neho číta a zapisuje doň. Cena platí pre základné prepojenie jedného systému; väčší rozsah dohodneme vopred.' },
+    { id: 'postupy', kategoria: 'doplnky', nazov: 'Firemné postupy', cena: 149, ikona: 'auto',
+      kratko: '5 postupov typu „keď príde reklamácia, sprav toto“ – Jarvis ich dodrží krok po kroku.',
+      popis: 'Spolu spíšeme päť vecí, ktoré sa vo vašej firme robia vždy rovnako (reklamácia, nový zákazník, objednávka materiálu, ponuka, uzávierka mesiaca), a nastavím ich ako postupy v Jarvisovi. Keď poviete „prišla reklamácia“, Jarvis postupuje presne podľa vás.' },
+    { id: 'vzhlad', kategoria: 'doplnky', nazov: 'Firemný vzhľad', cena: 99, ikona: 'palette', pripravujeme: true,
+      kratko: 'Logo, farby a názov vašej firmy v Jarvisovi.',
+      popis: 'Jarvis vo farbách vašej firmy, s vaším logom a názvom („Jarvis · Kaviareň Sova“), pozdravom pre zamestnancov a firemným podpisom v odpovediach.' },
+
+    /* Rozšírenia pre firmy: mesačne ku plánu, platia spolu s licenciou (v kľúči pole m). pripravujeme = zatiaľ sa nedá kúpiť. */
+    { id: 'modul-reporty', modul: 'reporty', kategoria: 'rozsirenia', nazov: 'Prehľad pre majiteľa', mesacne: 5, ikona: 'chart', snimka: 'modul_prehlad',
+      kratko: 'Každý pondelok súhrn: tržby, záujemcovia, nezaplatené a úlohy po termíne.',
+      popis: 'Každý pondelok ráno dostanete súhrn firmy: tržby a výdavky oproti minulému týždňu a mesiacu, noví záujemcovia, ponuky v hre, čo čaká na zaplatenie a ktoré úlohy sú po termíne. Na konci mesiaca uzávierka v PDF, ktorú pošlete spoločníkovi alebo účtovníčke.' },
+    { id: 'modul-hovory', modul: 'hovory', kategoria: 'rozsirenia', nazov: 'Hovory a porady do CRM', mesacne: 9, ikona: 'phonecall', snimka: 'modul_hovory_navrh',
+      kratko: 'Nahratý hovor alebo porada → prepis, zhrnutie a úlohy rovno ku klientovi.',
+      popis: 'Nahrajte hovor so zákazníkom alebo poradu a Jarvis z nej spraví prepis s tým, kto čo povedal, krátke zhrnutie a úlohy. Všetko zapíše ku správnemu klientovi a úlohy dá do nástenky. Prepis beží offline vo vašom počítači.' },
+    { id: 'modul-faktury', modul: 'faktury', kategoria: 'rozsirenia', nazov: 'Faktúry a upomienky', mesacne: 9, ikona: 'invoice', snimka: 'modul_faktury',
+      kratko: 'Faktúra s QR jedným klikom, e-faktúra na rok 2027 a sledovanie úhrad.',
+      popis: 'Faktúru s QR kódom na zaplatenie vystavíte priamo z karty zákazníka – s číslovaním, PDF a hneď aj ako e-faktúru Peppol na povinnú e-fakturáciu od roku 2027. Pošlete ju e-mailom jedným klikom, zapíše sa do Biznisu a Jarvis stráži splatnosť: 3 a 14 dní po nej pripraví upomienku, ktorú len skontrolujete a odošlete. Funguje pre platiteľov DPH aj neplatiteľov.' },
+    { id: 'modul-doklady', modul: 'doklady', kategoria: 'rozsirenia', nazov: 'Doklady z pošty', mesacne: 9, ikona: 'mail', snimka: 'modul_doklady',
+      kratko: 'Faktúry a bločky z pošty aj z mobilu do tabuľky pre účtovníčku.',
+      popis: 'Jarvis raz denne nájde v pošte došlé faktúry a e-faktúry, prečíta aj odfotený bloček a vypíše dodávateľa, sumu, DPH, splatnosť, IBAN a variabilný symbol. Vy údaje len skontrolujete a jedným klikom zapíšete do výdavkov; čo treba zaplatiť, uhradíte cez QR kód v mobile. Na konci mesiaca pripraví balík pre účtovníčku – tabuľku pre Excel a všetky doklady v jednom ZIP súbore.' },
+    { id: 'modul-znalosti', modul: 'znalosti', kategoria: 'rozsirenia', nazov: 'Firemné znalosti', mesacne: 9, ikona: 'book', pripravujeme: true,
+      kratko: 'Jarvis sa naučí vaše cenníky, postupy a zmluvy a odpovedá z nich.',
+      popis: 'Dáte Jarvisovi firemné dokumenty – cenníky, postupy, zmluvy, odpovede na časté otázky – a on z nich odpovedá aj s odkazom na zdroj. Nový človek vo firme sa pýta Jarvisa namiesto vás a odpovede sú vždy podľa platného cenníka.' },
+    { id: 'modul-sukromie', modul: 'sukromie', kategoria: 'rozsirenia', nazov: 'Súkromný režim', mesacne: 9, ikona: 'lock', pripravujeme: true,
+      kratko: 'Pošta a klienti len cez offline AI, denník a zálohy na firemný disk.',
+      popis: 'Pre firmy s citlivými údajmi: pošta, klienti a zmluvy idú iba do AI modelu vo vašom počítači, nikdy do cloudu. Denník ukáže, kto čo robil, a dáta sa každý deň zálohujú zašifrované na firemný disk alebo NAS. Vyžaduje offline AI model.' },
+    { id: 'modul-recenzie', modul: 'recenzie', kategoria: 'rozsirenia', nazov: 'Recenzie a reputácia', mesacne: 5, ikona: 'star', pripravujeme: true,
+      kratko: 'Stráženie Google recenzií a odpovede vo vašom štýle, NFC karty na nové recenzie.',
+      popis: 'Jarvis sleduje nové recenzie vašej firmy na Googli, ozve sa pri zlej a pripraví odpoveď vo vašom štýle. K tomu NFC karty ťukni na pult – zákazník priloží mobil a hneď píše recenziu.' },
+    { id: 'modul-sklad', modul: 'sklad', kategoria: 'rozsirenia', nazov: 'Sklad a objednávky', mesacne: 9, ikona: 'pack', pripravujeme: true,
+      kratko: 'Jednoduchý sklad, upozornenie na minimálne zásoby a objednávka jedným klikom.',
+      popis: 'Jednoduchý sklad bez zložitého systému: tovar a materiál, minimálne zásoby a upozornenie, keď niečo dochádza. Objednávku dodávateľovi pripraví Jarvis ako e-mail, ktorý len odošlete.' },
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Tím', mesacne: 5, zaCloveka: true, ikona: 'team', pripravujeme: true,
+      kratko: 'Spoloční klienti, úlohy a poznámky pre všetkých vo firme.',
+      popis: 'Klienti, úlohy a poznámky spoločné pre celú firmu: kto má ktorú zákazku na starosti, čo je hotové a čo po termíne. Zmena na jednom počítači sa hneď ukáže na ostatných.' },
+    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Rezervácie online', mesacne: 15, ikona: 'plan', pripravujeme: true,
+      kratko: 'Rezervačná stránka pre vašich zákazníkov, termíny rovno v kalendári Jarvisa.',
+      popis: 'Vaši zákazníci si termín rezervujú sami na vašej stránke (salón, servis, poradňa, kurzy) a termín sa hneď objaví v kalendári Jarvisa. Zákazníkom pred termínom príde pripomienka, vy vidíte celý deň na jednom mieste.' },
+
+    { id: 'appka', kategoria: 'sluzby', nazov: 'Appka na mieru v Jarvisovi', cena: 490, ikona: 'app',
+      kratko: 'Malá appka presne pre váš biznis – evidencia, kalkulačka, formulár.',
+      popis: 'Naprogramujem appku, ktorá vo vašom biznise chýba, a pridám ju do Jarvisa: evidencia (napr. zákaziek, áut, revízií), kalkulačka cien, objednávkový formulár či prehľad. Cena platí pre malú appku; väčšiu dohodneme vopred.' },
+    { id: 'hodina', kategoria: 'sluzby', nazov: 'Hodina práce na mieru', cena: 45, ikona: 'clock', mnozstvo: true,
+      kratko: 'Úprava, nová funkcia, napojenie alebo pomoc – účtuje sa po hodinách.',
+      popis: 'Hodina mojej práce na vašom Jarvisovi: úprava správania, nová funkcia, napojenie na službu, ktorú používate, alebo pomoc s čímkoľvek okolo Jarvisa.' },
+    { id: 'balik-5h', kategoria: 'sluzby', nazov: 'Balík 5 hodín práce', cena: 199, ikona: 'clock',
+      kratko: '5 hodín práce na mieru výhodnejšie, platnosť 6 mesiacov.',
+      popis: 'Päť hodín práce na mieru, ktoré čerpáte postupne počas 6 mesiacov. Oproti jednotlivým hodinám ušetríte 26 €.' },
+    { id: 'skolenie', kategoria: 'sluzby', nazov: 'Zaškolenie tímu online', cena: 89, ikona: 'team',
+      kratko: '90 minút pre ľudí vo vašej firme, do 6 účastníkov.',
+      popis: 'Online zaškolenie pre váš tím: ako sa Jarvisa pýtať, ako pracovať s poštou, úlohami a klientmi a čo robiť, keď niečo nejde. Do 6 účastníkov, 90 minút, so záznamom.' },
+    { id: 'prenos-pc', kategoria: 'sluzby', nazov: 'Prenos Jarvisa na nový počítač', cena: 79, ikona: 'move',
+      kratko: 'Nový počítač, rovnaký Jarvis – so všetkými dátami a prihláseniami.',
+      popis: 'Kupujete nový počítač? Prenesiem Jarvisa aj so všetkými dátami, históriou a nastaveniami, pripojím účty a skontrolujem, že všetko funguje ako predtým.' },
+    { id: 'expres', kategoria: 'sluzby', nazov: 'Expresná pomoc do 2 hodín', cena: 39, ikona: 'bolt',
+      kratko: 'Keď niečo horí: ozvem sa do 2 hodín v pracovný deň.',
+      popis: 'Jednorazová pomoc, keď to nepočká: ozvem sa do 2 hodín v pracovný deň medzi 8:00 a 18:00 a vec vyriešime cez zdieľanie obrazovky.' },
+
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis pre živnostníka', cena: 899, povodne: 1028, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+      kratko: 'Inštalácia, plán Biznis na 12 mesiacov, Obchodník na mieru a zaškolenie.',
+      popis: 'Všetko, čo živnostník potrebuje na prvý rok: inštalácia a nastavenie, plán Biznis na 12 mesiacov (až 3 počítače, Jarvis v mobile), Obchodník nastavený na váš biznis a online zaškolenie.',
+      vBaliku: ['Inštalácia a nastavenie Jarvisa', 'Plán Biznis na 12 mesiacov', 'Jarvis v mobile', 'Obchodník na mieru', 'Zaškolenie online (90 min)'] },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis pre firmu', cena: 1190, povodne: 1356, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+      kratko: 'Inštalácia, plán Pro na 12 mesiacov, 2 ďalšie počítače, prenos dát a zaškolenie tímu.',
+      popis: 'Jarvis pre celú malú firmu na prvý rok: inštalácia, plán Pro na 12 mesiacov (offline AI a hodina práce na mieru každý mesiac), Jarvis na ďalšie dva počítače, prenos kontaktov a dát a zaškolenie tímu.',
+      vBaliku: ['Inštalácia a nastavenie Jarvisa', 'Plán Pro na 12 mesiacov', 'Jarvis na 2 ďalšie počítače', 'Vlastný offline AI model', 'Prenos kontaktov a dát', 'Zaškolenie tímu online (90 min)'] },
+
+    { id: 'predlzenie', kategoria: 'skryte', nazov: 'Predĺženie licencie', ikona: 'plan',
+      kratko: 'Predplatné Jarvisa na ďalšie obdobie.', popis: 'Predĺženie vašej licencie Jarvisa o ďalšie obdobie podľa plánu.' }
+  ],
+
+  /* Odvetvové balíky rozšírení (stránka Pre firmy): moduly + nastavenie pre odbor lacnejšie ako samostatne. */
+  odvetvia: [
+    { id: 'uctovnictvo', nazov: 'Účtovná kancelária', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'Termíny DPH a daní v Lehotách',
+      text: 'Doklady klientov z pošty rovno do tabuliek, faktúry s upomienkami a odpovede podľa vašich postupov.' },
+    { id: 'remeslo', nazov: 'Remeselník a stavebná firma', ikona: 'deal', mesacne: 15, moduly: ['faktury', 'hovory'], navyse: 'Fotky zo stavby z mobilu ku zákazke',
+      text: 'Ponuka, zákazka, fotky zo stavby, výkaz hodín a faktúra – všetko pri jednom zákazníkovi.' },
+    { id: 'eshop', nazov: 'E-shop', ikona: 'cart', mesacne: 19, moduly: ['faktury', 'recenzie', 'doklady'], navyse: 'Prepojenie Shoptet alebo WooCommerce v cene',
+      text: 'Objednávky z e-shopu, odpovede zákazníkom vo vašom štýle, recenzie a doklady pre účtovníčku.' },
+    { id: 'salon', nazov: 'Salón a služby', ikona: 'plan', mesacne: 15, moduly: ['rezervacie', 'recenzie'], navyse: 'Pripomienky termínov klientom',
+      text: 'Zákazníci si rezervujú sami, Jarvis im pripomenie termín a po návšteve požiada o recenziu.' },
+    { id: 'gastro', nazov: 'Gastro', ikona: 'pack', mesacne: 15, moduly: ['sklad', 'reporty', 'recenzie'], navyse: 'Objednávky dodávateľom e-mailom',
+      text: 'Sklad surovín s upozornením, objednávky dodávateľom, týždenný prehľad tržieb a recenzie hostí.' }
+  ],
+
+  /* Hlavné časti Jarvisa (stránka Funkcie a úvod). */
+  casti: [
+    { id: 'ai', nazov: 'AI chat so všetkými vašimi AI', text: 'ChatGPT, Claude aj Gemini cez vaše predplatné v jednom okne, k tomu bezplatné AI služby a offline model. Jarvis sám vyberie model a hĺbku odpovede, keď jednému účtu dôjde limit, pokračuje ďalší. Až 6 úloh naraz v rôznych chatoch.' },
+    { id: 'agent', nazov: 'Robí prácu na počítači', text: 'Číta a vytvára PDF, Word a Excel, spája a vypĺňa dokumenty, pracuje v prehliadači s vašimi prihláseniami a ovláda okná programov. Pred odoslaním, platbou, nákupom alebo zmazaním sa vždy spýta. Heslá nikdy nepíše.' },
+    { id: 'posta', nazov: 'Pošta s plným prístupom', text: 'Gmail aj firemné schránky na jednom mieste. „Pozri mi maily“ a máte zhrnutie s odkazmi, pri správe návrh odpovede, ktorý odošlete dvoma klikmi. Nepodstatné a nedoručiteľné maily upratanie jedným tlačidlom.' },
+    { id: 'obchodnik', nazov: 'Obchodník', text: 'Každých 15 minút prečíta firemné schránky, záujemcov zapíše do Klientov, pripraví odpoveď vo vašom štýle a pripomenie ponuku bez odpovede aj nezaplatenú prácu. Nič neodíde samo.' },
+    { id: 'biznis', nazov: 'Biznis a klienti', text: 'Tržby a výdavky po mesiacoch, mesačný cieľ, čo čaká na zaplatenie, stav vašich webov a certifikátov. Klienti od záujmu po zaplatenie, cenové ponuky ako PDF a databáza firiem z registra podľa IČO.' },
+    { id: 'ulohy', nazov: 'Úlohy, kalendár a pripomienky', text: 'Vlastná nástenka ako Trello s termínmi, štítkami a opakovaním, pridanie úlohy vetou „zajtra o 9 zavolať dodávateľovi“. Kalendár so sviatkami a meninami, budík, časovač a pripomienky.' },
+    { id: 'hlas', nazov: 'Hlas a zápisy zo stretnutí', text: 'Podržte kláves a diktujte do ľubovoľného okna – prepis beží offline na vašej grafickej karte. Nahrajte poradu alebo hovor a dostanete prepis s tým, kto hovoril, a zápis s úlohami.' },
+    { id: 'automatizacia', nazov: 'Automatizácia', text: 'Naplánujte prácu, ktorú Jarvis spraví sám: každé ráno prehľad pošty, v piatok faktúry z pošty do Excelu, každé 4 hodiny kontrola webu. Keď treba váš súhlas, pošle upozornenie a počká.' },
+    { id: 'mobil', nazov: 'Jarvis v mobile', text: 'Chat, pošta, úlohy a schvaľovanie v telefóne cez súkromné šifrované spojenie s vaším PC. Úloha z mobilu beží na počítači do konca, aj keď telefón zamknete.' },
+    { id: 'okno', nazov: 'Všetko v jednom okne', text: 'Prehliadač s kartami a heslami, súbory s náhľadmi Wordu, Excelu a PDF, terminál, WhatsApp, Teams a Discord – z Jarvisa netreba odchádzať. Ctrl + K nájde čokoľvek, Alt + S spraví výstrižok obrazovky.' },
+    { id: 'efaktury', nazov: 'E-faktúry pripravené na rok 2027', text: 'Kontrola, zobrazenie a vystavenie e-faktúr podľa európskej normy EN 16931 a Peppol BIS 3.0, celé offline. E-faktúru z prílohy v pošte skontrolujete jedným klikom.' },
+    { id: 'sukromie', nazov: 'Súkromie a bezpečnosť', text: 'Dáta sú vo vašom počítači, heslá šifruje Windows a AI ich nikdy nedostane. Antivírus a VPN jedným klikom, Inkognito pošle firmám žiadosti o výmaz vašich údajov podľa GDPR.' }
+  ],
+
+  /* Appky v Jarvisovi (podľa Jarvis\public\mini\catalog.json, bez Generátora licencií – ten má len predajca). */
+  appky: [
+    { kategoria: 'Každý deň', polozky: [
+      ['Poznámky', 'Rýchle poznámky s hľadaním, pripnutím a úpravou cez AI'],
+      ['Počasie', 'Teraz, na hodiny a na 7 dní pre vaše mesto'],
+      ['Hodiny', 'Časovač, stopky, budík, Pomodoro, pripomienky, odpočty a svetový čas'],
+      ['Kalkulačka', 'Výpočty s históriou, DPH, percentá, jednotky a meny podľa ECB'],
+      ['Prekladač', 'Preklad a úprava textu cez vašu AI, 12 jazykov'],
+      ['Rádio', 'Slovenské aj svetové rádiá naživo, obľúbené po ruke'],
+      ['Schránka', 'Čo ste kopírovali – znova jedným klikom, pripnuté texty'],
+      ['Návyky', 'Denné návyky so sériami a mapou celého roka'],
+      ['Kalendár', 'Mesiac so sviatkami a meninami, udalosti s pripomienkou'],
+      ['Diktafón', 'Hlasové poznámky prepísané na text priamo v počítači'],
+      ['Peniaze', 'Príjmy a výdavky po mesiacoch, kategórie a predplatné'],
+      ['Akcie', 'Akcie, ETF a krypto – graf, čísla firmy, analytici, správy, portfólio v eurách a upozornenia na cenu'],
+      ['Čítačka článkov', 'Článok bez reklám a vyskakovačiek, AI zhrnutie a čítanie nahlas'],
+      ['Cvičenie', 'Intervalový tréning – Tabata, HIIT, plank, Jarvis hlási cviky'],
+      ['Dátumy a lehoty', 'Posledný deň lehoty podľa zákona, pracovné dni, sviatky a fond pracovného času'],
+      ['Kto komu koľko', 'Spoločné výdavky na výlete či chate – kto komu pošle koľko, najmenej platbami']
+    ] },
+    { kategoria: 'Práca', polozky: [
+      ['Obchodník', 'Záujemcovia zo schránok, pripravené odpovede a pripomienky – vy len odošlete'],
+      ['Klienti · CRM', 'Zákazky od záujmu po zaplatenie, ľudia a firmy s posledným kontaktom a ďalším krokom'],
+      ['Databáza kontaktov', 'Firmy a ľudia s číslami – z pošty, Excelu a webov, z registra podľa IČO konatelia a tržby'],
+      ['Cenová ponuka', 'Ponuka pre klienta s položkami a DPH ako PDF jedným klikom'],
+      ['Texty pre firmu', 'Príspevky, odpovede na recenzie, ponuky e-mailom a reklamy cez AI'],
+      ['Zápis zo stretnutia', 'Nahrajte hovor alebo poradu – prepis s tým, kto hovoril, a AI zápis s úlohami'],
+      ['Výkaz práce', 'Stopky na projekty a klientov, hodiny × sadzba, výkaz pre klienta a CSV'],
+      ['PDF nástroje', 'Spojiť, rozdeliť, otočiť a preusporiadať strany, obrázky do PDF'],
+      ['Text z obrázka', 'Text zo snímky obrazovky alebo obrázka, offline vo Windows'],
+      ['QR kódy', 'QR na odkaz, Wi-Fi, kontakt a QR platbu PAY by square'],
+      ['Kontakty a tabuľky', 'CSV a Excel: duplicity preč, kontrola e-mailov, filter, rozdelenie'],
+      ['Snímky obrazovky', 'Snímka so šípkami, rámčekmi, textom a zakrytím citlivých vecí'],
+      ['Nahrávanie obrazovky', 'Obrazovka alebo okno so zvukom a mikrofónom do videa'],
+      ['Video a zvuk', 'Video pod zvolené MB, vystrihnutá časť, zvuk do MP3, GIF'],
+      ['Strážca stránok', 'Sleduje weby (výzvy, ceny, inzeráty) a ozve sa, keď sa na nich niečo zmení'],
+      ['Kontrola webu', 'SEO a technika webu za pár sekúnd – s radami, čo opraviť'],
+      ['Prehľad webu', 'Celý web stránku po stránke – nefunkčné odkazy, SEO chyby, sitemap.xml'],
+      ['SEO kód pre web', 'Titulok, popis, zdieľanie, firma pre Google a robots.txt – s náhľadom v Google'],
+      ['Obrázky pre web', 'Zmenšiť a previesť do WebP alebo JPEG, aj veľa naraz'],
+      ['Favicon a ikony', 'Z loga všetky ikony webu – favicon.ico, Apple, Android, manifest'],
+      ['Farby', 'Odtiene, kontrast podľa WCAG, kvapkadlo a uložené palety']
+    ] },
+    { kategoria: 'Vývoj', polozky: [
+      ['HTML tester', 'Vložte HTML a hneď vidíte web na počítači, tablete aj mobile, s chybami na červeno'],
+      ['Servery · WinSCP', 'Súbory na vašich serveroch cez SFTP, FTP aj SCP – nahrať, stiahnuť, upraviť'],
+      ['Odoo dielňa', 'Kód serverových akcií pre Odoo 17 – 20 skontrolovaný offline, vaše moduly so zipom'],
+      ['Vývojár', 'JSON, Base64, URL, hash, UUID, JWT, čas a regex'],
+      ['Text', 'Počítadlo, bez diakritiky, slug, veľké a malé písmená, riadky'],
+      ['Heslá', 'Silné heslá a ľahko zapamätateľné frázy, sila hesla'],
+      ['Porovnať texty', 'Čo pribudlo a čo zmizlo medzi dvoma verziami textu'],
+      ['Symboly a emoji', 'Úvodzovky, pomlčky, €, ×, šípky a emoji podľa slova']
+    ] },
+    { kategoria: 'Počítač', polozky: [
+      ['Disk', 'Čo zaberá miesto na disku, priečinok po priečinku'],
+      ['Rýchlosť internetu', 'Ping, sťahovanie a odosielanie, história meraní'],
+      ['Sieť a DNS', 'DNS, e-mailová doména (SPF, DKIM, DMARC), SSL certifikát, ping, porty'],
+      ['O počítači', 'Procesor, grafika, pamäť, disky, batéria a Windows'],
+      ['Programy v Jarvisovi', 'Git, Node.js a Ollama priamo v Jarvisovi namiesto samostatných aplikácií'],
+      ['Hromadné premenovanie', 'Veľa súborov naraz – bez diakritiky, číslovanie, nájsť a nahradiť, vrátiť späť'],
+      ['Duplicitné súbory', 'Rovnaké súbory podľa obsahu – kópie navyše do Koša, jedna vždy ostane'],
+      ['Čas pri PC', 'Koľko času v ktorom programe – po dňoch, jedným klikom do Výkazu práce'],
+      ['Upratovač', 'Roztriedi Stiahnuté do priečinkov – nič nemaže, dá sa vrátiť']
+    ] },
+    { kategoria: 'Učenie', polozky: [
+      ['Slovíčka', 'Kartičky s opakovaním v pravý čas – AI ich vyrobí z textu'],
+      ['Písanie všetkými desiatimi', 'Rýchlosť a presnosť písania na slovenských textoch'],
+      ['Encyklopédia', 'Wikipédia po slovensky priamo v Jarvisovi, zhrnutie a čítanie nahlas'],
+      ['Kvíz', 'AI kvíz na hocijakú tému – aj na maturitu, s vysvetlením'],
+      ['Graf funkcií', 'Funkcie ako v škole – graf, nulové body, priesečníky a tabuľka hodnôt'],
+      ['Zemepis', 'Vlajky a hlavné mestá – kvíz pre Európu aj celý svet']
+    ] },
+    { kategoria: 'Hry', polozky: [
+      ['2048', 'Spájajte čísla až do 2048'], ['Sudoku', 'Tri obtiažnosti, poznámky, kontrola a čas'],
+      ['Piškvorky', 'Päť v rade proti Jarvisovi'], ['Pexeso', 'Nájdite páry, rekordy podľa veľkosti'],
+      ['Had', 'Klasický had, zrýchľuje sa'], ['Náhoda', 'Kocky, minca, číslo a rozdelenie do tímov'],
+      ['Šach', 'Šach proti Jarvisovi v troch úrovniach'], ['Míny', 'Hľadanie mín, prvý klik je vždy bezpečný'],
+      ['Kocky', 'Padajúce kocky s tieňom a odložením'], ['Solitér', 'Klondike s 1 alebo 3 kartami'],
+      ['Štvorka', 'Štyri v rade proti Jarvisovi alebo vo dvojici'], ['Slovko', 'Slovenské Wordle, každý deň nové slovo'],
+      ['Arkanoid', 'Pálka, loptička a tehly – 6 levelov']
+    ] }
+  ],
+
+  otazky: [
+    ['Na akom počítači Jarvis beží?', 'Na Windows 10 alebo 11 (64-bit). Odporúčame aspoň 16 GB RAM. Pre vlastný offline AI model je vhodná grafika NVIDIA s 12 GB pamäte alebo 32 GB RAM – pred objednávkou vám počítač rád skontrolujem.'],
+    ['Musím mať predplatné ChatGPT alebo Claude?', 'Nie. Jarvis funguje aj s bezplatnými AI službami (napríklad Google AI Studio alebo Groq) a s offline modelom. S predplatným (ChatGPT Plus, Claude Pro, Gemini) dostanete najlepšie odpovede. Predplatné platíte priamo poskytovateľovi – bez prirážky, Jarvis len použije vaše účty.'],
+    ['Čo presne dostanem za inštaláciu?', 'Jarvisa nainštalovaného a nastaveného na vašu prácu: pripojené AI účty, poštu, kalendár a WhatsApp, nastavené firmy, ceny a štýl odpovedí, import kontaktov, 60 minút zaškolenia a 14 dní prednostnej pomoci. Inštalácia sa platí raz.'],
+    ['Prečo sa platí mesačne?', 'Mesačný plán je licencia na používanie Jarvisa a starostlivosť oň: priebežné aktualizácie a nové funkcie, opravy, kontrola po každej novej verzii a podpora podľa plánu. Ročne zaplatíte 12 mesiacov za cenu 10.'],
+    ['Čo keď prestanem platiť?', 'Licencia platí do posledného zaplateného dňa. Potom máte 14 dní na obnovenie, kým sa Jarvis uzamkne. Vaše dáta ostávajú vo vašom počítači a môžete si ich kedykoľvek vyexportovať.'],
+    ['Kde sú moje dáta a kto ich vidí?', 'Všetko je vo vašom počítači. Heslá šifruje Windows a AI ich nikdy nedostane. Text, ktorý napíšete, ide iba AI službe, ktorú zvolíte – pri offline modeli neodchádza nikam. Ja ako predajca k vašim dátam prístup nemám; pri vzdialenej pomoci len počas pripojenia, ktoré sami povolíte a kedykoľvek ukončíte.'],
+    ['Ako prebieha inštalácia?', 'Po zaplatení sa dohodneme na termíne. Inštalácia trvá zvyčajne 2 – 3 hodiny cez zdieľanie obrazovky, v okolí Senca a Bratislavy aj osobne. Vy pri tom len prihlásite svoje účty – heslá nezadávam ja.'],
+    ['Môžem Jarvisa vidieť pred objednávkou?', 'Áno. Napíšte mi a dohodneme krátky videohovor, na ktorom vám Jarvisa ukážem naživo a odpoviem na otázky.'],
+    ['Funguje aj na Macu alebo v mobile?', 'Jarvis beží na Windows. V mobile (iPhone aj Android) ho máte cez súkromné spojenie s vaším počítačom – ten musí byť zapnutý. Na Mac zatiaľ nie je.'],
+    ['Robí Jarvis niečo bez môjho súhlasu?', 'Čítanie a bežné veci robí hneď a dá vedieť. Pred odoslaním mailu, platbou, nákupom, zmazaním, zverejnením alebo potvrdením niečoho sa vždy spýta. Heslá nikdy nepíše – prihlasujete sa sami.'],
+    ['Koľko počítačov môžem mať?', 'Podľa plánu: Štart 1, Biznis 3 a Pro 5 počítačov. Inštalácia na každý ďalší počítač stojí 99 €.'],
+    ['Môžem zmeniť plán?', 'Kedykoľvek. Vyšší plán platí od zaplatenia rozdielu, nižší od ďalšieho obdobia.'],
+    ['Ako sa platí?', 'Prevodom na účet podľa objednávky – pri slovenských bankách stačí naskenovať QR kód. Mesačný plán sa platí vopred na mesiac, ročný na 12 mesiacov. Platba kartou pribudne.'],
+    ['Môžem od zmluvy odstúpiť?', 'Spotrebiteľ môže od zmluvy uzavretej na diaľku odstúpiť do 14 dní bez udania dôvodu. Ak pri objednávke požiada, aby som začal skôr, zaplatí len pomernú časť za už poskytnuté plnenie a po úplnom poskytnutí služby alebo začatí dodávania digitálneho obsahu právo na odstúpenie zaniká. Podrobnosti sú v obchodných podmienkach.'],
+    ['Čo keď sa niečo pokazí?', 'Jarvis sa po každej aktualizácii sám skontroluje a chybu zapíše. Napíšte mi a ozvem sa v čase podľa vášho plánu; keď to horí, je tu Expresná pomoc do 2 hodín.']
+  ]
+};

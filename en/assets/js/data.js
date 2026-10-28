@@ -1,0 +1,320 @@
+/* Jarvis · web a obchod – JEDINÉ miesto s údajmi predajcu, cenníkom, plánmi, doplnkami, funkciami a otázkami.
+   Číta ho prehliadač (košík počíta ceny odtiaľto) aj zostavenie webu (node nastroje/postav.mjs vyrobí stránky).
+   Po zmene ceny alebo textu spusti zostavenie znova. Ceny sú v eurách, konečné. */
+window.JARVIS_DATA = {
+  // i18n:off – údaje predajcu sa neprekladajú (nastroje/preklad.mjs)
+  predajca: {
+    meno: 'Alex Poliak',
+    znacka: 'Apoliak',
+    adresa: 'Mierová 24, 900 29 Nová Dedinka',
+    krajina: 'Slovenská republika',
+    ico: '',            // keď bude živnosť alebo firma, doplň – zobrazí sa v pätičke, podmienkach a objednávke
+    dic: '',
+    icdph: '',
+    platitelDph: false,
+    email: 'apoliak@apoliak.online',
+    telefon: '0902 464 022',
+    web: 'https://apoliak.online',
+    iban: 'LT06 3250 0031 5962 5775',
+    bic: 'REVOLT21',
+    banka: 'Revolut Bank UAB',
+    dozor: 'Slovenská obchodná inšpekcia, Inšpektorát SOI pre Bratislavský kraj, Bajkalská 21/A, Bratislava'
+  },
+  // i18n:on
+  nastavenia: {
+    mena: '€',
+    splatnostDni: 7,
+    rocneZaMesiacov: 10,       // ročné predplatné = 12 mesiacov za cenu 10
+    objednavkyUrl: '',         // neskôr adresa na VPS (POST JSON); prázdne = objednávka sa pošle e-mailom
+    platbaKartou: false,       // Stripe neskôr
+    verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
+    adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
+    podmienkyOd: '24. 10. 2026'
+  },
+
+  plany: [
+    { id: 'start', nazov: 'Start', mesacne: 15, pc: 1, pre: 'For one person who wants everything in one window.',
+      body: ['All features and 70+ apps', '1 computer', 'Ongoing updates and new features', 'E-mail support within 2 working days'] },
+    { id: 'biznis', nazov: 'Business', mesacne: 29, pc: 3, odporucany: true, pre: 'For sole traders and small businesses that run on e-mail and clients.',
+      body: ['Everything in Start', 'Up to 3 computers', 'Jarvis on your phone – setup included', 'Support within 1 working day', 'Remote help once a month', 'Check-up and fine-tuning once a quarter'] },
+    { id: 'pro', nazov: 'Pro', mesacne: 49, pc: 5, pre: 'For a company that wants Jarvis tailored to its work.',
+      body: ['Everything in Business', 'Up to 5 computers', 'Your own offline AI model – setup included', '1 hour of custom work every month', 'Support within 4 hours on working days, including by phone', 'New features before everyone else'] }
+  ],
+  porovnanie: [
+    ['All features and 70+ apps', true, true, true],
+    ['Number of computers', '1', '3', '5'],
+    ['Updates and new features', true, true, true],
+    ['E-mail support', 'within 2 working days', 'within 1 working day', 'within 4 hours'],
+    ['Phone support', false, false, true],
+    ['Remote help via screen sharing', false, '1× a month', 'as needed'],
+    ['Jarvis on your phone (setup)', '59 €', 'included', 'included'],
+    ['Your own offline AI model (setup)', '149 €', '149 €', 'included'],
+    ['Jarvis check-up and fine-tuning', false, 'once a quarter', 'once a month'],
+    ['Custom work', false, false, '1 hour a month'],
+    ['New features earlier (preview versions)', false, false, true]
+  ],
+  instalaciaObsahuje: [
+    'Installing Jarvis on your computer – remotely, or in person around Senec and Bratislava',
+    'Connecting your AI accounts (ChatGPT, Claude, Gemini) or free AI services',
+    'Connecting your mail – all your mailboxes, your calendar and WhatsApp',
+    'Setting Jarvis up around your work: menu, companies, prices, signature and reply style',
+    'Importing contacts from one source (Excel, Outlook or your phone)',
+    '60 minutes of training until you know where everything is',
+    '14 days of priority help after installation',
+    'Licence for your first computer'
+  ],
+
+  /* Obchod. kategoria: plany | doplnky | sluzby | baliky. cena = jednorazovo; plán má cenu z plany[]. */
+  kategorie: [
+    { id: 'plany', nazov: 'Installation and plans' },
+    { id: 'doplnky', nazov: 'Add-ons' },
+    { id: 'rozsirenia', nazov: 'Business extensions' },
+    { id: 'sluzby', nazov: 'Services' },
+    { id: 'baliky', nazov: 'Bundles' }
+  ],
+  produkty: [
+    { id: 'instalacia', kategoria: 'plany', nazov: 'Jarvis installation and setup', cena: 500, ikona: 'install',
+      kratko: 'Jarvis installed and set up for your work. Required with your first order.',
+      popis: 'I install Jarvis and set it up so that you use it for real work from day one – not just to try it out. We connect your AI accounts, mail and calendar, set up your companies, prices and reply style, and within an hour I show you everything that matters.',
+      obsahuje: 'instalacia', poznamka: 'You pay once. Along with the installation you choose a monthly or yearly plan.' },
+    { id: 'plan-start', kategoria: 'plany', plan: 'start', nazov: 'Start plan', ikona: 'plan',
+      kratko: '1 computer, all features, updates and e-mail support.',
+      popis: 'The whole of Jarvis with all its features, for one person on one computer. Updates and new features arrive by themselves, and I answer questions by e-mail within 2 working days.' },
+    { id: 'plan-biznis', kategoria: 'plany', plan: 'biznis', nazov: 'Business plan', ikona: 'plan',
+      kratko: 'Up to 3 computers, Jarvis on your phone and faster support.',
+      popis: 'For a sole trader or a small company: Jarvis on up to three computers, on your phone (setup included), support within one working day, remote help once a month and a quarterly check that everything is running as it should.' },
+    { id: 'plan-pro', kategoria: 'plany', plan: 'pro', nazov: 'Pro plan', ikona: 'plan',
+      kratko: 'Up to 5 computers, offline AI, one hour of custom work a month.',
+      popis: 'Jarvis tailored to your company: up to five computers, your own offline AI model with setup included, one hour of custom work every month (a new feature, automation, integration) and support within 4 hours on working days, including by phone.' },
+
+    { id: 'dalsi-pc', kategoria: 'doplnky', nazov: 'Jarvis on another computer', cena: 99, ikona: 'pc', mnozstvo: true,
+      kratko: 'Installation and setup on another computer within your plan.',
+      popis: 'I install Jarvis on another computer in your company and connect that person’s accounts to it. The number of computers is set by your plan (Start 1, Business 3, Pro 5); when you need more, a higher plan is all it takes.' },
+    { id: 'mobil', kategoria: 'doplnky', nazov: 'Jarvis on your phone', cena: 59, ikona: 'phone', vCene: ['biznis', 'pro'],
+      kratko: 'The whole of Jarvis on your phone, over a private encrypted connection to your PC.',
+      popis: 'Jarvis on iPhone and Android: chat, mail, tasks, an overview of your day, yes/no approvals and notifications. The connection runs over a private encrypted network between your phone and your computer – nobody can see it from the internet. A task started from your phone runs on the PC to the end, even if you lock the phone.',
+      poznamka: 'In the Business and Pro plans, setup is included. The computer must be switched on.' },
+    { id: 'offline-ai', kategoria: 'doplnky', nazov: 'Your own offline AI model', cena: 149, ikona: 'chip', vCene: ['pro'],
+      kratko: 'AI that runs only on your own computer. Nothing is sent to the internet.',
+      popis: 'I install and fine-tune a language model that runs right on your graphics card. Jarvis uses it for sensitive matters (mail, contracts, company figures) and as a fallback when there is no internet or subscription. Before you order, I’ll check whether your computer can handle it.',
+      poznamka: 'Recommended: an NVIDIA graphics card with 12 GB of memory, or 32 GB of RAM. Included in the Pro plan.' },
+    { id: 'obchodnik', kategoria: 'doplnky', nazov: 'Custom Salesman', cena: 149, ikona: 'deal',
+      kratko: 'Leads from your mailboxes, replies in your style and payment reminders.',
+      popis: 'I set up Salesman for your business: what you sell, what your prices are, how you reply and what the next step is. Jarvis then reads your business mailboxes every 15 minutes, adds leads to Clients, prepares a reply for your approval and reminds you of unanswered quotes and unpaid work.' },
+    { id: 'prenos-dat', kategoria: 'doplnky', nazov: 'Contact and data transfer', cena: 79, ikona: 'import',
+      kratko: 'Contacts and clients from several sources – Excel, an old CRM, Outlook, your phone.',
+      popis: 'I move your contacts, clients and notes from several sources into Jarvis, merge duplicates, check e-mail addresses and add data from the business register to companies by company ID (IČO).' },
+    { id: 'hlas', kategoria: 'doplnky', nazov: 'Custom voice and dictation', cena: 49, ikona: 'mic',
+      kratko: 'Microphone, your own dictionary of names and terms, keyboard shortcuts.',
+      popis: 'I set up dictation so that it understands your work: a dictionary of your clients’ names, products and specialist terms, keys for dictating into any window, and translation into English. Transcription runs offline on your computer.' },
+    { id: 'automatizacia', kategoria: 'doplnky', nazov: 'Custom automation', cena: 149, ikona: 'auto', mnozstvo: true,
+      kratko: 'One repetitive job that Jarvis does on its own – e.g. invoices from your mail into Excel.',
+      popis: 'We pick one thing you do over and over, and Jarvis will do it by itself at the set time: invoices from your mail into a spreadsheet, a morning summary of mail and tasks, a check of your website and online shop, a weekly summary of revenue. It always asks before sending or paying.' },
+    { id: 'odoo', kategoria: 'doplnky', nazov: 'Odoo integration', cena: 290, ikona: 'link',
+      kratko: 'Jarvis reads from and writes to your Odoo – orders, contacts, invoices.',
+      popis: 'I connect Jarvis to your Odoo through the API: it looks up an order or an invoice, records a new contact or task and prepares an overview. The basic integration covers up to 5 types of records; a larger scope we’ll agree in advance.' },
+    { id: 'prepojenie', kategoria: 'doplnky', nazov: 'Integration with your system', cena: 190, ikona: 'link',
+      kratko: 'Pohoda, Money S3, SuperFaktúra, Shoptet, WooCommerce, Google Workspace or Microsoft 365.',
+      popis: 'I connect Jarvis to a system your company already uses – accounting software (Pohoda, Money S3), invoicing (SuperFaktúra), an online shop (Shoptet, WooCommerce) or Google Workspace or Microsoft 365. Jarvis reads from it and writes to it. The price covers a basic connection to one system; a larger scope we’ll agree in advance.' },
+    { id: 'postupy', kategoria: 'doplnky', nazov: 'Company procedures', cena: 149, ikona: 'auto',
+      kratko: '5 procedures of the “when a complaint comes in, do this” kind – Jarvis follows them step by step.',
+      popis: 'Together we write down five things that are always done the same way in your company (a complaint, a new customer, a materials order, a quote, the month-end close), and I set them up as procedures in Jarvis. When you say “a complaint has come in”, Jarvis follows your own process exactly.' },
+    { id: 'vzhlad', kategoria: 'doplnky', nazov: 'Company branding', cena: 99, ikona: 'palette', pripravujeme: true,
+      kratko: 'Your company’s logo, colours and name in Jarvis.',
+      popis: 'Jarvis in your company’s colours, with your logo and name (“Jarvis · Sova Cafe”), a greeting for your employees and a company signature in replies.' },
+
+    /* Rozšírenia pre firmy: mesačne ku plánu, platia spolu s licenciou (v kľúči pole m). pripravujeme = zatiaľ sa nedá kúpiť. */
+    { id: 'modul-reporty', modul: 'reporty', kategoria: 'rozsirenia', nazov: 'Owner overview', mesacne: 5, ikona: 'chart', snimka: 'modul_prehlad',
+      kratko: 'A summary every Monday: revenue, leads, unpaid invoices and overdue tasks.',
+      popis: 'Every Monday morning you get a summary of your company: revenue and expenses compared with last week and last month, new leads, quotes in play, what is waiting to be paid and which tasks are overdue. At the end of the month a closing report as a PDF, which you can send to your partner or your accountant.' },
+    { id: 'modul-hovory', modul: 'hovory', kategoria: 'rozsirenia', nazov: 'Calls and meetings to CRM', mesacne: 9, ikona: 'phonecall', snimka: 'modul_hovory_navrh',
+      kratko: 'A recorded call or meeting → transcript, summary and tasks straight to the client.',
+      popis: 'Record a call with a customer or a meeting, and Jarvis turns it into a transcript showing who said what, a short summary and tasks. It files everything under the right client and puts the tasks on your board. Transcription runs offline on your computer.' },
+    { id: 'modul-faktury', modul: 'faktury', kategoria: 'rozsirenia', nazov: 'Invoices and reminders', mesacne: 9, ikona: 'invoice', snimka: 'modul_faktury',
+      kratko: 'An invoice with a QR code in one click, e-invoices ready for 2027 and payment tracking.',
+      popis: 'You issue an invoice with a payment QR code straight from the customer’s card – with numbering, as a PDF and, at the same time, as a Peppol e-invoice for the mandatory e-invoicing from 2027. Send it by e-mail in one click; it is recorded in Business and Jarvis watches the due date: 3 and 14 days after it, it prepares a reminder that you simply check and send. It works for VAT-registered and non-registered businesses alike.' },
+    { id: 'modul-doklady', modul: 'doklady', kategoria: 'rozsirenia', nazov: 'Documents from mail', mesacne: 9, ikona: 'mail', snimka: 'modul_doklady',
+      kratko: 'Invoices and receipts from your mail and your phone, into a spreadsheet for your accountant.',
+      popis: 'Once a day, Jarvis finds incoming invoices and e-invoices in your mail, reads a photographed receipt as well, and extracts the supplier, amount, VAT, due date, IBAN and variable symbol. You only check the data and enter it into expenses with one click; whatever needs paying, you pay with the QR code on your phone. At the end of the month it prepares a package for your accountant – a spreadsheet for Excel and all the documents in a single ZIP file.' },
+    { id: 'modul-znalosti', modul: 'znalosti', kategoria: 'rozsirenia', nazov: 'Company knowledge', mesacne: 9, ikona: 'book', pripravujeme: true,
+      kratko: 'Jarvis learns your price lists, procedures and contracts and answers from them.',
+      popis: 'You give Jarvis your company documents – price lists, procedures, contracts, answers to frequently asked questions – and it answers from them, with a link to the source. A new person in the company asks Jarvis instead of you, and the answers always follow the current price list.' },
+    { id: 'modul-sukromie', modul: 'sukromie', kategoria: 'rozsirenia', nazov: 'Private mode', mesacne: 9, ikona: 'lock', pripravujeme: true,
+      kratko: 'Mail and clients only through offline AI, a log and backups to a company drive.',
+      popis: 'For companies with sensitive data: mail, clients and contracts go only to the AI model on your computer, never to the cloud. The Log shows who did what, and your data is backed up encrypted every day to a company drive or NAS. Requires the offline AI model.' },
+    { id: 'modul-recenzie', modul: 'recenzie', kategoria: 'rozsirenia', nazov: 'Reviews and reputation', mesacne: 5, ikona: 'star', pripravujeme: true,
+      kratko: 'Google review monitoring and replies in your style, NFC cards for new reviews.',
+      popis: 'Jarvis monitors new reviews of your business on Google, alerts you when one is bad and prepares a reply in your style. On top of that, NFC cards for your counter – a customer holds their phone to the card and is straight into writing a review.' },
+    { id: 'modul-sklad', modul: 'sklad', kategoria: 'rozsirenia', nazov: 'Stock and orders', mesacne: 9, ikona: 'pack', pripravujeme: true,
+      kratko: 'Simple stock-keeping, low-stock alerts and ordering in one click.',
+      popis: 'Simple stock-keeping without a complicated system: goods and materials, minimum stock levels and an alert when something is running low. Jarvis prepares the order to your supplier as an e-mail that you just send.' },
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Team', mesacne: 5, zaCloveka: true, ikona: 'team', pripravujeme: true,
+      kratko: 'Shared clients, tasks and notes for everyone in the company.',
+      popis: 'Clients, tasks and notes shared by the whole company: who is responsible for which job, what is done and what is overdue. A change on one computer shows up on the others straight away.' },
+    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online bookings', mesacne: 15, ikona: 'plan', pripravujeme: true,
+      kratko: 'A booking page for your customers, with appointments straight in the Jarvis calendar.',
+      popis: 'Your customers book appointments themselves on your page (salon, repair shop, consultancy, courses) and the appointment appears in the Jarvis calendar at once. Customers get a reminder before their appointment, and you see your whole day in one place.' },
+
+    { id: 'appka', kategoria: 'sluzby', nazov: 'Custom app in Jarvis', cena: 490, ikona: 'app',
+      kratko: 'A small app made exactly for your business – a register, a calculator, a form.',
+      popis: 'I’ll program the app that is missing in your business and add it to Jarvis: a register (e.g. of jobs, cars, inspections), a price calculator, an order form or an overview. The price is for a small app; a larger one we’ll agree in advance.' },
+    { id: 'hodina', kategoria: 'sluzby', nazov: 'One hour of custom work', cena: 45, ikona: 'clock', mnozstvo: true,
+      kratko: 'A change, a new feature, an integration or help – billed by the hour.',
+      popis: 'One hour of my work on your Jarvis: adjusting its behaviour, a new feature, a connection to a service you use, or help with anything around Jarvis.' },
+    { id: 'balik-5h', kategoria: 'sluzby', nazov: '5-hour work bundle', cena: 199, ikona: 'clock',
+      kratko: '5 hours of custom work at a better price, valid for 6 months.',
+      popis: 'Five hours of custom work that you draw on gradually over 6 months. Compared with buying single hours, you save 26 €.' },
+    { id: 'skolenie', kategoria: 'sluzby', nazov: 'Online team training', cena: 89, ikona: 'team',
+      kratko: '90 minutes for the people in your company, up to 6 participants.',
+      popis: 'Online training for your team: how to ask Jarvis, how to work with mail, tasks and clients, and what to do when something doesn’t work. Up to 6 participants, 90 minutes, with a recording.' },
+    { id: 'prenos-pc', kategoria: 'sluzby', nazov: 'Jarvis transfer to a new computer', cena: 79, ikona: 'move',
+      kratko: 'A new computer, the same Jarvis – with all your data and logins.',
+      popis: 'Buying a new computer? I’ll move Jarvis along with all its data, history and settings, connect your accounts and check that everything works as before.' },
+    { id: 'expres', kategoria: 'sluzby', nazov: 'Express help within 2 hours', cena: 39, ikona: 'bolt',
+      kratko: 'When it’s urgent: I’ll get back to you within 2 hours on a working day.',
+      popis: 'One-off help for when it can’t wait: I’ll get back to you within 2 hours on a working day between 8:00 and 18:00, and we’ll sort it out over screen sharing.' },
+
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis for sole traders', cena: 899, povodne: 1028, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+      kratko: 'Installation, the Business plan for 12 months, a Custom Salesman and training.',
+      popis: 'Everything a sole trader needs for the first year: installation and setup, the Business plan for 12 months (up to 3 computers, Jarvis on your phone), a Salesman set up for your business and online training.',
+      vBaliku: ['Jarvis installation and setup', 'Business plan for 12 months', 'Jarvis on your phone', 'Custom Salesman', 'Online training (90 min)'] },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis for companies', cena: 1190, povodne: 1356, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+      kratko: 'Installation, the Pro plan for 12 months, 2 more computers, data transfer and team training.',
+      popis: 'Jarvis for a whole small company for the first year: installation, the Pro plan for 12 months (offline AI and one hour of custom work every month), Jarvis on two more computers, contact and data transfer, and team training.',
+      vBaliku: ['Jarvis installation and setup', 'Pro plan for 12 months', 'Jarvis on 2 more computers', 'Your own offline AI model', 'Contact and data transfer', 'Online team training (90 min)'] },
+
+    { id: 'predlzenie', kategoria: 'skryte', nazov: 'Licence renewal', ikona: 'plan',
+      kratko: 'Jarvis subscription for the next period.', popis: 'Extension of your Jarvis licence for another period, according to your plan.' }
+  ],
+
+  /* Odvetvové balíky rozšírení (stránka Pre firmy): moduly + nastavenie pre odbor lacnejšie ako samostatne. */
+  odvetvia: [
+    { id: 'uctovnictvo', nazov: 'Accounting firm', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'VAT and tax deadlines in Dates and deadlines',
+      text: 'Client documents from mail straight into spreadsheets, invoices with reminders and replies that follow your procedures.' },
+    { id: 'remeslo', nazov: 'Tradesperson and construction firm', ikona: 'deal', mesacne: 15, moduly: ['faktury', 'hovory'], navyse: 'Site photos from your phone attached to a job',
+      text: 'A quote, a job, site photos, a timesheet and an invoice – all together under one customer.' },
+    { id: 'eshop', nazov: 'E-shop', ikona: 'cart', mesacne: 19, moduly: ['faktury', 'recenzie', 'doklady'], navyse: 'Shoptet or WooCommerce integration included',
+      text: 'Orders from your online shop, replies to customers in your style, reviews and documents for your accountant.' },
+    { id: 'salon', nazov: 'Salon and services', ikona: 'plan', mesacne: 15, moduly: ['rezervacie', 'recenzie'], navyse: 'Appointment reminders for clients',
+      text: 'Customers book by themselves, Jarvis reminds them of their appointment and asks for a review after the visit.' },
+    { id: 'gastro', nazov: 'Hospitality', ikona: 'pack', mesacne: 15, moduly: ['sklad', 'reporty', 'recenzie'], navyse: 'Orders to suppliers by e-mail',
+      text: 'Ingredient stock with alerts, orders to suppliers, a weekly revenue overview and guest reviews.' }
+  ],
+
+  /* Hlavné časti Jarvisa (stránka Funkcie a úvod). */
+  casti: [
+    { id: 'ai', nazov: 'AI chat with all your AIs', text: 'ChatGPT, Claude and Gemini through your own subscriptions in a single window, plus free AI services and an offline model. Jarvis chooses the model and the depth of the answer by itself, and when one account runs out of its limit, the next one carries on. Up to 6 tasks at once in different chats.' },
+    { id: 'agent', nazov: 'Does the work on your computer', text: 'Reads and creates PDF, Word and Excel files, merges and fills in documents, works in the browser with your logins and operates program windows. It always asks before sending, paying, buying or deleting anything. It never types passwords.' },
+    { id: 'posta', nazov: 'Mail with full access', text: 'Gmail and your business mailboxes in one place. Say “check my mail” and you get a summary with links; for every message there is a draft reply that you send in two clicks. Unimportant and undeliverable e-mails are cleared away with one button.' },
+    { id: 'obchodnik', nazov: 'Salesman', text: 'Every 15 minutes it reads your business mailboxes, adds leads to Clients, prepares a reply in your style and reminds you of unanswered quotes and unpaid work. Nothing is sent on its own.' },
+    { id: 'biznis', nazov: 'Business and clients', text: 'Revenue and expenses by month, a monthly goal, what is waiting to be paid, and the status of your websites and certificates. Clients from first interest to payment, price quotes as PDF and a database of companies from the business register by company ID (IČO).' },
+    { id: 'ulohy', nazov: 'Tasks, calendar and reminders', text: 'Your own Trello-style board with due dates, labels and repeating tasks. Add a task with one sentence: “call the supplier tomorrow at 9”. A calendar with public holidays and name days, an alarm clock, a timer and reminders.' },
+    { id: 'hlas', nazov: 'Voice and meeting minutes', text: 'Hold a key and dictate into any window – transcription runs offline on your graphics card. Record a meeting or a call and you get a transcript showing who spoke, plus minutes with tasks.' },
+    { id: 'automatizacia', nazov: 'Automation', text: 'Schedule work that Jarvis does on its own: a mail summary every morning, invoices from your mail into Excel on Fridays, a website check every 4 hours. When it needs your approval, it sends a notification and waits.' },
+    { id: 'mobil', nazov: 'Jarvis on your phone', text: 'Chat, mail, tasks and approvals on your phone over a private encrypted connection to your PC. A task started from your phone runs to the end on your computer, even if you lock the phone.' },
+    { id: 'okno', nazov: 'Everything in one window', text: 'A browser with tabs and passwords, files with previews of Word, Excel and PDF, a terminal, WhatsApp, Teams and Discord – there is no need to leave Jarvis. Ctrl + K finds anything, Alt + S takes a screen snip.' },
+    { id: 'efaktury', nazov: 'E-invoices ready for 2027', text: 'Checking, viewing and issuing e-invoices to the European standard EN 16931 and Peppol BIS 3.0, all offline. You can check an e-invoice from a mail attachment with one click.' },
+    { id: 'sukromie', nazov: 'Privacy and security', text: 'Your data stays on your computer, Windows encrypts your passwords and the AI never receives them. Antivirus and VPN in one click; Incognito sends companies requests to erase your data under the GDPR.' }
+  ],
+
+  /* Appky v Jarvisovi (podľa Jarvis\public\mini\catalog.json, bez Generátora licencií – ten má len predajca). */
+  appky: [
+    { kategoria: 'Everyday', polozky: [
+      ['Notes', 'Quick notes with search, pinning and AI-powered editing'],
+      ['Weather', 'Right now, hour by hour and for the next 7 days in your town'],
+      ['Clock', 'Timer, stopwatch, alarm clock, Pomodoro, reminders, countdowns and world time'],
+      ['Calculator', 'Calculations with history, VAT, percentages, units and currencies at ECB rates'],
+      ['Translator', 'Translate and edit text with your AI, 12 languages'],
+      ['Radio', 'Slovak and international radio stations live, favourites close at hand'],
+      ['Clipboard', 'Everything you’ve copied, back again in one click – plus pinned texts'],
+      ['Habits', 'Daily habits with streaks and a map of the whole year'],
+      ['Calendar', 'Month view with public holidays and name days, events with reminders'],
+      ['Voice recorder', 'Voice notes transcribed to text right on your computer'],
+      ['Money', 'Income and expenses by month, categories and subscriptions'],
+      ['Stocks', 'Stocks, ETFs and crypto – chart, company figures, analysts, news, a portfolio in euros and price alerts'],
+      ['Article reader', 'An article without ads or pop-ups, an AI summary and read-aloud'],
+      ['Exercise', 'Interval training – Tabata, HIIT, plank; Jarvis calls out the exercises'],
+      ['Dates and deadlines', 'The last day of a legal deadline, working days, public holidays and available working hours'],
+      ['Who owes whom', 'Shared expenses on a trip or at a cottage – who sends how much to whom, with the fewest payments']
+    ] },
+    { kategoria: 'Work', polozky: [
+      ['Salesman', 'Leads from your mailboxes, prepared replies and reminders – you just hit send'],
+      ['Clients · CRM', 'Jobs from first interest to payment, people and companies with the last contact and the next step'],
+      ['Contact database', 'Companies and people with their figures – from mail, Excel and websites; directors and revenue from the business register by company ID (IČO)'],
+      ['Price quote', 'A quote for your client with line items and VAT, as a PDF in one click'],
+      ['Texts for the company', 'Posts, replies to reviews, e-mail offers and ads written with AI'],
+      ['Meeting minutes', 'Record a call or a meeting – a transcript showing who spoke, plus AI-written minutes with tasks'],
+      ['Timesheet', 'A stopwatch for projects and clients, hours × rate, a timesheet for your client and CSV'],
+      ['PDF tools', 'Merge, split, rotate and rearrange pages, images to PDF'],
+      ['Text from an image', 'Text from a screenshot or an image, offline in Windows'],
+      ['QR codes', 'QR codes for a link, Wi-Fi, a contact and a PAY by square QR payment'],
+      ['Contacts and tables', 'CSV and Excel: remove duplicates, check e-mails, filter, split'],
+      ['Screenshots', 'A screenshot with arrows, frames, text and sensitive details covered up'],
+      ['Screen recording', 'Record your screen or a window to video, with sound and microphone'],
+      ['Video and audio', 'Video under a chosen size in MB, a trimmed section, audio to MP3, GIF'],
+      ['Page watcher', 'Watches websites (calls for proposals, prices, listings) and lets you know when something changes on them'],
+      ['Website check', 'SEO and technical checks for your website in a few seconds – with tips on what to fix'],
+      ['Website overview', 'Your whole website page by page – broken links, SEO errors, sitemap.xml'],
+      ['SEO code for the website', 'Title, description, sharing, company details for Google and robots.txt – with a preview in Google'],
+      ['Images for the web', 'Shrink and convert to WebP or JPEG, many at once'],
+      ['Favicon and icons', 'All website icons from your logo – favicon.ico, Apple, Android, manifest'],
+      ['Colours', 'Shades, WCAG contrast, an eyedropper and saved palettes']
+    ] },
+    { kategoria: 'Development', polozky: [
+      ['HTML tester', 'Paste in HTML and instantly see the page on desktop, tablet and mobile, with errors in red'],
+      ['Servers · WinSCP', 'Files on your servers over SFTP, FTP and SCP – upload, download, edit'],
+      ['Odoo workshop', 'Server action code for Odoo 17 – 20 checked offline, your modules packed as a zip'],
+      ['Developer', 'JSON, Base64, URL, hash, UUID, JWT, time and regex'],
+      ['Text', 'Counter, remove diacritics, slug, upper and lower case, lines'],
+      ['Passwords', 'Strong passwords and easy-to-remember phrases, password strength'],
+      ['Compare texts', 'What was added and what disappeared between two versions of a text'],
+      ['Symbols and emoji', 'Quotation marks, dashes, €, ×, arrows and emoji, searchable by word']
+    ] },
+    { kategoria: 'Computer', polozky: [
+      ['Disk', 'What takes up space on your disk, folder by folder'],
+      ['Internet speed', 'Ping, download and upload, measurement history'],
+      ['Network and DNS', 'DNS, e-mail domain (SPF, DKIM, DMARC), SSL certificate, ping, ports'],
+      ['About the computer', 'Processor, graphics, memory, disks, battery and Windows'],
+      ['Programs in Jarvis', 'Git, Node.js and Ollama right inside Jarvis instead of separate applications'],
+      ['Bulk rename', 'Many files at once – remove diacritics, numbering, find and replace, undo'],
+      ['Duplicate files', 'Identical files found by content – extra copies go to the Recycle Bin, one always stays'],
+      ['Time at the PC', 'How much time in which program – by day, into your Timesheet in one click'],
+      ['Cleaner', 'Sorts your Downloads into folders – deletes nothing, can be undone']
+    ] },
+    { kategoria: 'Learning', polozky: [
+      ['Vocabulary', 'Flashcards with spaced repetition – the AI makes them from any text'],
+      ['Touch typing', 'Typing speed and accuracy on Slovak texts'],
+      ['Encyclopedia', 'Wikipedia in Slovak right inside Jarvis, with a summary and read-aloud'],
+      ['Quiz', 'An AI quiz on any topic – including the maturita school-leaving exam – with explanations'],
+      ['Function graph', 'Functions like at school – a graph, zeros, intersections and a table of values'],
+      ['Geography', 'Flags and capitals – a quiz for Europe and the whole world']
+    ] },
+    { kategoria: 'Games', polozky: [
+      ['2048', 'Merge numbers all the way up to 2048'], ['Sudoku', 'Three difficulty levels, notes, checking and a timer'],
+      ['Gomoku', 'Five in a row against Jarvis'], ['Memory', 'Find the pairs, with records for each board size'],
+      ['Snake', 'The classic snake game, getting faster as you go'], ['Random', 'Dice, a coin, a number and splitting into teams'],
+      ['Chess', 'Chess against Jarvis on three levels'], ['Minesweeper', 'Mine hunting – your first click is always safe'],
+      ['Blocks', 'Falling blocks with a shadow and a hold slot'], ['Solitaire', 'Klondike with 1 or 3 cards'],
+      ['Connect Four', 'Four in a row against Jarvis or for two players'], ['Slovko', 'Slovak Wordle, a new word every day'],
+      ['Arkanoid', 'Paddle, ball and bricks – 6 levels']
+    ] }
+  ],
+
+  otazky: [
+    ['What kind of computer does Jarvis run on?', 'On Windows 10 or 11 (64-bit). We recommend at least 16 GB of RAM. For your own offline AI model, an NVIDIA graphics card with 12 GB of memory or 32 GB of RAM is suitable – I’m happy to check your computer before you order.'],
+    ['Do I need a ChatGPT or Claude subscription?', 'No. Jarvis also works with free AI services (for example Google AI Studio or Groq) and with an offline model. A subscription (ChatGPT Plus, Claude Pro, Gemini) gets you the best answers. You pay the subscription directly to the provider – with no mark-up; Jarvis simply uses your accounts.'],
+    ['What exactly do I get for the installation?', 'Jarvis installed and set up for your work: your AI accounts, mail, calendar and WhatsApp connected, your companies, prices and reply style set up, contacts imported, 60 minutes of training and 14 days of priority help. The installation is paid for once.'],
+    ['Why is there a monthly payment?', 'The monthly plan is a licence to use Jarvis plus ongoing care for it: continuous updates and new features, fixes, a check after every new version, and support according to your plan. Pay yearly and you get 12 months for the price of 10.'],
+    ['What if I stop paying?', 'Your licence is valid until the last day you have paid for. After that you have 14 days to renew before Jarvis locks. Your data stays on your computer and you can export it at any time.'],
+    ['Where is my data and who can see it?', 'Everything is on your computer. Windows encrypts your passwords and the AI never receives them. The text you write goes only to the AI service you choose – with an offline model it goes nowhere. As the seller, I have no access to your data; during remote help, only for the duration of a connection that you allow yourself and can end at any time.'],
+    ['How does the installation work?', 'Once you have paid, we agree on a date. The installation usually takes 2 – 3 hours over screen sharing, or in person around Senec and Bratislava. All you do is sign in to your accounts – I never enter your passwords.'],
+    ['Can I see Jarvis before I order?', 'Yes. Write to me and we’ll arrange a short video call where I’ll show you Jarvis live and answer your questions.'],
+    ['Does it work on a Mac or on a phone?', 'Jarvis runs on Windows. On your phone (iPhone or Android) you use it through a private connection to your computer – which has to be switched on. There is no Mac version yet.'],
+    ['Does Jarvis do anything without my consent?', 'It reads and handles routine things right away and lets you know. Before sending an e-mail, paying, buying, deleting, publishing or confirming anything, it always asks. It never types passwords – you sign in yourself.'],
+    ['How many computers can I have?', 'It depends on your plan: Start 1, Business 3 and Pro 5 computers. Installation on each additional computer costs 99 €.'],
+    ['Can I change my plan?', 'At any time. A higher plan applies from when you pay the difference, a lower one from the next period.'],
+    ['How do I pay?', 'By bank transfer to the account given in the order – scan the SEPA QR code in your banking app or pay using the IBAN. A monthly plan is paid in advance for a month, a yearly one for 12 months. Card payment is coming.'],
+    ['Can I withdraw from the contract?', 'A consumer may withdraw from a contract concluded at a distance within 14 days without giving a reason. If, when ordering, they ask me to start earlier, they pay only the proportionate part for what has already been provided, and once the service has been fully provided or the supply of digital content has begun, the right of withdrawal ends. Details are in the terms and conditions.'],
+    ['What if something goes wrong?', 'After every update Jarvis checks itself and logs any error. Write to me and I’ll reply within the time set by your plan; when it’s urgent, there is Express help within 2 hours.']
+  ]
+};

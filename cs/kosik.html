@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Košík · Jarvis</title>
+<meta name="description" content="Košík a objednávka Jarvise.">
+<meta name="theme-color" content="#0c0d0f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Košík · Jarvis">
+<meta property="og:description" content="Košík a objednávka Jarvise.">
+<meta property="og:image" content="https://jarvis.apoliak.online/assets/img/og-jarvis.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="canonical" href="https://jarvis.apoliak.online/cs/kosik.html">
+<meta property="og:url" content="https://jarvis.apoliak.online/cs/kosik.html">
+<link rel="alternate" hreflang="sk" href="https://jarvis.apoliak.online/kosik.html">
+<link rel="alternate" hreflang="en" href="https://jarvis.apoliak.online/en/kosik.html">
+<link rel="alternate" hreflang="cs" href="https://jarvis.apoliak.online/cs/kosik.html">
+<link rel="alternate" hreflang="de" href="https://jarvis.apoliak.online/de/kosik.html">
+<link rel="alternate" hreflang="pl" href="https://jarvis.apoliak.online/pl/kosik.html">
+<link rel="alternate" hreflang="hu" href="https://jarvis.apoliak.online/hu/kosik.html">
+<link rel="alternate" hreflang="it" href="https://jarvis.apoliak.online/it/kosik.html">
+<link rel="alternate" hreflang="x-default" href="https://jarvis.apoliak.online/kosik.html">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="../assets/css/web.css">
+</head>
+<body>
+<header class="top" data-open="false">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Jarvis – domů"><img src="../assets/img/jarvis-ikona-512.png" alt="" width="34" height="34"><span class="brand-word"><b>JARVIS</b><small>Made by Apoliak</small></span></a>
+    <nav class="nav" id="nav" aria-label="Hlavní menu"><a href="funkcie.html">Funkce</a><a href="rozsirenia.html">Pro firmy</a><a href="cennik.html">Ceník</a><a href="obchod.html">Obchod</a><a href="navody.html">Návody</a><a href="otazky.html">Otázky</a><a href="licencia.html">Moje licence</a><a href="kontakt.html">Kontakt</a></nav>
+    <div class="top-right">
+      <details class="lang-switch" data-no-i18n><summary aria-label="Jazyk · Language">CS</summary><div class="lang-menu"><a href="../kosik.html" hreflang="sk" lang="sk">Slovenčina<small>sk</small></a><a href="../en/kosik.html" hreflang="en" lang="en">English<small>en</small></a><a href="../cs/kosik.html" hreflang="cs" lang="cs" aria-current="true">Čeština<small>cs</small></a><a href="../de/kosik.html" hreflang="de" lang="de">Deutsch<small>de</small></a><a href="../pl/kosik.html" hreflang="pl" lang="pl">Polski<small>pl</small></a><a href="../hu/kosik.html" hreflang="hu" lang="hu">Magyar<small>hu</small></a><a href="../it/kosik.html" hreflang="it" lang="it">Italiano<small>it</small></a></div></details>
+      <a class="cart-link" href="kosik.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"/></svg><span class="cart-label">Košík</span><span class="cart-count" data-cart-count data-empty="true">0</span></a>
+      <a class="btn btn-primary btn-small top-order" href="cennik.html">Objednat</a>
+      <button class="menu-btn" type="button" aria-controls="nav" aria-expanded="false" aria-label="Menu" data-menu><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+<main id="obsah">
+
+<div class="page-head" style="padding-bottom:28px"><div class="wrap"><h1>Košík</h1></div></div>
+<section style="padding-top:0">
+  <div class="wrap">
+    <noscript><div class="error-box">Košík vyžaduje zapnutý JavaScript.</div></noscript>
+    <div data-cart-empty hidden>
+      <div class="panel empty">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"/></svg></div>
+        <h2 style="margin-bottom:10px">Košík je prázdný</h2>
+        <p class="muted">Začněte plánem – instalace se přidá sama.</p>
+        <div class="actions" style="justify-content:center;margin-top:18px"><a class="btn btn-primary" href="cennik.html">Vybrat plán</a><a class="btn" href="obchod.html">Do obchodu</a></div>
+      </div>
+    </div>
+    <form class="cart-layout" data-cart-form hidden novalidate>
+      <div>
+        <div class="panel">
+          <h2>Vaše objednávka</h2>
+          <div data-cart-items></div>
+          <div data-cart-notes></div>
+          <label class="check" style="margin-top:8px;border-top:1px solid var(--line-soft);padding-top:18px"><input type="checkbox" data-have-license> <span>Jarvise už mám nainstalovaného – instalaci neúčtovat (doplním licenční klíč)</span></label>
+          <div class="field" data-license-field hidden><label for="licencia">Licenční klíč nebo jeho číslo (JRV-…)</label><input id="licencia" name="licencia" type="text" autocomplete="off" placeholder="JRV-XXXX-XXXX nebo celý klíč JARVIS-…"><span class="hint">Najdete ho v Jarvisu v Nastavení nebo v e-mailu, kterým jsem vám licenci poslal.</span></div>
+        </div>
+
+        <div class="panel">
+          <h2>Kdo objednává</h2>
+          <div class="seg" role="radiogroup" aria-label="Kdo objednává">
+            <label><input type="radio" name="typ" value="firma" checked><span>Firma nebo živnostník</span></label>
+            <label><input type="radio" name="typ" value="osoba"><span>Soukromá osoba</span></label>
+          </div>
+          <div data-firm-fields>
+            <div class="field"><label for="firma">Obchodní jméno *</label><input id="firma" name="firma" type="text" autocomplete="organization"></div>
+            <div class="row2">
+              <div class="field"><label for="ico">IČO *</label><input id="ico" name="ico" type="text" inputmode="numeric" autocomplete="off"></div>
+              <div class="field"><label for="dic">DIČ</label><input id="dic" name="dic" type="text" inputmode="numeric" autocomplete="off"></div>
+            </div>
+            <div class="field"><label for="icdph">DIČ pro DPH</label><input id="icdph" name="icdph" type="text" autocomplete="off" placeholder="CZ…"></div>
+          </div>
+          <div class="field"><label for="meno">Jméno a příjmení *</label><input id="meno" name="meno" type="text" autocomplete="name"></div>
+          <div class="row2">
+            <div class="field"><label for="email">E-mail *</label><input id="email" name="email" type="email" autocomplete="email"></div>
+            <div class="field"><label for="telefon">Telefon *</label><input id="telefon" name="telefon" type="tel" autocomplete="tel"></div>
+          </div>
+          <div class="field"><label for="ulica">Ulice a číslo *</label><input id="ulica" name="ulica" type="text" autocomplete="street-address"></div>
+          <div class="row3">
+            <div class="field"><label for="mesto">Město *</label><input id="mesto" name="mesto" type="text" autocomplete="address-level2"></div>
+            <div class="field"><label for="psc">PSČ *</label><input id="psc" name="psc" type="text" inputmode="numeric" autocomplete="postal-code"></div>
+          </div>
+          <div class="field"><label for="krajina">Země</label><select id="krajina" name="krajina" autocomplete="country-name"><option>Slovensko</option><option>Česko</option><option>Jiná země EU</option></select></div>
+          <div class="field"><label for="poznamka">Poznámka</label><textarea id="poznamka" name="poznamka" placeholder="Např. kdy se vám hodí instalace, jaký máte počítač nebo co chcete, aby Jarvis dělal."></textarea></div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="panel" style="position:sticky;top:92px">
+          <h2>Souhrn</h2>
+          <div data-cart-summary></div>
+          <div class="field" style="margin-top:18px"><label>Platba</label>
+            <label class="check" style="padding:6px 0"><input type="radio" name="platba" value="prevod" checked> <span>Převodem na účet – po objednávce dostanete platební údaje a SEPA QR kód</span></label>
+            <p class="hint" style="margin:0">Platba kartou přibude brzy.</p>
+          </div>
+          <label class="check"><input type="checkbox" name="vop" required> <span>Souhlasím s <a href="obchodne-podmienky.html" target="_blank" rel="noopener">obchodními podmínkami</a> a beru na vědomí <a href="ochrana-udajov.html" target="_blank" rel="noopener">zpracování osobních údajů</a>. *</span></label>
+          <label class="check" data-consent-row><input type="checkbox" name="zaciatok"> <span>Žádám, abyste s instalací a dodáním Jarvise začali ještě před uplynutím 14denní lhůty pro odstoupení od smlouvy. Beru na vědomí, že po úplném poskytnutí služby a zahájení dodávání digitálního obsahu ztrácím právo na odstoupení od smlouvy.</span></label>
+          <p class="hint" data-consent-hint style="margin:0 0 14px;font-size:13px;color:var(--muted)">Bez tohoto souhlasu začnu až po uplynutí lhůty pro odstoupení od smlouvy (15. den od objednávky).</p>
+          <div data-cart-error></div>
+          <button class="btn btn-primary btn-block" type="submit">Objednat s povinností platby</button>
+          <p class="hint" style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">Po odeslání uvidíte platební údaje a QR kód.</p>
+        </div>
+      </aside>
+    </form>
+  </div>
+</section>
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="index.html"><img src="../assets/img/jarvis-ikona-512.png" alt="" width="34" height="34"><span class="brand-word"><b>JARVIS</b><small>Made by Apoliak</small></span></a>
+        <p>Osobní AI asistent pro Windows. Nainstaluji ho, nastavím pro vaši práci a starám se o něj.</p>
+      </div>
+      <div><h4>Jarvis</h4><ul><li><a href="funkcie.html">Funkce</a></li><li><a href="rozsirenia.html">Rozšíření pro firmy</a></li><li><a href="cennik.html">Ceník</a></li><li><a href="obchod.html">Obchod</a></li><li><a href="otazky.html">Časté otázky</a></li></ul></div>
+      <div><h4>Zákazník</h4><ul><li><a href="navody.html">Návody</a></li><li><a href="licencia.html">Moje licence</a></li><li><a href="kosik.html">Košík</a></li><li><a href="obchodne-podmienky.html">Obchodní podmínky</a></li><li><a href="ochrana-udajov.html">Ochrana osobních údajů</a></li></ul></div>
+      <div><h4>Kontakt</h4><ul><li><a href="mailto:apoliak@apoliak.online">apoliak@apoliak.online</a></li><li><a href="tel:0902464022">0902 464 022</a></li><li><a href="kontakt.html">Napsat zprávu</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Alex Poliak · Mierová 24, 900 29 Nová Dedinka</span><span>Prodávající není plátce DPH, ceny jsou konečné.</span></div>
+  </div>
+</footer>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/web.js"></script>
+<script src="assets/js/kosik.js"></script>
+</body>
+</html>
