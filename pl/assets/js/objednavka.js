@@ -48,7 +48,7 @@
   var mailBtn = document.querySelector('[data-mailto]');
   mailBtn.href = mailto;
   var status = document.querySelector('[data-send-status]');
-  if (o.odoslana) { document.querySelector('[data-send-text]').textContent = 'Zamówienie już otrzymałem. Potwierdzę je e-mailem i uzgodnimy termin instalacji.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Wyślij także e-mailem'; }
+  if (o.odoslana) { document.querySelector('[data-send-text]').textContent = 'Zamówienie już otrzymałem. Potwierdzę je e-mailem.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Wyślij także e-mailem'; }
 
   var copy = function (value, label) {
     var done = function () { window.JarvisShop && window.JarvisShop.toast(label + ' – skopiowano'); };

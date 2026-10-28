@@ -443,3 +443,5 @@ textarea.key { font-family: var(--mono); font-size: 13px; min-height: 120px; wor
 .compare-wrap { overflow-x: auto; }
 table.compare.navod-tab { min-width: 0; }
 @media (max-width: 600px) { table.compare.navod-tab th, table.compare.navod-tab td { padding: 10px 8px; } .navod-tab td small { font-size: 12px; } }
+/* 28. 10. 2026: Stiahnuť v menu len v rozbalenom menu – na širokej obrazovke je vpravo tlačidlo Stiahnuť zadarmo */
+@media (min-width: 1081px) { .nav .nav-dl { display: none; } }

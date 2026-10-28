@@ -29,7 +29,7 @@ window.JARVIS_DATA = {
     platbaKartou: false,       // Stripe neskôr
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
-    podmienkyOd: '24. 10. 2026'
+    podmienkyOd: '28. 10. 2026'
   },
 
   plany: [
@@ -74,7 +74,7 @@ window.JARVIS_DATA = {
   ],
   produkty: [
     { id: 'instalacia', kategoria: 'plany', nazov: 'A Jarvis telepítése és beállítása', cena: 99, povodne: 149, ikona: 'install',
-      kratko: 'A Jarvis telepítve és az Ön munkájához beállítva. Az első megrendelésnél kötelező.',
+      kratko: 'A munkájához telepített és beállított Jarvis. Igény szerint – letölteni és telepíteni maga is tudja.',
       popis: 'A Jarvist úgy telepítem és állítom be, hogy már az első naptól valódi munkára használhassa – ne csak kipróbálásra. Összekapcsoljuk az AI-fiókjait, a levelezését és a naptárát, beállítjuk a cégeit, az árait és a válaszok stílusát, és egy óra alatt megmutatok mindent, ami fontos.',
       obsahuje: 'instalacia', poznamka: 'Egyszer kell fizetni. A telepítéshez havi vagy éves csomagot választ.' },
     { id: 'plan-start', kategoria: 'plany', plan: 'start', nazov: 'Start csomag', ikona: 'plan',
@@ -301,19 +301,20 @@ window.JARVIS_DATA = {
   ],
 
   otazky: [
+    ['Kipróbálhatom előbb a Jarvist?', 'Igen. A Jarvist ingyen letölti, és 7 napig a fizetős bővítmények kivételével teljes egészében használja – licenckulcs, kártya és kötelezettség nélkül. Ha csomagot választ, a licenckulcsot ugyanabba a Jarvisba illeszti be, és folytatja a munkát. Ha nem választ csomagot, a Jarvis 7 nap után zárolódik, nem fizet semmit, és az adatai a számítógépén maradnak.'],
     ['Milyen számítógépen fut a Jarvis?', 'Windows 10 vagy 11 rendszeren (64 bites). Legalább 16 GB RAM-ot ajánlunk. Saját offline AI-modellhez 12 GB memóriás NVIDIA videokártya vagy 32 GB RAM megfelelő – a megrendelés előtt szívesen megnézem a számítógépét.'],
     ['Szükségem van ChatGPT- vagy Claude-előfizetésre?', 'Nem. A Jarvis ingyenes AI-szolgáltatásokkal (például Google AI Studio vagy Groq) és offline modellel is működik. Előfizetéssel (ChatGPT Plus, Claude Pro, Gemini) kapja a legjobb válaszokat. Az előfizetést közvetlenül a szolgáltatónak fizeti – felár nélkül, a Jarvis csak az Ön fiókjait használja.'],
-    ['Pontosan mit kapok a telepítésért?', 'Az Ön munkájához telepített és beállított Jarvist: csatlakoztatott AI-fiókokat, levelezést, naptárat és WhatsAppot, beállított cégeket, árakat és válaszstílust, névjegyimportot, 60 perc betanítást és 14 nap elsőbbségi segítséget. A telepítést egyszer kell fizetni – most 99 € 149 € helyett.'],
+    ['Pontosan mit kapok a telepítésért?', 'A munkájához telepített és beállított Jarvist: csatlakoztatott AI-fiókokat, levelezést, naptárt és WhatsAppot, beállított cégeket, árakat és válaszstílust, a névjegyek importálását, 60 perc betanítást és 14 nap elsőbbségi segítséget. A telepítés igény szerinti, és egyszer kell fizetni – most 149 € helyett 99 €. A Jarvist ingyen le is töltheti és telepítheti saját maga.'],
     ['Miért kell havonta fizetni?', 'A havi csomag a Jarvis használati licence és a róla való gondoskodás: folyamatos frissítések és új funkciók, javítások, ellenőrzés minden új verzió után, valamint a csomagnak megfelelő támogatás. Éves fizetéssel 12 hónapot fizet 10 hónap áráért.'],
     ['Mi történik, ha nem fizetek tovább?', 'A licenc a kifizetett időszak utolsó napjáig érvényes. Utána 14 napja van a megújításra, mielőtt a Jarvis zárolódik. Az adatai az Ön számítógépén maradnak, és bármikor kiexportálhatja őket.'],
     ['Hol vannak az adataim, és ki látja őket?', 'Minden az Ön számítógépén van. A jelszavakat a Windows titkosítja, és az AI soha nem kapja meg őket. A szöveg, amelyet beír, csak az Ön által választott AI-szolgáltatásnak megy el – offline modell esetén sehová sem kerül ki. Én eladóként nem férek hozzá az adataihoz; távsegítségnél is csak a kapcsolat idejére, amelyet Ön maga engedélyez, és bármikor megszakíthat.'],
-    ['Hogyan zajlik a telepítés?', 'A kifizetés után egyeztetünk az időpontról. A telepítés általában 2 – 3 óráig tart, képernyőmegosztással, Senec (Szenc) és Bratislava (Pozsony) környékén személyesen is. Ön eközben csak bejelentkezik a fiókjaiba – a jelszavakat nem én adom meg.'],
-    ['Láthatom a Jarvist a megrendelés előtt?', 'Igen. Írjon nekem, és megbeszélünk egy rövid videohívást, amelyen élőben megmutatom a Jarvist, és válaszolok a kérdéseire.'],
+    ['Hogyan zajlik a telepítés?', 'Saját maga: letölti a telepítőt, elindítja és beírja a nevét – ez néhány percig tart. Ha nálam rendel telepítést, a fizetés után egyeztetünk időpontot. A telepítés általában 2–3 óráig tart képernyőmegosztással, Szenc és Pozsony környékén személyesen is. Ön közben csak bejelentkezik a fiókjaiba – jelszavakat nem én írok be.'],
+    ['Láthatom a Jarvist a megrendelés előtt?', 'Igen – töltse le, és próbálja ki 7 napig ingyen. Ha szeretné, írjon nekem, és megbeszélünk egy rövid videohívást is, amelyben élőben megmutatom a Jarvist, és válaszolok a kérdéseire.'],
     ['Működik Macen vagy telefonon is?', 'A Jarvis Windowson fut. Telefonon (iPhone-on és Androidon is) az Ön számítógépével létesített privát kapcsolaton keresztül éri el – a számítógépnek be kell lennie kapcsolva. Macre egyelőre nincs.'],
     ['Csinál a Jarvis bármit az engedélyem nélkül?', 'Az olvasást és a szokásos dolgokat azonnal elvégzi, és jelzi. E-mail elküldése, fizetés, vásárlás, törlés, közzététel vagy bármi jóváhagyása előtt mindig rákérdez. Jelszót soha nem ír be – Ön jelentkezik be maga.'],
-    ['Hány számítógépem lehet?', 'A csomagtól függően: Start 1, Business 3 és Pro 5 számítógép. Minden további számítógépre a telepítés 99 €.'],
+    ['Hány számítógépem lehet?', 'A csomagtól függően: Start 1, Business 3 és Pro 5 számítógép. Egy további számítógépre a Jarvist maga telepíti; ha azt szeretné, hogy én csináljam, a telepítés 99 €.'],
     ['Válthatok csomagot?', 'Bármikor. A magasabb csomag a különbözet kifizetésétől érvényes, az alacsonyabb a következő időszaktól.'],
-    ['Hogyan lehet fizetni?', 'Átutalással a megrendelés szerinti számlára – a banki alkalmazásban elég beolvasni a SEPA QR-kódot, vagy fizethet az IBAN-nal. A havi csomagot előre kell fizetni egy hónapra, az évit 12 hónapra. Kártyás fizetés is lesz majd.'],
+    ['Hogyan lehet fizetni?', 'Átutalással a megrendelés szerinti számlára – a banki alkalmazásban elég beolvasni a SEPA QR-kódot, vagy fizethet az IBAN-nal. A havi csomagot előre kell fizetni egy hónapra, az évit 12 hónapra. A fizetés után e-mailben elküldöm a licenckulcsot. Kártyás fizetés is lesz majd.'],
     ['Elállhatok a szerződéstől?', 'A fogyasztó a távollévők között kötött szerződéstől 14 napon belül indoklás nélkül elállhat. Ha a megrendeléskor kéri, hogy korábban kezdjem meg, csak a már teljesített szolgáltatás arányos részét fizeti meg, a szolgáltatás teljes teljesítése, illetve a digitális tartalom szolgáltatásának megkezdése után pedig az elállási jog megszűnik. A részletek az általános szerződési feltételekben találhatók.'],
     ['Mi van, ha valami elromlik?', 'A Jarvis minden frissítés után maga ellenőrzi magát, és a hibát feljegyzi. Írjon nekem, és a csomagjának megfelelő időn belül jelentkezem; ha ég a ház, ott van az Expressz segítség 2 órán belül.']
   ]

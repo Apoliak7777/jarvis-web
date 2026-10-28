@@ -48,7 +48,7 @@
   var mailBtn = document.querySelector('[data-mailto]');
   mailBtn.href = mailto;
   var status = document.querySelector('[data-send-status]');
-  if (o.odoslana) { document.querySelector('[data-send-text]').textContent = 'Objednávku jsem již obdržel. Potvrdím ji e-mailem a domluvíme termín instalace.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Odeslat také e-mailem'; }
+  if (o.odoslana) { document.querySelector('[data-send-text]').textContent = 'Objednávku jsem už dostal. Potvrdím ji e-mailem.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Odeslat také e-mailem'; }
 
   var copy = function (value, label) {
     var done = function () { window.JarvisShop && window.JarvisShop.toast(label + ' – zkopírováno'); };

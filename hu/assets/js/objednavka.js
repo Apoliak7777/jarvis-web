@@ -48,7 +48,7 @@
   var mailBtn = document.querySelector('[data-mailto]');
   mailBtn.href = mailto;
   var status = document.querySelector('[data-send-status]');
-  if (o.odoslana) { document.querySelector('[data-send-text]').textContent = 'A megrendelést már megkaptam. E-mailben visszaigazolom, és egyeztetjük a telepítés időpontját.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Küldés e-mailben is'; }
+  if (o.odoslana) { document.querySelector('[data-send-text]').textContent = 'A megrendelését már megkaptam. E-mailben visszaigazolom.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Küldés e-mailben is'; }
 
   var copy = function (value, label) {
     var done = function () { window.JarvisShop && window.JarvisShop.toast(label + ' – kimásolva'); };

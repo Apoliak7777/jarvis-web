@@ -1,5 +1,6 @@
-/* Jarvis · košík a objednávka. Pravidlá: k plánu patrí inštalácia (okrem zákazníka, ktorý Jarvisa už má, a balíka),
-   doplnky v cene plánu sa neúčtujú, doplnky bez plánu len pre existujúceho zákazníka. Ceny vždy z data.js. */
+/* Jarvis · košík a objednávka. Pravidlá: inštalácia je na želanie (28. 10. 2026 – Jarvis sa stiahne zadarmo a 7 dní
+   skúša; pri balíku je v cene), doplnky v cene plánu sa neúčtujú, doplnky bez plánu len pre existujúceho zákazníka.
+   Ceny vždy z data.js. */
 (function () {
   'use strict';
   var D = window.JARVIS_DATA, S = window.JarvisShop;
@@ -51,15 +52,20 @@
     return out;
   }
 
-  /** Doplní alebo odoberie inštaláciu podľa pravidiel. */
+  /** Inštalácia je na želanie: pri balíku je v cene a inštaláciu, ktorú košík kedysi pridal sám (auto), zmaže. */
   function normalize(c) {
-    var hasPlan = c.items.some(function (it) { var p = S.product(it.id); return p && p.plan; });
     var hasBundle = c.items.some(function (it) { var p = S.product(it.id); return p && p.balik; });
-    var hasInst = c.items.some(function (it) { return it.id === 'instalacia'; });
-    c.items = c.items.filter(function (it) { var p = S.product(it.id); return p && !p.pripravujeme; });
-    if ((hasBundle || c.mamLicenciu) && hasInst) c.items = c.items.filter(function (it) { return it.id !== 'instalacia'; });
-    else if (hasPlan && !hasInst && !c.mamLicenciu && !hasBundle) c.items.unshift({ id: 'instalacia', qty: 1, auto: true });
+    c.items = c.items.filter(function (it) { var p = S.product(it.id); return p && !p.pripravujeme && !(it.id === 'instalacia' && (it.auto || hasBundle)); });
     return c;
+  }
+  /** Ponuka inštalácie pri pláne, ktorý ju nemá (nie pri predĺžení, balíku ani pri zákazníkovi s licenciou). */
+  function offerInstall(c) {
+    var hasPlan = c.items.some(function (it) { var p = S.product(it.id); return p && p.plan; });
+    var hasInst = c.items.some(function (it) { return it.id === 'instalacia'; });
+    var inst = S.product('instalacia');
+    if (!inst || !hasPlan || hasInst || c.mamLicenciu) return '';
+    return '<div class="info-box" style="margin-top:16px"><b>Instalace na přání</b> – Jarvise vám nainstaluji a nastavím já: připojíme účty a poštu a ukážu vám vše podstatné (' + (inst.povodne ? '<s>' + eur(inst.povodne) + '</s> ' : '') + eur(inst.cena) + ', platí se jednou). Jinak si ho stáhnete a nainstalujete sami zdarma.' +
+      '<div class="actions" style="margin-top:12px"><button type="button" class="btn btn-small" data-add="instalacia">+ Přidat instalaci ' + eur(inst.cena) + '</button></div></div>';
   }
 
   var listEl = form.querySelector('[data-cart-items]'), notesEl = form.querySelector('[data-cart-notes]'), sumEl = form.querySelector('[data-cart-summary]');
@@ -86,7 +92,7 @@
       var ctrl = '';
       if (p.plan || it.id === 'predlzenie' || l.ownVariant) ctrl += '<select data-variant-of="' + i + '" aria-label="Období"><option value="mesiac"' + (l.variant !== 'rok' ? ' selected' : '') + '>Měsíčně</option><option value="rok"' + (l.variant === 'rok' ? ' selected' : '') + '>Ročně (12 za cenu ' + K + ')</option></select>';
       if (p.mnozstvo) ctrl += '<span class="qty"><button type="button" data-qty="' + i + '" data-d="-1" aria-label="Méně">−</button><output>' + l.qty + '</output><button type="button" data-qty="' + i + '" data-d="1" aria-label="Více">+</button></span>';
-      ctrl += it.id === 'instalacia' && !c.mamLicenciu && cartPlan(c) ? '<span class="locked">Povinná při první objednávce</span>' : '<button type="button" class="link-btn" data-remove="' + i + '">Odstranit</button>';
+      ctrl += '<button type="button" class="link-btn" data-remove="' + i + '">Odstranit</button>';
       var ic = p.balik ? 'pack' : it.id === 'instalacia' ? 'install' : p.plan || it.id === 'predlzenie' ? 'plan' : 'cart';
       var perUnit = p.mnozstvo && l.qty > 1 ? '<small>' + l.qty + ' × ' + eur(l.cena) + '</small>' : (p.plan || p.modul || it.id === 'predlzenie') ? '<small>' + (l.variant === 'rok' ? 'ročně' : 'měsíčně') + '</small>' : '';
       return '<div class="cart-item"><span class="icon">' + svg(ic) + '</span><div><h3>' + esc(l.nazov) + '</h3>' + (l.detail ? '<div class="sub">' + esc(l.detail) + '</div>' : '') + '<div class="controls">' + ctrl + '</div></div><div class="item-price">' + (l.spolu === 0 && p.vCene ? '<span class="badge blue">v ceně</span>' : eur(l.spolu)) + perUnit + '</div></div>';
@@ -94,7 +100,7 @@
     var probs = problems(c);
     notesEl.innerHTML = probs.map(function (pr) {
       return '<div class="info-box" style="margin-top:16px">' + esc(pr.t) + (pr.plans ? '<div class="actions" style="margin-top:12px">' + D.plany.map(function (p) { return '<button type="button" class="btn btn-small" data-add="plan-' + p.id + '" data-variant="mesiac">+ ' + esc(p.nazov) + ' ' + eur(p.mesacne) + '/měs.</button>'; }).join('') + '</div>' : '') + '</div>';
-    }).join('');
+    }).join('') + offerInstall(c);
     var monthly = c.items.filter(function (it) { var p = S.product(it.id); return p && (p.plan || it.id === 'predlzenie') && it.variant !== 'rok'; })[0];
     sumEl.innerHTML = c.items.map(function (it) { var l = line(it, c); return '<div class="sum-row"><span>' + esc(l.nazov) + (l.qty > 1 ? ' × ' + l.qty : '') + '</span><b>' + (l.spolu || !S.product(it.id).vCene ? eur(l.spolu) : 'v ceně') + '</b></div>'; }).join('') +
       '<div class="sum-total"><span>Celkem k úhradě</span><b>' + eur(total) + '</b></div>' +

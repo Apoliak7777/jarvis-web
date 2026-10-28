@@ -31,11 +31,11 @@
 <header class="top" data-open="false">
   <div class="wrap">
     <a class="brand" href="index.html" aria-label="Jarvis – strona główna"><img src="../assets/img/jarvis-ikona-512.png" alt="" width="34" height="34"><span class="brand-word"><b>JARVIS</b><small>Made by Apoliak</small></span></a>
-    <nav class="nav" id="nav" aria-label="Menu główne"><a href="funkcie.html">Funkcje</a><a href="rozsirenia.html">Dla firm</a><a href="cennik.html">Cennik</a><a href="obchod.html">Sklep</a><a href="navody.html">Poradniki</a><a href="otazky.html">Pytania</a><a href="licencia.html">Moja licencja</a><a href="kontakt.html">Kontakt</a></nav>
+    <nav class="nav" id="nav" aria-label="Menu główne"><a href="stiahnut.html" class="nav-dl">Pobierz</a><a href="funkcie.html">Funkcje</a><a href="rozsirenia.html">Dla firm</a><a href="cennik.html">Cennik</a><a href="obchod.html">Sklep</a><a href="navody.html">Poradniki</a><a href="otazky.html">Pytania</a><a href="licencia.html">Moja licencja</a><a href="kontakt.html">Kontakt</a></nav>
     <div class="top-right">
       <details class="lang-switch" data-no-i18n><summary aria-label="Jazyk · Language">PL</summary><div class="lang-menu"><a href="../kosik.html" hreflang="sk" lang="sk">Slovenčina<small>sk</small></a><a href="../en/kosik.html" hreflang="en" lang="en">English<small>en</small></a><a href="../cs/kosik.html" hreflang="cs" lang="cs">Čeština<small>cs</small></a><a href="../de/kosik.html" hreflang="de" lang="de">Deutsch<small>de</small></a><a href="../pl/kosik.html" hreflang="pl" lang="pl" aria-current="true">Polski<small>pl</small></a><a href="../hu/kosik.html" hreflang="hu" lang="hu">Magyar<small>hu</small></a><a href="../it/kosik.html" hreflang="it" lang="it">Italiano<small>it</small></a></div></details>
       <a class="cart-link" href="kosik.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"/></svg><span class="cart-label">Koszyk</span><span class="cart-count" data-cart-count data-empty="true">0</span></a>
-      <a class="btn btn-primary btn-small top-order" href="cennik.html">Zamów</a>
+      <a class="btn btn-primary btn-small top-order" href="stiahnut.html">Pobierz</a>
       <button class="menu-btn" type="button" aria-controls="nav" aria-expanded="false" aria-label="Menu" data-menu><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
@@ -50,7 +50,7 @@
       <div class="panel empty">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"/></svg></div>
         <h2 style="margin-bottom:10px">Koszyk jest pusty</h2>
-        <p class="muted">Proszę zacząć od planu – instalacja zostanie dodana automatycznie.</p>
+        <p class="muted">Proszę zacząć od planu – instalację dodają Państwo tylko wtedy, gdy jej chcą.</p>
         <div class="actions" style="justify-content:center;margin-top:18px"><a class="btn btn-primary" href="cennik.html">Wybierz plan</a><a class="btn" href="obchod.html">Do sklepu</a></div>
       </div>
     </div>
@@ -60,7 +60,7 @@
           <h2>Państwa zamówienie</h2>
           <div data-cart-items></div>
           <div data-cart-notes></div>
-          <label class="check" style="margin-top:8px;border-top:1px solid var(--line-soft);padding-top:18px"><input type="checkbox" data-have-license> <span>Mam już zainstalowanego Jarvisa – nie doliczać instalacji (uzupełnię klucz licencyjny)</span></label>
+          <label class="check" style="margin-top:8px;border-top:1px solid var(--line-soft);padding-top:18px"><input type="checkbox" data-have-license> <span>Mam już licencję Jarvisa – przedłużam lub dodaję dodatek (podam klucz licencyjny)</span></label>
           <div class="field" data-license-field hidden><label for="licencia">Klucz licencyjny lub jego numer (JRV-…)</label><input id="licencia" name="licencia" type="text" autocomplete="off" placeholder="JRV-XXXX-XXXX lub cały klucz JARVIS-…"><span class="hint">Znajdą go Państwo w Jarvisie w Ustawieniach lub w e-mailu, w którym przesłałem licencję.</span></div>
         </div>
 
@@ -102,8 +102,8 @@
             <p class="hint" style="margin:0">Płatność kartą pojawi się wkrótce.</p>
           </div>
           <label class="check"><input type="checkbox" name="vop" required> <span>Akceptuję <a href="obchodne-podmienky.html" target="_blank" rel="noopener">regulamin</a> i przyjmuję do wiadomości <a href="ochrana-udajov.html" target="_blank" rel="noopener">przetwarzanie danych osobowych</a>. *</span></label>
-          <label class="check" data-consent-row><input type="checkbox" name="zaciatok"> <span>Żądam rozpoczęcia instalacji i dostarczania Jarvisa jeszcze przed upływem 14-dniowego terminu na odstąpienie od umowy. Przyjmuję do wiadomości, że po pełnym wykonaniu usługi i rozpoczęciu dostarczania treści cyfrowych tracę prawo do odstąpienia od umowy.</span></label>
-          <p class="hint" data-consent-hint style="margin:0 0 14px;font-size:13px;color:var(--muted)">Bez tej zgody rozpocznę dopiero po upływie terminu na odstąpienie od umowy (15. dzień od zamówienia).</p>
+          <label class="check" data-consent-row><input type="checkbox" name="zaciatok"> <span>Żądam rozpoczęcia dostarczania licencji Jarvisa (oraz instalacji, jeśli jest w zamówieniu) jeszcze przed upływem 14-dniowego terminu na odstąpienie od umowy. Przyjmuję do wiadomości, że po pełnym wykonaniu usługi i rozpoczęciu dostarczania treści cyfrowych tracę prawo do odstąpienia od umowy.</span></label>
+          <p class="hint" data-consent-hint style="margin:0 0 14px;font-size:13px;color:var(--muted)">Bez tej zgody wyślę Państwu klucz licencyjny i rozpocznę instalację dopiero po upływie terminu na odstąpienie od umowy (15. dnia od zamówienia).</p>
           <div data-cart-error></div>
           <button class="btn btn-primary btn-block" type="submit">Zamawiam z obowiązkiem zapłaty</button>
           <p class="hint" style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">Po wysłaniu zobaczą Państwo dane do płatności oraz kod QR.</p>
@@ -118,7 +118,7 @@
     <div class="foot-grid">
       <div>
         <a class="brand" href="index.html"><img src="../assets/img/jarvis-ikona-512.png" alt="" width="34" height="34"><span class="brand-word"><b>JARVIS</b><small>Made by Apoliak</small></span></a>
-        <p>Osobisty asystent AI dla Windows. Zainstaluję go, skonfiguruję pod Państwa pracę i będę o niego dbał.</p>
+        <p>Osobisty asystent AI dla Windows. 7 dni za darmo, potem plan miesięczny – a jeśli Państwo chcą, zainstaluję go i skonfiguruję do Państwa pracy.</p>
       </div>
       <div><h4>Jarvis</h4><ul><li><a href="funkcie.html">Funkcje</a></li><li><a href="rozsirenia.html">Rozszerzenia dla firm</a></li><li><a href="cennik.html">Cennik</a></li><li><a href="obchod.html">Sklep</a></li><li><a href="otazky.html">Częste pytania</a></li></ul></div>
       <div><h4>Klient</h4><ul><li><a href="navody.html">Poradniki</a></li><li><a href="licencia.html">Moja licencja</a></li><li><a href="kosik.html">Koszyk</a></li><li><a href="obchodne-podmienky.html">Regulamin</a></li><li><a href="ochrana-udajov.html">Polityka prywatności</a></li></ul></div>

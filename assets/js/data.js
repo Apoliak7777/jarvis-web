@@ -29,7 +29,7 @@ window.JARVIS_DATA = {
     platbaKartou: false,       // Stripe neskôr
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
-    podmienkyOd: '24. 10. 2026'
+    podmienkyOd: '28. 10. 2026'
   },
 
   plany: [
@@ -74,7 +74,7 @@ window.JARVIS_DATA = {
   ],
   produkty: [
     { id: 'instalacia', kategoria: 'plany', nazov: 'Inštalácia a nastavenie Jarvisa', cena: 99, povodne: 149, ikona: 'install',
-      kratko: 'Jarvis nainštalovaný a nastavený na vašu prácu. Povinná pri prvej objednávke.',
+      kratko: 'Jarvis nainštalovaný a nastavený na vašu prácu. Na želanie – stiahnuť a nainštalovať si ho viete aj sami.',
       popis: 'Jarvisa vám nainštalujem a nastavím tak, aby ste ho od prvého dňa používali na skutočnú prácu – nie na skúšanie. Pripojíme vaše AI účty, poštu aj kalendár, nastavíme firmy, ceny a štýl odpovedí a za hodinu vám ukážem všetko podstatné.',
       obsahuje: 'instalacia', poznamka: 'Platí sa raz. K inštalácii si vyberiete mesačný alebo ročný plán.' },
     { id: 'plan-start', kategoria: 'plany', plan: 'start', nazov: 'Plán Štart', ikona: 'plan',
@@ -301,19 +301,20 @@ window.JARVIS_DATA = {
   ],
 
   otazky: [
+    ['Môžem si Jarvisa najprv vyskúšať?', 'Áno. Jarvisa si stiahnete zadarmo a 7 dní používate celého okrem platených rozšírení – bez licenčného kľúča, bez karty a bez záväzku. Keď si vyberiete plán, licenčný kľúč vložíte do toho istého Jarvisa a pokračujete ďalej. Keď si plán nevyberiete, Jarvis sa po 7 dňoch uzamkne, nič neplatíte a vaše dáta ostanú v počítači.'],
     ['Na akom počítači Jarvis beží?', 'Na Windows 10 alebo 11 (64-bit). Odporúčame aspoň 16 GB RAM. Pre vlastný offline AI model je vhodná grafika NVIDIA s 12 GB pamäte alebo 32 GB RAM – pred objednávkou vám počítač rád skontrolujem.'],
     ['Musím mať predplatné ChatGPT alebo Claude?', 'Nie. Jarvis funguje aj s bezplatnými AI službami (napríklad Google AI Studio alebo Groq) a s offline modelom. S predplatným (ChatGPT Plus, Claude Pro, Gemini) dostanete najlepšie odpovede. Predplatné platíte priamo poskytovateľovi – bez prirážky, Jarvis len použije vaše účty.'],
-    ['Čo presne dostanem za inštaláciu?', 'Jarvisa nainštalovaného a nastaveného na vašu prácu: pripojené AI účty, poštu, kalendár a WhatsApp, nastavené firmy, ceny a štýl odpovedí, import kontaktov, 60 minút zaškolenia a 14 dní prednostnej pomoci. Inštalácia sa platí raz – teraz 99 € namiesto 149 €.'],
+    ['Čo presne dostanem za inštaláciu?', 'Jarvisa nainštalovaného a nastaveného na vašu prácu: pripojené AI účty, poštu, kalendár a WhatsApp, nastavené firmy, ceny a štýl odpovedí, import kontaktov, 60 minút zaškolenia a 14 dní prednostnej pomoci. Inštalácia je na želanie a platí sa raz – teraz 99 € namiesto 149 €. Stiahnuť a nainštalovať si Jarvisa viete aj sami zadarmo.'],
     ['Prečo sa platí mesačne?', 'Mesačný plán je licencia na používanie Jarvisa a starostlivosť oň: priebežné aktualizácie a nové funkcie, opravy, kontrola po každej novej verzii a podpora podľa plánu. Ročne zaplatíte 12 mesiacov za cenu 10.'],
     ['Čo keď prestanem platiť?', 'Licencia platí do posledného zaplateného dňa. Potom máte 14 dní na obnovenie, kým sa Jarvis uzamkne. Vaše dáta ostávajú vo vašom počítači a môžete si ich kedykoľvek vyexportovať.'],
     ['Kde sú moje dáta a kto ich vidí?', 'Všetko je vo vašom počítači. Heslá šifruje Windows a AI ich nikdy nedostane. Text, ktorý napíšete, ide iba AI službe, ktorú zvolíte – pri offline modeli neodchádza nikam. Ja ako predajca k vašim dátam prístup nemám; pri vzdialenej pomoci len počas pripojenia, ktoré sami povolíte a kedykoľvek ukončíte.'],
-    ['Ako prebieha inštalácia?', 'Po zaplatení sa dohodneme na termíne. Inštalácia trvá zvyčajne 2 – 3 hodiny cez zdieľanie obrazovky, v okolí Senca a Bratislavy aj osobne. Vy pri tom len prihlásite svoje účty – heslá nezadávam ja.'],
-    ['Môžem Jarvisa vidieť pred objednávkou?', 'Áno. Napíšte mi a dohodneme krátky videohovor, na ktorom vám Jarvisa ukážem naživo a odpoviem na otázky.'],
+    ['Ako prebieha inštalácia?', 'Sami: stiahnete inštalátor, spustíte ho a napíšete svoje meno – trvá to pár minút. Ak si objednáte inštaláciu u mňa, po zaplatení sa dohodneme na termíne. Inštalácia trvá zvyčajne 2 – 3 hodiny cez zdieľanie obrazovky, v okolí Senca a Bratislavy aj osobne. Vy pri tom len prihlásite svoje účty – heslá nezadávam ja.'],
+    ['Môžem Jarvisa vidieť pred objednávkou?', 'Áno – stiahnite si ho a 7 dní ho skúšajte zadarmo. Ak chcete, napíšte mi a dohodneme aj krátky videohovor, na ktorom vám Jarvisa ukážem naživo a odpoviem na otázky.'],
     ['Funguje aj na Macu alebo v mobile?', 'Jarvis beží na Windows. V mobile (iPhone aj Android) ho máte cez súkromné spojenie s vaším počítačom – ten musí byť zapnutý. Na Mac zatiaľ nie je.'],
     ['Robí Jarvis niečo bez môjho súhlasu?', 'Čítanie a bežné veci robí hneď a dá vedieť. Pred odoslaním mailu, platbou, nákupom, zmazaním, zverejnením alebo potvrdením niečoho sa vždy spýta. Heslá nikdy nepíše – prihlasujete sa sami.'],
-    ['Koľko počítačov môžem mať?', 'Podľa plánu: Štart 1, Biznis 3 a Pro 5 počítačov. Inštalácia na každý ďalší počítač stojí 99 €.'],
+    ['Koľko počítačov môžem mať?', 'Podľa plánu: Štart 1, Biznis 3 a Pro 5 počítačov. Na ďalší počítač si Jarvisa nainštalujete sami; ak to mám urobiť ja, inštalácia stojí 99 €.'],
     ['Môžem zmeniť plán?', 'Kedykoľvek. Vyšší plán platí od zaplatenia rozdielu, nižší od ďalšieho obdobia.'],
-    ['Ako sa platí?', 'Prevodom na účet podľa objednávky – pri slovenských bankách stačí naskenovať QR kód. Mesačný plán sa platí vopred na mesiac, ročný na 12 mesiacov. Platba kartou pribudne.'],
+    ['Ako sa platí?', 'Prevodom na účet podľa objednávky – pri slovenských bankách stačí naskenovať QR kód. Mesačný plán sa platí vopred na mesiac, ročný na 12 mesiacov. Po zaplatení vám pošlem licenčný kľúč e-mailom. Platba kartou pribudne.'],
     ['Môžem od zmluvy odstúpiť?', 'Spotrebiteľ môže od zmluvy uzavretej na diaľku odstúpiť do 14 dní bez udania dôvodu. Ak pri objednávke požiada, aby som začal skôr, zaplatí len pomernú časť za už poskytnuté plnenie a po úplnom poskytnutí služby alebo začatí dodávania digitálneho obsahu právo na odstúpenie zaniká. Podrobnosti sú v obchodných podmienkach.'],
     ['Čo keď sa niečo pokazí?', 'Jarvis sa po každej aktualizácii sám skontroluje a chybu zapíše. Napíšte mi a ozvem sa v čase podľa vášho plánu; keď to horí, je tu Expresná pomoc do 2 hodín.']
   ]

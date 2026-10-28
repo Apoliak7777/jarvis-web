@@ -31,11 +31,11 @@
 <header class="top" data-open="false">
   <div class="wrap">
     <a class="brand" href="index.html" aria-label="Jarvis – domov"><img src="assets/img/jarvis-ikona-512.png" alt="" width="34" height="34"><span class="brand-word"><b>JARVIS</b><small>Made by Apoliak</small></span></a>
-    <nav class="nav" id="nav" aria-label="Hlavné menu"><a href="funkcie.html">Funkcie</a><a href="rozsirenia.html">Pre firmy</a><a href="cennik.html">Cenník</a><a href="obchod.html">Obchod</a><a href="navody.html">Návody</a><a href="otazky.html">Otázky</a><a href="licencia.html">Moja licencia</a><a href="kontakt.html">Kontakt</a></nav>
+    <nav class="nav" id="nav" aria-label="Hlavné menu"><a href="stiahnut.html" class="nav-dl">Stiahnuť</a><a href="funkcie.html">Funkcie</a><a href="rozsirenia.html">Pre firmy</a><a href="cennik.html">Cenník</a><a href="obchod.html">Obchod</a><a href="navody.html">Návody</a><a href="otazky.html">Otázky</a><a href="licencia.html">Moja licencia</a><a href="kontakt.html">Kontakt</a></nav>
     <div class="top-right">
       <details class="lang-switch" data-no-i18n><summary aria-label="Jazyk · Language">SK</summary><div class="lang-menu"><a href="kosik.html" hreflang="sk" lang="sk" aria-current="true">Slovenčina<small>sk</small></a><a href="en/kosik.html" hreflang="en" lang="en">English<small>en</small></a><a href="cs/kosik.html" hreflang="cs" lang="cs">Čeština<small>cs</small></a><a href="de/kosik.html" hreflang="de" lang="de">Deutsch<small>de</small></a><a href="pl/kosik.html" hreflang="pl" lang="pl">Polski<small>pl</small></a><a href="hu/kosik.html" hreflang="hu" lang="hu">Magyar<small>hu</small></a><a href="it/kosik.html" hreflang="it" lang="it">Italiano<small>it</small></a></div></details>
       <a class="cart-link" href="kosik.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"/></svg><span class="cart-label">Košík</span><span class="cart-count" data-cart-count data-empty="true">0</span></a>
-      <a class="btn btn-primary btn-small top-order" href="cennik.html">Objednať</a>
+      <a class="btn btn-primary btn-small top-order" href="stiahnut.html">Stiahnuť</a>
       <button class="menu-btn" type="button" aria-controls="nav" aria-expanded="false" aria-label="Menu" data-menu><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
@@ -50,7 +50,7 @@
       <div class="panel empty">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"/></svg></div>
         <h2 style="margin-bottom:10px">Košík je prázdny</h2>
-        <p class="muted">Začnite plánom – inštalácia sa pridá sama.</p>
+        <p class="muted">Začnite plánom – inštaláciu pridáte, len ak ju chcete.</p>
         <div class="actions" style="justify-content:center;margin-top:18px"><a class="btn btn-primary" href="cennik.html">Vybrať plán</a><a class="btn" href="obchod.html">Do obchodu</a></div>
       </div>
     </div>
@@ -60,7 +60,7 @@
           <h2>Vaša objednávka</h2>
           <div data-cart-items></div>
           <div data-cart-notes></div>
-          <label class="check" style="margin-top:8px;border-top:1px solid var(--line-soft);padding-top:18px"><input type="checkbox" data-have-license> <span>Jarvisa už mám nainštalovaného – inštaláciu neúčtovať (doplním licenčný kľúč)</span></label>
+          <label class="check" style="margin-top:8px;border-top:1px solid var(--line-soft);padding-top:18px"><input type="checkbox" data-have-license> <span>Už mám licenciu Jarvisa – predlžujem alebo pridávam doplnok (doplním licenčný kľúč)</span></label>
           <div class="field" data-license-field hidden><label for="licencia">Licenčný kľúč alebo jeho číslo (JRV-…)</label><input id="licencia" name="licencia" type="text" autocomplete="off" placeholder="JRV-XXXX-XXXX alebo celý kľúč JARVIS-…"><span class="hint">Nájdete ho v Jarvisovi v Nastaveniach alebo v e-maile, ktorým som vám licenciu poslal.</span></div>
         </div>
 
@@ -102,8 +102,8 @@
             <p class="hint" style="margin:0">Platba kartou pribudne čoskoro.</p>
           </div>
           <label class="check"><input type="checkbox" name="vop" required> <span>Súhlasím s <a href="obchodne-podmienky.html" target="_blank" rel="noopener">obchodnými podmienkami</a> a beriem na vedomie <a href="ochrana-udajov.html" target="_blank" rel="noopener">spracúvanie osobných údajov</a>. *</span></label>
-          <label class="check" data-consent-row><input type="checkbox" name="zaciatok"> <span>Žiadam, aby ste s inštaláciou a dodaním Jarvisa začali ešte pred uplynutím 14-dňovej lehoty na odstúpenie. Beriem na vedomie, že po úplnom poskytnutí služby a začatí dodávania digitálneho obsahu strácam právo na odstúpenie od zmluvy.</span></label>
-          <p class="hint" data-consent-hint style="margin:0 0 14px;font-size:13px;color:var(--muted)">Bez tohto súhlasu začnem až po uplynutí lehoty na odstúpenie (15. deň od objednávky).</p>
+          <label class="check" data-consent-row><input type="checkbox" name="zaciatok"> <span>Žiadam, aby ste s dodaním licencie Jarvisa (a s inštaláciou, ak je v objednávke) začali ešte pred uplynutím 14-dňovej lehoty na odstúpenie. Beriem na vedomie, že po úplnom poskytnutí služby a začatí dodávania digitálneho obsahu strácam právo na odstúpenie od zmluvy.</span></label>
+          <p class="hint" data-consent-hint style="margin:0 0 14px;font-size:13px;color:var(--muted)">Bez tohto súhlasu vám licenčný kľúč pošlem a s inštaláciou začnem až po uplynutí lehoty na odstúpenie (15. deň od objednávky).</p>
           <div data-cart-error></div>
           <button class="btn btn-primary btn-block" type="submit">Objednať s povinnosťou platby</button>
           <p class="hint" style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">Po odoslaní uvidíte údaje na platbu a QR kód.</p>
@@ -118,7 +118,7 @@
     <div class="foot-grid">
       <div>
         <a class="brand" href="index.html"><img src="assets/img/jarvis-ikona-512.png" alt="" width="34" height="34"><span class="brand-word"><b>JARVIS</b><small>Made by Apoliak</small></span></a>
-        <p>Osobný AI asistent pre Windows. Nainštalujem, nastavím na vašu prácu a starám sa oň.</p>
+        <p>Osobný AI asistent pre Windows. 7 dní zadarmo, potom mesačný plán – a ak chcete, nainštalujem ho a nastavím na vašu prácu.</p>
       </div>
       <div><h4>Jarvis</h4><ul><li><a href="funkcie.html">Funkcie</a></li><li><a href="rozsirenia.html">Rozšírenia pre firmy</a></li><li><a href="cennik.html">Cenník</a></li><li><a href="obchod.html">Obchod</a></li><li><a href="otazky.html">Časté otázky</a></li></ul></div>
       <div><h4>Zákazník</h4><ul><li><a href="navody.html">Návody</a></li><li><a href="licencia.html">Moja licencia</a></li><li><a href="kosik.html">Košík</a></li><li><a href="obchodne-podmienky.html">Obchodné podmienky</a></li><li><a href="ochrana-udajov.html">Ochrana osobných údajov</a></li></ul></div>

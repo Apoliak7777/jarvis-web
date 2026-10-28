@@ -29,7 +29,7 @@ window.JARVIS_DATA = {
     platbaKartou: false,       // Stripe neskôr
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
-    podmienkyOd: '24. 10. 2026'
+    podmienkyOd: '28. 10. 2026'
   },
 
   plany: [
@@ -74,7 +74,7 @@ window.JARVIS_DATA = {
   ],
   produkty: [
     { id: 'instalacia', kategoria: 'plany', nazov: 'Installation und Einrichtung von Jarvis', cena: 99, povodne: 149, ikona: 'install',
-      kratko: 'Jarvis installiert und auf Ihre Arbeit eingerichtet. Pflicht bei der ersten Bestellung.',
+      kratko: 'Jarvis installiert und für Ihre Arbeit eingerichtet. Auf Wunsch – herunterladen und installieren können Sie ihn auch selbst.',
       popis: 'Ich installiere und konfiguriere Jarvis so, dass Sie ihn vom ersten Tag an für echte Arbeit nutzen – nicht zum Ausprobieren. Wir verbinden Ihre KI-Konten, Ihre E-Mails und Ihren Kalender, richten Firmen, Preise und Antwortstil ein, und in einer Stunde zeige ich Ihnen alles Wesentliche.',
       obsahuje: 'instalacia', poznamka: 'Wird nur einmal bezahlt. Zur Installation wählen Sie einen Monats- oder Jahrestarif.' },
     { id: 'plan-start', kategoria: 'plany', plan: 'start', nazov: 'Tarif Start', ikona: 'plan',
@@ -301,19 +301,20 @@ window.JARVIS_DATA = {
   ],
 
   otazky: [
+    ['Kann ich Jarvis zuerst ausprobieren?', 'Ja. Sie laden Jarvis kostenlos herunter und nutzen ihn 7 Tage lang vollständig, außer den kostenpflichtigen Erweiterungen – ohne Lizenzschlüssel, ohne Karte und ohne Verpflichtung. Wenn Sie einen Tarif wählen, fügen Sie den Lizenzschlüssel in denselben Jarvis ein und machen einfach weiter. Wenn Sie keinen Tarif wählen, sperrt sich Jarvis nach 7 Tagen, Sie zahlen nichts und Ihre Daten bleiben auf Ihrem Computer.'],
     ['Auf welchem Computer läuft Jarvis?', 'Unter Windows 10 oder 11 (64 Bit). Wir empfehlen mindestens 16 GB RAM. Für ein eigenes Offline-KI-Modell eignet sich eine NVIDIA-Grafikkarte mit 12 GB Speicher oder 32 GB RAM – vor der Bestellung prüfe ich Ihren Computer gern.'],
     ['Brauche ich ein Abo für ChatGPT oder Claude?', 'Nein. Jarvis funktioniert auch mit kostenlosen KI-Diensten (zum Beispiel Google AI Studio oder Groq) und mit einem Offline-Modell. Mit einem Abo (ChatGPT Plus, Claude Pro, Gemini) erhalten Sie die besten Antworten. Das Abo bezahlen Sie direkt beim Anbieter – ohne Aufschlag, Jarvis nutzt lediglich Ihre Konten.'],
-    ['Was bekomme ich genau für die Installation?', 'Einen installierten und auf Ihre Arbeit eingerichteten Jarvis: verbundene KI-Konten, E-Mails, Kalender und WhatsApp, eingerichtete Firmen, Preise und Antwortstil, Kontaktimport, 60 Minuten Einweisung und 14 Tage Vorrang-Support. Die Installation bezahlen Sie nur einmal – jetzt 99 € statt 149 €.'],
+    ['Was bekomme ich genau für die Installation?', 'Jarvis installiert und für Ihre Arbeit eingerichtet: verbundene KI-Konten, E-Mail, Kalender und WhatsApp, eingerichtete Firmen, Preise und Antwortstil, Import der Kontakte, 60 Minuten Einweisung und 14 Tage bevorzugte Hilfe. Die Installation ist optional und wird einmal bezahlt – jetzt 99 € statt 149 €. Herunterladen und installieren können Sie Jarvis auch selbst kostenlos.'],
     ['Warum zahlt man monatlich?', 'Der Monatstarif ist die Lizenz zur Nutzung von Jarvis und die Betreuung: laufende Updates und neue Funktionen, Fehlerbehebungen, eine Prüfung nach jeder neuen Version und Support gemäß Tarif. Bei Jahreszahlung bezahlen Sie 12 Monate zum Preis von 10.'],
     ['Was, wenn ich nicht mehr zahle?', 'Die Lizenz gilt bis zum letzten bezahlten Tag. Danach haben Sie 14 Tage Zeit zur Verlängerung, bevor Jarvis gesperrt wird. Ihre Daten bleiben auf Ihrem Computer, und Sie können sie jederzeit exportieren.'],
     ['Wo sind meine Daten, und wer kann sie sehen?', 'Alles liegt auf Ihrem Computer. Passwörter verschlüsselt Windows, und die KI bekommt sie nie zu sehen. Text, den Sie schreiben, geht nur an den KI-Dienst, den Sie wählen – bei einem Offline-Modell verlässt er den Computer nicht. Ich als Verkäufer habe keinen Zugriff auf Ihre Daten; bei Fernhilfe habe ich ihn nur während der Verbindung, die Sie selbst erlauben und jederzeit beenden können.'],
-    ['Wie läuft die Installation ab?', 'Nach der Zahlung vereinbaren wir einen Termin. Die Installation dauert in der Regel 2 – 3 Stunden per Bildschirmfreigabe, in der Umgebung von Senec und Bratislava auch persönlich. Sie melden dabei nur Ihre Konten an – Passwörter gebe ich nicht ein.'],
-    ['Kann ich Jarvis vor der Bestellung sehen?', 'Ja. Schreiben Sie mir, dann vereinbaren wir ein kurzes Videogespräch, in dem ich Ihnen Jarvis live zeige und Ihre Fragen beantworte.'],
+    ['Wie läuft die Installation ab?', 'Selbst: Sie laden das Installationsprogramm herunter, starten es und geben Ihren Namen ein – das dauert ein paar Minuten. Wenn Sie die Installation bei mir bestellen, vereinbaren wir nach der Zahlung einen Termin. Die Installation dauert in der Regel 2–3 Stunden per Bildschirmfreigabe, in der Umgebung von Senec und Bratislava auch persönlich. Sie melden sich dabei nur bei Ihren Konten an – Passwörter gebe ich nicht ein.'],
+    ['Kann ich Jarvis vor der Bestellung sehen?', 'Ja – laden Sie ihn herunter und testen Sie ihn 7 Tage kostenlos. Wenn Sie möchten, schreiben Sie mir und wir vereinbaren auch einen kurzen Videoanruf, in dem ich Ihnen Jarvis live zeige und Ihre Fragen beantworte.'],
     ['Funktioniert es auch auf dem Mac oder auf dem Handy?', 'Jarvis läuft unter Windows. Auf dem Handy (iPhone und Android) haben Sie ihn über eine private Verbindung zu Ihrem Computer – dieser muss eingeschaltet sein. Für den Mac gibt es ihn noch nicht.'],
     ['Tut Jarvis etwas ohne meine Zustimmung?', 'Lesen und alltägliche Dinge erledigt er sofort und gibt Bescheid. Vor dem Versenden einer E-Mail, vor Zahlungen, Käufen, dem Löschen, Veröffentlichen oder Bestätigen fragt er immer nach. Passwörter tippt er nie ein – Sie melden sich selbst an.'],
-    ['Wie viele Computer kann ich haben?', 'Je nach Tarif: Start 1, Business 3 und Pro 5 Computer. Die Installation auf jedem weiteren Computer kostet 99 €.'],
+    ['Wie viele Computer kann ich haben?', 'Je nach Tarif: Start 1, Business 3 und Pro 5 Computer. Auf einem weiteren Computer installieren Sie Jarvis selbst; wenn ich das machen soll, kostet die Installation 99 €.'],
     ['Kann ich den Tarif wechseln?', 'Jederzeit. Ein höherer Tarif gilt ab der Zahlung der Differenz, ein niedrigerer ab dem nächsten Zeitraum.'],
-    ['Wie wird bezahlt?', 'Per Überweisung auf das in der Bestellung genannte Konto – scannen Sie den SEPA-QR-Code in Ihrer Banking-App oder zahlen Sie per IBAN. Der Monatstarif wird im Voraus für einen Monat bezahlt, der Jahrestarif für 12 Monate. Die Kartenzahlung kommt noch dazu.'],
+    ['Wie wird bezahlt?', 'Per Überweisung auf das in der Bestellung genannte Konto – scannen Sie den SEPA-QR-Code in Ihrer Banking-App oder zahlen Sie per IBAN. Der Monatstarif wird im Voraus für einen Monat bezahlt, der Jahrestarif für 12 Monate. Nach der Zahlung schicke ich Ihnen den Lizenzschlüssel per E-Mail. Die Kartenzahlung kommt noch dazu.'],
     ['Kann ich den Vertrag widerrufen?', 'Ein Verbraucher kann einen im Fernabsatz geschlossenen Vertrag innerhalb von 14 Tagen ohne Angabe von Gründen widerrufen. Verlangt er bei der Bestellung, dass ich früher beginne, zahlt er nur den anteiligen Betrag für die bereits erbrachte Leistung, und nach vollständiger Erbringung der Dienstleistung oder dem Beginn der Bereitstellung digitaler Inhalte erlischt das Widerrufsrecht. Einzelheiten stehen in den Allgemeinen Geschäftsbedingungen.'],
     ['Was, wenn etwas schiefgeht?', 'Nach jedem Update prüft sich Jarvis selbst und hält Fehler fest. Schreiben Sie mir, dann melde ich mich innerhalb der in Ihrem Tarif vorgesehenen Zeit; wenn es brennt, gibt es die Expresshilfe innerhalb von 2 Stunden.']
   ]

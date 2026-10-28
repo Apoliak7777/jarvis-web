@@ -29,7 +29,7 @@ window.JARVIS_DATA = {
     platbaKartou: false,       // Stripe neskôr
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
-    podmienkyOd: '24. 10. 2026'
+    podmienkyOd: '28. 10. 2026'
   },
 
   plany: [
@@ -74,7 +74,7 @@ window.JARVIS_DATA = {
   ],
   produkty: [
     { id: 'instalacia', kategoria: 'plany', nazov: 'Installazione e configurazione di Jarvis', cena: 99, povodne: 149, ikona: 'install',
-      kratko: 'Jarvis installato e configurato per il Suo lavoro. Obbligatoria al primo ordine.',
+      kratko: 'Jarvis installato e configurato per il Suo lavoro. Su richiesta – scaricarlo e installarlo può anche da solo.',
       popis: 'Installo e configuro Jarvis in modo che lo usi fin dal primo giorno per lavorare davvero, non per fare prove. Collegheremo i Suoi account IA, la posta e il calendario, imposteremo le Sue aziende, i prezzi e lo stile delle risposte e in un’ora Le mostrerò tutto l’essenziale.',
       obsahuje: 'instalacia', poznamka: 'Si paga una sola volta. Insieme all’installazione sceglie un piano mensile o annuale.' },
     { id: 'plan-start', kategoria: 'plany', plan: 'start', nazov: 'Piano Start', ikona: 'plan',
@@ -301,19 +301,20 @@ window.JARVIS_DATA = {
   ],
 
   otazky: [
+    ['Posso prima provare Jarvis?', 'Sì. Scarica Jarvis gratis e per 7 giorni lo usa completo, tranne le estensioni a pagamento – senza chiave di licenza, senza carta e senza impegno. Quando sceglie un piano, inserisce la chiave di licenza nello stesso Jarvis e continua. Se non sceglie un piano, Jarvis si blocca dopo 7 giorni, non paga nulla e i Suoi dati restano nel computer.'],
     ['Su quale computer funziona Jarvis?', 'Su Windows 10 o 11 (64 bit). Consigliamo almeno 16 GB di RAM. Per un modello IA offline personale è adatta una scheda grafica NVIDIA con 12 GB di memoria oppure 32 GB di RAM; prima dell’ordine controllo volentieri il Suo computer.'],
     ['Devo avere un abbonamento a ChatGPT o Claude?', 'No. Jarvis funziona anche con i servizi di IA gratuiti (ad esempio Google AI Studio o Groq) e con un modello offline. Con un abbonamento (ChatGPT Plus, Claude Pro, Gemini) otterrà le risposte migliori. L’abbonamento lo paga direttamente al fornitore, senza ricarichi: Jarvis si limita a usare i Suoi account.'],
-    ['Che cosa ricevo esattamente con l’installazione?', 'Jarvis installato e configurato per il Suo lavoro: account IA, posta, calendario e WhatsApp collegati, aziende, prezzi e stile delle risposte impostati, importazione dei contatti, 60 minuti di formazione e 14 giorni di assistenza prioritaria. L’installazione si paga una sola volta – ora 99 € invece di 149 €.'],
+    ['Che cosa ricevo esattamente con l’installazione?', 'Jarvis installato e configurato per il Suo lavoro: account AI collegati, posta, calendario e WhatsApp, aziende, prezzi e stile delle risposte impostati, importazione dei contatti, 60 minuti di formazione e 14 giorni di assistenza prioritaria. L’installazione è su richiesta e si paga una volta sola – ora 99 € invece di 149 €. Può anche scaricare e installare Jarvis da solo gratuitamente.'],
     ['Perché si paga ogni mese?', 'Il piano mensile è la licenza d’uso di Jarvis più la sua manutenzione: aggiornamenti continui e nuove funzioni, correzioni, un controllo dopo ogni nuova versione e assistenza in base al piano. Con il pagamento annuale paga 12 mesi al prezzo di 10.'],
     ['Cosa succede se smetto di pagare?', 'La licenza è valida fino all’ultimo giorno pagato. Poi ha 14 giorni di tempo per rinnovarla, prima che Jarvis si blocchi. I Suoi dati restano sul Suo computer e può esportarli in qualsiasi momento.'],
     ['Dove sono i miei dati e chi li vede?', 'Tutto si trova sul Suo computer. Le password sono cifrate da Windows e l’IA non le riceve mai. Il testo che scrive va soltanto al servizio di IA che sceglie Lei; con un modello offline non lascia mai il computer. Io, in quanto venditore, non ho accesso ai Suoi dati; in caso di assistenza da remoto vi accedo soltanto durante la connessione che solo Lei autorizza e che può interrompere in qualsiasi momento.'],
-    ['Come si svolge l’installazione?', 'Dopo il pagamento concordiamo una data. L’installazione dura di solito 2 – 3 ore, tramite condivisione dello schermo e, nei dintorni di Senec e Bratislava, anche di persona. Lei deve solo accedere ai Suoi account: le password non le inserisco io.'],
-    ['Posso vedere Jarvis prima di ordinare?', 'Sì. Mi scriva e concorderemo una breve videochiamata in cui Le mostrerò Jarvis dal vivo e risponderò alle Sue domande.'],
+    ['Come si svolge l’installazione?', 'Da solo: scarica il programma di installazione, lo avvia e scrive il Suo nome – bastano pochi minuti. Se ordina da me l’installazione, dopo il pagamento concordiamo la data. L’installazione dura di solito 2–3 ore tramite condivisione dello schermo, nei dintorni di Senec e Bratislava anche di persona. Lei deve solo accedere ai Suoi account – le password non le inserisco io.'],
+    ['Posso vedere Jarvis prima di ordinare?', 'Sì – lo scarichi e lo provi gratis per 7 giorni. Se vuole, mi scriva e fissiamo anche una breve videochiamata in cui Le mostro Jarvis dal vivo e rispondo alle Sue domande.'],
     ['Funziona anche su Mac o su telefono?', 'Jarvis funziona su Windows. Sul telefono (iPhone e Android) lo ha tramite una connessione privata con il Suo computer, che deve essere acceso. Per Mac per ora non è disponibile.'],
     ['Jarvis fa qualcosa senza il mio consenso?', 'Le letture e le operazioni ordinarie le esegue subito e Le fa sapere. Prima di inviare un’e-mail, pagare, acquistare, eliminare, pubblicare o confermare qualcosa chiede sempre conferma. Non digita mai le password: l’accesso lo effettua Lei.'],
-    ['Quanti computer posso avere?', 'Dipende dal piano: Start 1, Business 3 e Pro 5 computer. L’installazione su ogni computer aggiuntivo costa 99 €.'],
+    ['Quanti computer posso avere?', 'In base al piano: Start 1, Business 3 e Pro 5 computer. Su un altro computer Jarvis lo installa da solo; se vuole che lo faccia io, l’installazione costa 99 €.'],
     ['Posso cambiare piano?', 'In qualsiasi momento. Un piano superiore è valido dal pagamento della differenza, uno inferiore dal periodo successivo.'],
-    ['Come si paga?', 'Con bonifico bancario secondo l’ordine: basta inquadrare il codice QR SEPA con l’app della Sua banca oppure pagare con l’IBAN. Il piano mensile si paga in anticipo per un mese, quello annuale per 12 mesi. Il pagamento con carta verrà aggiunto prossimamente.'],
+    ['Come si paga?', 'Con bonifico bancario secondo l’ordine: basta inquadrare il codice QR SEPA con l’app della Sua banca oppure pagare con l’IBAN. Il piano mensile si paga in anticipo per un mese, quello annuale per 12 mesi. Dopo il pagamento Le invio la chiave di licenza via e-mail. Il pagamento con carta verrà aggiunto prossimamente.'],
     ['Posso recedere dal contratto?', 'Il consumatore può recedere da un contratto concluso a distanza entro 14 giorni senza indicarne il motivo. Se all’ordine chiede che io inizi prima, paga solo la parte proporzionale alla prestazione già fornita e, una volta eseguito integralmente il servizio o iniziata la fornitura del contenuto digitale, il diritto di recesso si estingue. I dettagli sono nelle condizioni di vendita.'],
     ['E se qualcosa non funziona?', 'Dopo ogni aggiornamento Jarvis si controlla da solo e annota gli eventuali errori. Mi scriva e risponderò nei tempi previsti dal Suo piano; in caso di emergenza c’è l’Assistenza express entro 2 ore.']
   ]
