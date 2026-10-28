@@ -1,0 +1,14 @@
+{
+ "v": 1,
+ "verzia": "3.109.0",
+ "id": "f9e3336f618b42ee90e74645e832f001",
+ "builtAt": "2026-10-28T15:43:07.4644751Z",
+ "edicia": "zakaznik",
+ "subor": "https://stiahnut.apoliak.online/Jarvis-3.109.0-zakaznik.zip",
+ "velkost": 203586299,
+ "sha256": "fb93eb18b6ecf3094280b814b6ded2a9adf25ce8d73b81fa9cd4ddecb4246364",
+ "podpis": "ZhwnTMY1Gjr2M0Qje9vExFlAWkN1hp9V15HuG4aMssBiIlYkRJzHJAcwUTnlaDl7umQki5Eyis3IcYERMCKGBA==",
+ "vydane": "2026-10-28T15:46:56.253Z",
+ "instalator": "https://stiahnut.apoliak.online/Jarvis-Setup.exe",
+ "instalatorVelkost": 203604235
+}
