@@ -445,3 +445,8 @@ table.compare.navod-tab { min-width: 0; }
 @media (max-width: 600px) { table.compare.navod-tab th, table.compare.navod-tab td { padding: 10px 8px; } .navod-tab td small { font-size: 12px; } }
 /* 28. 10. 2026: Stiahnuť v menu len v rozbalenom menu – na širokej obrazovke je vpravo tlačidlo Stiahnuť zadarmo */
 @media (min-width: 1081px) { .nav .nav-dl { display: none; } }
+
+/* Jarvis 3.117: what every plan has of a module for free */
+.product p.zaklad, .zaklad { display: flex; gap: 8px; align-items: flex-start; flex: 0 0 auto; margin: -6px 0 16px; font-size: 13.5px; color: var(--text-2); }
+.zaklad svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 3px; color: var(--ok, #2f9e44); }
+.detail .zaklad { margin: 14px 0 0; font-size: 15px; }
