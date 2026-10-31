@@ -1,13 +1,28 @@
-/* Jarvis · potvrdenie objednávky: údaje na platbu s QR kódom PAY by square a odoslanie objednávky predajcovi e-mailom
-   (kým nie je objednávkový server – nastavenia.objednavkyUrl). Objednávka je uložená v tomto prehliadači. */
+/* Jarvis · potvrdenie objednávky: údaje na platbu s QR kódom PAY by square. 3.121: objednávka prišla cez Jarvis Bránu rovno
+   predajcovi (bez Brány sa pošle e-mailom ako predtým); platba kartou – stav zo servera, po návrate zo Stripe overenie
+   platby a „Zaplatiť kartou“ znova. Objednávka je uložená v tomto prehliadači. */
 (function () {
   'use strict';
-  var D = window.JARVIS_DATA, s = D.predajca;
-  var code = new URLSearchParams(location.search).get('c') || '';
-  var all = []; try { all = JSON.parse(localStorage.getItem('jarvis-objednavky-v1') || '[]'); } catch (e) {}
+  var D = window.JARVIS_DATA, s = D.predajca, ORDERS = 'jarvis-objednavky-v1';
+  var q = new URLSearchParams(location.search), code = q.get('c') || '', API = String(D.nastavenia.obchodApi || '').replace(/\/$/, '');
+  var all = []; try { all = JSON.parse(localStorage.getItem(ORDERS) || '[]'); } catch (e) {}
   var o = all.filter(function (x) { return x.kod === code; })[0] || (code ? null : all[0]);
-  if (!o) { document.querySelector('[data-order-missing]').hidden = false; return; }
+  var token = q.get('t') || (o && o.token) || '';
+  var $ = function (sel) { return document.querySelector(sel); };
+  var orderState = function () { return fetch(API + '/v1/verejne/obchod/objednavka/' + encodeURIComponent(o ? o.kod : code) + '?t=' + encodeURIComponent(token), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
+  if (!o) {
+    $('[data-order-missing]').hidden = false;
+    // späť zo Stripe v inom prehliadači: aspoň stav zo servera
+    if (code && token && API) orderState().then(function (st) {
+      if (!st) return;
+      $('[data-missing-title]').textContent = st.stav === 'zaplatena' ? 'Zahlung erhalten' : 'Bestellung wartet auf Zahlung';
+      $('[data-missing-text]').textContent = st.stav === 'zaplatena' ? 'Bestellung ' + st.kod + ' ist bezahlt. Der Lizenzschlüssel kommt per E-Mail.' : 'Bestellung ' + st.kod + ' ist noch nicht bezahlt – öffnen Sie sie in dem Browser, in dem Sie bestellt haben.';
+    });
+    return;
+  }
   document.querySelector('[data-order]').hidden = false;
+  var save = function () { all = all.map(function (x) { return x.kod === o.kod ? o : x; }); try { localStorage.setItem(ORDERS, JSON.stringify(all)); } catch (e) {} };
+  if (token && !o.token) { o.token = token; save(); }
 
   var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var eur = function (n) { var v = Math.round(n * 100) / 100, p = v.toFixed(2).split('.'); return p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + (p[1] === '00' ? '' : ',' + p[1]) + ' €'; };
@@ -48,7 +63,7 @@
   var mailBtn = document.querySelector('[data-mailto]');
   mailBtn.href = mailto;
   var status = document.querySelector('[data-send-status]');
-  if (o.odoslana) { document.querySelector('[data-send-text]').textContent = 'Ihre Bestellung habe ich bereits erhalten. Ich bestätige sie per E-Mail.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Auch per E-Mail senden'; }
+  if (o.odoslana) { document.querySelector('[data-send-title]').textContent = 'Die Bestellung ist abgeschickt'; document.querySelector('[data-send-text]').textContent = 'Ihre Bestellung habe ich bereits erhalten. Ich bestätige sie per E-Mail.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Auch per E-Mail senden'; }
 
   var copy = function (value, label) {
     var done = function () { window.JarvisShop && window.JarvisShop.toast(label + ' – kopiert'); };
@@ -58,4 +73,48 @@
   };
   document.querySelector('[data-copy-order]').addEventListener('click', function () { copy(text + '\n\nSenden Sie an: ' + s.email, 'Bestelltext'); status.innerHTML = '<div class="info-box">Der Text ist in der Zwischenablage – fügen Sie ihn in eine E-Mail an <b>' + esc(s.email) + '</b>.</div>'; });
   document.querySelectorAll('[data-copy]').forEach(function (b) { b.addEventListener('click', function () { var k = b.getAttribute('data-copy'); copy(k === 'iban' ? s.iban.replace(/\s/g, '') : o.vs, k === 'iban' ? 'IBAN' : 'Variables Symbol (Zahlungsreferenz)'); }); });
+
+  // ---------- 3.121 platba kartou (Stripe cez Jarvis Bránu): po návrate zo Stripe sa overí, či prišla; inak sa dá zaplatiť znova
+  // kartou alebo prevodom podľa údajov vyššie
+  if (!API || !token || !(o.platba === 'karta' || q.get('zaplatene') || q.get('zrusene'))) return;
+  var cardPanel = $('[data-card-panel]'), cardTitle = $('[data-card-title]'), cardText = $('[data-card-text]'), cardActions = $('[data-card-actions]'), payBtn = $('[data-card-pay]'), cardError = $('[data-card-error]');
+  var transfer = $('[data-transfer-panel]');
+  $('[data-send-panel]').hidden = true; cardPanel.hidden = false;
+  document.querySelectorAll('[data-num]').forEach(function (el) { el.hidden = true; });
+  $('[data-lead]').innerHTML = 'Bestellung <b class="num">' + esc(o.kod) + '</b> ist eingegangen.';
+  $('[data-key-text]').textContent = 'Der Lizenzschlüssel kommt direkt nach der Zahlung per E-Mail – in Jarvis fügen Sie ihn mit der Schaltfläche Schlüssel einfügen ein. Tarif und Erweiterungen werden dann automatisch von der Karte abgebucht und die Lizenz verlängert sich von selbst; das Abonnement kündigen Sie jederzeit in Jarvis (Mein Abo).';
+  var paid = function () {
+    cardActions.hidden = true; transfer.hidden = true; cardError.innerHTML = '';
+    cardTitle.textContent = 'Mit Karte bezahlt';
+    cardText.textContent = 'Danke, die Zahlung ist eingegangen. Der Lizenzschlüssel kommt in wenigen Minuten per E-Mail.';
+    if (!o.zaplatena) { o.zaplatena = true; save(); }
+  };
+  var unpaid = function (failed) {
+    cardActions.hidden = false; transfer.hidden = false;
+    cardTitle.textContent = failed ? 'Die Kartenzahlung ist fehlgeschlagen' : 'Die Kartenzahlung ist noch nicht abgeschlossen';
+    cardText.textContent = 'Bezahlen Sie erneut per Karte oder per Überweisung mit den Angaben unten.';
+    $('[data-transfer-title]').textContent = 'Oder bezahlen Sie per Überweisung';
+  };
+  if (o.zaplatena) paid();
+  else {
+    transfer.hidden = true;
+    cardTitle.textContent = 'Warte auf die Zahlungsbestätigung…'; cardText.textContent = 'Einen Moment bitte, die Bank bestätigt die Zahlung.';
+    var tries = q.get('zaplatene') ? 15 : 1;
+    (function poll() {
+      orderState().then(function (st) {
+        if (st && st.stav === 'zaplatena') return paid();
+        if (st && st.stav === 'zlyhala') return unpaid(true);
+        if (--tries > 0) { setTimeout(poll, 3000); return; }
+        if (q.get('zaplatene')) { cardTitle.textContent = 'Die Zahlung wird verarbeitet'; cardText.textContent = 'Die Bank bestätigt die Zahlung noch. Sobald sie es tut, kommt der Lizenzschlüssel per E-Mail – Sie können die Seite schließen.'; return; }
+        unpaid(false);
+      });
+    })();
+  }
+  payBtn.addEventListener('click', function () {
+    payBtn.disabled = true; cardError.innerHTML = '';
+    var fail = function () { payBtn.disabled = false; cardError.innerHTML = '<div class="error-box">Kartenzahlung ist gerade nicht möglich – versuchen Sie es gleich noch einmal oder bezahlen Sie per Überweisung.</div>'; };
+    fetch(API + '/v1/verejne/obchod/objednavka/' + encodeURIComponent(o.kod) + '/platba', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: token }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) { if (res.ok && res.j.url) location.href = res.j.url; else if (res.ok && res.j.stav === 'zaplatena') paid(); else fail(); }, fail);
+  });
 })();

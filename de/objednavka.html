@@ -46,15 +46,22 @@
   <div class="wrap" style="max-width:980px">
     <noscript><div class="error-box">Die Seite benötigt aktiviertes JavaScript.</div></noscript>
     <div data-order-missing hidden>
-      <div class="panel empty"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></div><h2 style="margin-bottom:10px">Ich habe die Bestellung nicht gefunden</h2><p class="muted">Bestellungen werden nur in diesem Browser gespeichert. Wenn Sie anderswo bestellt haben, finden Sie sie in der E-Mail.</p><div class="actions" style="justify-content:center;margin-top:18px"><a class="btn btn-primary" href="obchod.html">Zum Shop</a></div></div>
+      <div class="panel empty"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></div><h2 style="margin-bottom:10px" data-missing-title>Ich habe die Bestellung nicht gefunden</h2><p class="muted" data-missing-text>Bestellungen werden nur in diesem Browser gespeichert. Wenn Sie anderswo bestellt haben, finden Sie sie in der E-Mail.</p><div class="actions" style="justify-content:center;margin-top:18px"><a class="btn btn-primary" href="obchod.html">Zum Shop</a></div></div>
     </div>
     <div data-order hidden>
       <span class="eyebrow">Bestellung eingegangen</span>
       <h1 style="font-size:clamp(32px,4.6vw,50px);margin-bottom:14px">Vielen Dank, <span data-o="oslovenie"></span></h1>
-      <p class="lead" style="margin-bottom:32px">Die Bestellung <b class="num" data-o="kod"></b> ist vorbereitet. Es bleiben drei Schritte:</p>
+      <p class="lead" style="margin-bottom:32px" data-lead>Die Bestellung <b class="num" data-o="kod"></b> ist vorbereitet. Es bleiben drei Schritte:</p>
+
+      <div class="panel" data-card-panel hidden>
+        <h2 data-card-title>Kartenzahlung</h2>
+        <p class="muted" style="margin:0" data-card-text></p>
+        <div class="actions no-print" data-card-actions hidden style="margin-top:16px"><button class="btn btn-primary" type="button" data-card-pay><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Mit Karte bezahlen</button></div>
+        <div data-card-error style="margin-top:14px"></div>
+      </div>
 
       <div class="panel" data-send-panel>
-        <h2><span class="muted num" style="font-weight:600">1.</span> Senden Sie mir die Bestellung</h2>
+        <h2><span class="muted num" style="font-weight:600">1.</span> <span data-send-title>Senden Sie mir die Bestellung</span></h2>
         <p class="muted" data-send-text>Ein Klick öffnet Ihr E-Mail-Programm mit der ausgefüllten Bestellung – Sie müssen sie nur absenden. Ich bestätige sie mit einer Antwort; wenn Sie eine Installation bestellt haben, vereinbaren wir auch den Termin.</p>
         <div class="actions no-print">
           <a class="btn btn-primary" data-mailto href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6 8.5-6"/></svg>Bestellung per E-Mail senden</a>
@@ -63,8 +70,8 @@
         <div data-send-status style="margin-top:14px"></div>
       </div>
 
-      <div class="panel">
-        <h2><span class="muted num" style="font-weight:600">2.</span> Bezahlen Sie per Überweisung</h2>
+      <div class="panel" data-transfer-panel>
+        <h2><span class="muted num" style="font-weight:600" data-num>2.</span> <span data-transfer-title>Bezahlen Sie per Überweisung</span></h2>
         <div class="pay">
           <div class="no-print-qr"><div class="qr" data-qr aria-label="QR-Code zur Zahlung"></div><p class="qr-cap" data-qr-cap>PAY by square – in der Banking-App scannen</p></div>
           <dl class="kv">
@@ -80,8 +87,8 @@
       </div>
 
       <div class="panel">
-        <h2><span class="muted num" style="font-weight:600">3.</span> Lizenzschlüssel</h2>
-        <p class="muted" style="margin:0">Sobald die Zahlung auf dem Konto eingeht, schicke ich Ihnen den Lizenzschlüssel per E-Mail. Möchten Sie ihn früher? Schicken Sie mir die Zahlungsbestätigung – antworten Sie einfach auf meine E-Mail. In Jarvis fügen Sie den Schlüssel dann mit der Schaltfläche Schlüssel einfügen ein.</p>
+        <h2><span class="muted num" style="font-weight:600" data-num>3.</span> Lizenzschlüssel</h2>
+        <p class="muted" style="margin:0" data-key-text>Sobald die Zahlung auf dem Konto eingeht, schicke ich Ihnen den Lizenzschlüssel per E-Mail. Möchten Sie ihn früher? Schicken Sie mir die Zahlungsbestätigung – antworten Sie einfach auf meine E-Mail. In Jarvis fügen Sie den Schlüssel dann mit der Schaltfläche Schlüssel einfügen ein.</p>
       </div>
 
       <div class="panel">

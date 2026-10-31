@@ -98,15 +98,16 @@
           <h2>Podsumowanie</h2>
           <div data-cart-summary></div>
           <div class="field" style="margin-top:18px"><label>Płatność</label>
+            <label class="check" style="padding:6px 0" data-card-option hidden><input type="radio" name="platba" value="karta"> <span>Kartą – licencję otrzymają Państwo e-mailem zaraz po zapłacie</span></label>
             <label class="check" style="padding:6px 0"><input type="radio" name="platba" value="prevod" checked> <span>Przelewem na konto – po złożeniu zamówienia otrzymają Państwo dane do płatności oraz kod QR SEPA</span></label>
-            <p class="hint" style="margin:0">Płatność kartą pojawi się wkrótce.</p>
+            <p class="hint" data-pay-hint hidden style="margin:4px 0 0;font-size:13px;color:var(--muted)"></p>
           </div>
           <label class="check"><input type="checkbox" name="vop" required> <span>Akceptuję <a href="obchodne-podmienky.html" target="_blank" rel="noopener">regulamin</a> i przyjmuję do wiadomości <a href="ochrana-udajov.html" target="_blank" rel="noopener">przetwarzanie danych osobowych</a>. *</span></label>
           <label class="check" data-consent-row><input type="checkbox" name="zaciatok"> <span>Żądam rozpoczęcia dostarczania licencji Jarvisa (oraz instalacji, jeśli jest w zamówieniu) jeszcze przed upływem 14-dniowego terminu na odstąpienie od umowy. Przyjmuję do wiadomości, że po pełnym wykonaniu usługi i rozpoczęciu dostarczania treści cyfrowych tracę prawo do odstąpienia od umowy.</span></label>
           <p class="hint" data-consent-hint style="margin:0 0 14px;font-size:13px;color:var(--muted)">Bez tej zgody wyślę Państwu klucz licencyjny i rozpocznę instalację dopiero po upływie terminu na odstąpienie od umowy (15. dnia od zamówienia).</p>
           <div data-cart-error></div>
           <button class="btn btn-primary btn-block" type="submit">Zamawiam z obowiązkiem zapłaty</button>
-          <p class="hint" style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">Po wysłaniu zobaczą Państwo dane do płatności oraz kod QR.</p>
+          <p class="hint" data-send-hint style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">Po wysłaniu zobaczą Państwo dane do płatności oraz kod QR.</p>
         </div>
       </aside>
     </form>
@@ -130,6 +131,7 @@
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/web.js"></script>
+<script src="assets/js/ceny.js"></script>
 <script src="assets/js/kosik.js"></script>
 </body>
 </html>

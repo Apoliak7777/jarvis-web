@@ -98,15 +98,16 @@
           <h2>Summary</h2>
           <div data-cart-summary></div>
           <div class="field" style="margin-top:18px"><label>Payment</label>
+            <label class="check" style="padding:6px 0" data-card-option hidden><input type="radio" name="platba" value="karta"> <span>By card – you receive the licence by e-mail right after payment</span></label>
             <label class="check" style="padding:6px 0"><input type="radio" name="platba" value="prevod" checked> <span>By bank transfer – after ordering you’ll get the payment details and a SEPA QR code</span></label>
-            <p class="hint" style="margin:0">Card payment is coming soon.</p>
+            <p class="hint" data-pay-hint hidden style="margin:4px 0 0;font-size:13px;color:var(--muted)"></p>
           </div>
           <label class="check"><input type="checkbox" name="vop" required> <span>I agree to the <a href="obchodne-podmienky.html" target="_blank" rel="noopener">terms and conditions</a> and acknowledge the <a href="ochrana-udajov.html" target="_blank" rel="noopener">processing of my personal data</a>. *</span></label>
           <label class="check" data-consent-row><input type="checkbox" name="zaciatok"> <span>I request that you begin delivering the Jarvis licence (and the installation, if it is part of the order) before the 14-day withdrawal period has expired. I acknowledge that once the service has been fully provided and the supply of digital content has begun, I lose my right to withdraw from the contract.</span></label>
           <p class="hint" data-consent-hint style="margin:0 0 14px;font-size:13px;color:var(--muted)">Without this consent I will send you the licence key and start the installation only after the withdrawal period has expired (the 15th day after the order).</p>
           <div data-cart-error></div>
           <button class="btn btn-primary btn-block" type="submit">Order with obligation to pay</button>
-          <p class="hint" style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">After you submit, you’ll see the payment details and a QR code.</p>
+          <p class="hint" data-send-hint style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">After you submit, you’ll see the payment details and a QR code.</p>
         </div>
       </aside>
     </form>
@@ -130,6 +131,7 @@
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/web.js"></script>
+<script src="assets/js/ceny.js"></script>
 <script src="assets/js/kosik.js"></script>
 </body>
 </html>

@@ -98,15 +98,16 @@
           <h2>Souhrn</h2>
           <div data-cart-summary></div>
           <div class="field" style="margin-top:18px"><label>Platba</label>
+            <label class="check" style="padding:6px 0" data-card-option hidden><input type="radio" name="platba" value="karta"> <span>Kartou – licenci dostanete e-mailem hned po zaplacení</span></label>
             <label class="check" style="padding:6px 0"><input type="radio" name="platba" value="prevod" checked> <span>Převodem na účet – po objednávce dostanete platební údaje a SEPA QR kód</span></label>
-            <p class="hint" style="margin:0">Platba kartou přibude brzy.</p>
+            <p class="hint" data-pay-hint hidden style="margin:4px 0 0;font-size:13px;color:var(--muted)"></p>
           </div>
           <label class="check"><input type="checkbox" name="vop" required> <span>Souhlasím s <a href="obchodne-podmienky.html" target="_blank" rel="noopener">obchodními podmínkami</a> a beru na vědomí <a href="ochrana-udajov.html" target="_blank" rel="noopener">zpracování osobních údajů</a>. *</span></label>
           <label class="check" data-consent-row><input type="checkbox" name="zaciatok"> <span>Žádám, abyste s dodáním licence Jarvise (a s instalací, pokud je v objednávce) začali ještě před uplynutím 14denní lhůty pro odstoupení od smlouvy. Beru na vědomí, že po úplném poskytnutí služby a zahájení dodávání digitálního obsahu ztrácím právo na odstoupení od smlouvy.</span></label>
           <p class="hint" data-consent-hint style="margin:0 0 14px;font-size:13px;color:var(--muted)">Bez tohoto souhlasu vám licenční klíč pošlu a s instalací začnu až po uplynutí lhůty pro odstoupení od smlouvy (15. den od objednávky).</p>
           <div data-cart-error></div>
           <button class="btn btn-primary btn-block" type="submit">Objednat s povinností platby</button>
-          <p class="hint" style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">Po odeslání uvidíte platební údaje a QR kód.</p>
+          <p class="hint" data-send-hint style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">Po odeslání uvidíte platební údaje a QR kód.</p>
         </div>
       </aside>
     </form>
@@ -130,6 +131,7 @@
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/web.js"></script>
+<script src="assets/js/ceny.js"></script>
 <script src="assets/js/kosik.js"></script>
 </body>
 </html>

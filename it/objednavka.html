@@ -46,15 +46,22 @@
   <div class="wrap" style="max-width:980px">
     <noscript><div class="error-box">Questa pagina richiede JavaScript attivato.</div></noscript>
     <div data-order-missing hidden>
-      <div class="panel empty"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></div><h2 style="margin-bottom:10px">Non ho trovato l’ordine</h2><p class="muted">Gli ordini vengono salvati solo in questo browser. Se ha ordinato altrove, lo troverà nell’e-mail.</p><div class="actions" style="justify-content:center;margin-top:18px"><a class="btn btn-primary" href="obchod.html">Al negozio</a></div></div>
+      <div class="panel empty"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></div><h2 style="margin-bottom:10px" data-missing-title>Non ho trovato l’ordine</h2><p class="muted" data-missing-text>Gli ordini vengono salvati solo in questo browser. Se ha ordinato altrove, lo troverà nell’e-mail.</p><div class="actions" style="justify-content:center;margin-top:18px"><a class="btn btn-primary" href="obchod.html">Al negozio</a></div></div>
     </div>
     <div data-order hidden>
       <span class="eyebrow">Ordine ricevuto</span>
       <h1 style="font-size:clamp(32px,4.6vw,50px);margin-bottom:14px">Grazie, <span data-o="oslovenie"></span></h1>
-      <p class="lead" style="margin-bottom:32px">L’ordine <b class="num" data-o="kod"></b> è pronto. Restano tre passaggi:</p>
+      <p class="lead" style="margin-bottom:32px" data-lead>L’ordine <b class="num" data-o="kod"></b> è pronto. Restano tre passaggi:</p>
+
+      <div class="panel" data-card-panel hidden>
+        <h2 data-card-title>Pagamento con carta</h2>
+        <p class="muted" style="margin:0" data-card-text></p>
+        <div class="actions no-print" data-card-actions hidden style="margin-top:16px"><button class="btn btn-primary" type="button" data-card-pay><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Paga con carta</button></div>
+        <div data-card-error style="margin-top:14px"></div>
+      </div>
 
       <div class="panel" data-send-panel>
-        <h2><span class="muted num" style="font-weight:600">1.</span> Mi invii l’ordine</h2>
+        <h2><span class="muted num" style="font-weight:600">1.</span> <span data-send-title>Mi invii l’ordine</span></h2>
         <p class="muted" data-send-text>Con un clic si apre la Sua e-mail con l’ordine compilato – basta inviarla. Lo confermerò con una risposta; se ha ordinato l’installazione, concorderemo anche la data.</p>
         <div class="actions no-print">
           <a class="btn btn-primary" data-mailto href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6 8.5-6"/></svg>Invia l’ordine via e-mail</a>
@@ -63,8 +70,8 @@
         <div data-send-status style="margin-top:14px"></div>
       </div>
 
-      <div class="panel">
-        <h2><span class="muted num" style="font-weight:600">2.</span> Paghi con bonifico</h2>
+      <div class="panel" data-transfer-panel>
+        <h2><span class="muted num" style="font-weight:600" data-num>2.</span> <span data-transfer-title>Paghi con bonifico</span></h2>
         <div class="pay">
           <div class="no-print-qr"><div class="qr" data-qr aria-label="Codice QR per il pagamento"></div><p class="qr-cap" data-qr-cap>PAY by square: inquadri il codice con l’app della Sua banca</p></div>
           <dl class="kv">
@@ -80,8 +87,8 @@
       </div>
 
       <div class="panel">
-        <h2><span class="muted num" style="font-weight:600">3.</span> Chiave di licenza</h2>
-        <p class="muted" style="margin:0">Appena il pagamento arriva sul conto, Le invio la chiave di licenza via e-mail. La vuole prima? Mi mandi la conferma del pagamento – basta rispondere alla mia e-mail. In Jarvis poi inserisce la chiave con il pulsante Inserisci chiave.</p>
+        <h2><span class="muted num" style="font-weight:600" data-num>3.</span> Chiave di licenza</h2>
+        <p class="muted" style="margin:0" data-key-text>Appena il pagamento arriva sul conto, Le invio la chiave di licenza via e-mail. La vuole prima? Mi mandi la conferma del pagamento – basta rispondere alla mia e-mail. In Jarvis poi inserisce la chiave con il pulsante Inserisci chiave.</p>
       </div>
 
       <div class="panel">

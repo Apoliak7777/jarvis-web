@@ -25,8 +25,9 @@ window.JARVIS_DATA = {
     mena: '€',
     splatnostDni: 7,
     rocneZaMesiacov: 10,       // ročné predplatné = 12 mesiacov za cenu 10
-    objednavkyUrl: '',         // neskôr adresa na VPS (POST JSON); prázdne = objednávka sa pošle e-mailom
-    platbaKartou: false,       // Stripe neskôr
+    // 3.121: objednávky idú cez Jarvis Bránu na VPS rovno do Alexovho Jarvisa; platbu kartou (Stripe) zapne Alex v Generátore
+    // licencií → Objednávky a košík sa na ňu pýta Brány. Prázdne = objednávka sa pošle e-mailom ako predtým.
+    obchodApi: 'https://stiahnut.apoliak.online/brana',
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
     podmienkyOd: '31. 10. 2026'
@@ -181,7 +182,7 @@ window.JARVIS_DATA = {
       kratko: 'A WooCommerce- vagy Shoptet-rendelések maguktól kerülnek az ügyfelekhez, a számlákhoz és a raktárba.',
       popis: 'A Jarvis 30 percenként benéz az Ön WooCommerce- vagy Shoptet-webáruházába, és az új rendeléseket magától feldolgozza: az ügyfelet rögzíti az Ügyfelekben, kiállítja a számlát (ha nem a webáruház teszi), az árut kód szerint leírja a raktárból, a bevételt pedig rögzíti az Üzletben. Elég egy csak olvasásra szóló kulcs – a Jarvis semmit sem ír a webáruházba.' },
     /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
-    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Csapat', mesacne: 5, zaCloveka: true, ikona: 'team',
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Csapat', mesacne: 5, zaCloveka: true, mnozstvo: true, ikona: 'team',
       kratko: 'Közös ügyfelek, feladatok és jegyzetek mindenkinek a cégnél.',
       popis: 'Ügyfelek, feladatok és jegyzetek közösen az egész cégnek: ki melyik munkáért felel, mi kész és mi késik. A kollégák a csapatkóddal csatlakoznak, és az egyik számítógépen végzett változás fél percen belül megjelenik a többin; ha ketten ugyanazt módosítják, az újabb változás érvényes. Csak az kerül megosztásra, ami a csapatnak szól – az Ügyfelek, a Feladatokban a Csapat tábla és a csapatnak jelölt jegyzetek; a privát jegyzetek az Önéi maradnak. Az adatok a csapat kulcsával titkosítva – ez a kulcs csak az Ön csapatánál van meg – utaznak a Jarvis szerverén keresztül, így a szerver nem tudja elolvasni őket. A díj a csapat minden tagja után jár.' },
     { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online foglalások', mesacne: 15, ikona: 'plan',

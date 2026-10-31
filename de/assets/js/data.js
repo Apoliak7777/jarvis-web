@@ -25,8 +25,9 @@ window.JARVIS_DATA = {
     mena: '€',
     splatnostDni: 7,
     rocneZaMesiacov: 10,       // ročné predplatné = 12 mesiacov za cenu 10
-    objednavkyUrl: '',         // neskôr adresa na VPS (POST JSON); prázdne = objednávka sa pošle e-mailom
-    platbaKartou: false,       // Stripe neskôr
+    // 3.121: objednávky idú cez Jarvis Bránu na VPS rovno do Alexovho Jarvisa; platbu kartou (Stripe) zapne Alex v Generátore
+    // licencií → Objednávky a košík sa na ňu pýta Brány. Prázdne = objednávka sa pošle e-mailom ako predtým.
+    obchodApi: 'https://stiahnut.apoliak.online/brana',
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
     podmienkyOd: '31. 10. 2026'
@@ -181,7 +182,7 @@ window.JARVIS_DATA = {
       kratko: 'Bestellungen aus WooCommerce oder Shoptet von selbst zu Kunden, Rechnungen und Lager.',
       popis: 'Alle 30 Minuten schaut Jarvis in Ihren Onlineshop auf WooCommerce oder Shoptet und bearbeitet neue Bestellungen selbst: Er trägt den Kunden in Kunden ein, stellt die Rechnung aus (falls der Shop das nicht schon tut), bucht die Ware nach Code aus dem Lager aus und erfasst den Umsatz im Geschäft. Ein Schlüssel nur zum Lesen genügt – Jarvis schreibt nichts in den Shop.' },
     /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
-    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Team', mesacne: 5, zaCloveka: true, ikona: 'team',
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Team', mesacne: 5, zaCloveka: true, mnozstvo: true, ikona: 'team',
       kratko: 'Gemeinsame Kunden, Aufgaben und Notizen für alle in der Firma.',
       popis: 'Kunden, Aufgaben und Notizen gemeinsam für die ganze Firma: wer welchen Auftrag betreut, was erledigt und was überfällig ist. Kollegen treten mit dem Team-Code bei, und eine Änderung auf einem Computer erscheint innerhalb einer halben Minute auf den anderen; ändern zwei dasselbe, gilt die neuere Änderung. Geteilt wird nur, was für das Team ist – Kunden, die Tafel Team in Aufgaben und für das Team markierte Notizen; private Notizen bleiben Ihre. Die Daten laufen über den Jarvis-Server, verschlüsselt mit dem Schlüssel des Teams, den nur Ihr Team hat – der Server kann sie nicht lesen. Bezahlt wird pro Person im Team.' },
     { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online-Reservierungen', mesacne: 15, ikona: 'plan',

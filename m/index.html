@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#101113">
+<title>Jarvis</title>
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #101113; color: #e9eaee; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; padding: 24px; }
+  main { width: min(380px, 100%); display: grid; gap: 14px; justify-items: center; text-align: center; }
+  img { border-radius: 20px; }
+  h1 { margin: 0; font-size: 24px; } p { margin: 0; color: #b8bcc6; }
+  form { width: 100%; display: grid; gap: 12px; margin-top: 6px; }
+  label { display: grid; gap: 6px; text-align: left; font-size: 13px; color: #b8bcc6; }
+  input { font: inherit; padding: 12px 14px; border-radius: 12px; border: 1px solid #2c2f36; background: #181a1f; color: #e9eaee; width: 100%; }
+  button { appearance: none; border: 0; border-radius: 12px; padding: 13px 20px; font: inherit; font-weight: 650; background: #e9eaee; color: #101113; cursor: pointer; }
+  button:disabled { opacity: .6; }
+  .err { color: #ff8a80; min-height: 1em; }
+  small { color: #7d828e; font-size: 12.5px; }
+</style>
+</head>
+<body>
+<main id="app"><img src="icon-192.png" width="72" height="72" alt=""><p>…</p></main>
+<script>
+/* Jarvis v mobile cez Bránu (3.121): the page that pairs a phone. The QR code of Jarvis on the PC opens it with the channel,
+   the key and a one-time pairing code after # – the key is stored here (this phone only) and the # is wiped from the address;
+   the service worker (/m/sw.js) then seals every request of the app with it. */
+'use strict';
+(() => {
+  const T = { // i18n:off – the phone's language
+    sk: { title: 'Jarvis v mobile', ask: 'Spárovať tento mobil s Jarvisom na tvojom PC?', name: 'Názov mobilu', pair: 'Spárovať', scan: 'Tento mobil ešte nie je spojený s Jarvisom. V Jarvisovi na PC otvor Mobil → Cez internet a naskenuj QR kód.', browser: 'Tento prehliadač Jarvisa v mobile nezvládne. Otvor odkaz v Safari (iPhone) alebo v Chrome (Android).', wait: 'Pripájam sa k Jarvisovi…', secure: 'Spojenie je šifrované kľúčom, ktorý má iba tento mobil a tvoje PC.', fail: 'Niečo sa nepodarilo – skús to o chvíľu.' },
+    en: { title: 'Jarvis on your phone', ask: 'Pair this phone with Jarvis on your PC?', name: 'Phone name', pair: 'Pair', scan: 'This phone is not connected to Jarvis yet. In Jarvis on your PC open Phone → Over the internet and scan the QR code.', browser: 'This browser cannot run Jarvis on your phone. Open the link in Safari (iPhone) or Chrome (Android).', wait: 'Connecting to Jarvis…', secure: 'The connection is encrypted with a key that only this phone and your PC have.', fail: 'Something went wrong – try again in a moment.' },
+    cs: { title: 'Jarvis v mobilu', ask: 'Spárovat tento mobil s Jarvisem na tvém PC?', name: 'Název mobilu', pair: 'Spárovat', scan: 'Tento mobil ještě není spojený s Jarvisem. V Jarvisovi na PC otevři Mobil → Přes internet a naskenuj QR kód.', browser: 'Tento prohlížeč Jarvise v mobilu nezvládne. Otevři odkaz v Safari (iPhone) nebo v Chrome (Android).', wait: 'Připojuji se k Jarvisovi…', secure: 'Spojení je šifrované klíčem, který má jen tento mobil a tvé PC.', fail: 'Něco se nepovedlo – zkus to za chvíli.' },
+    de: { title: 'Jarvis auf dem Handy', ask: 'Dieses Handy mit Jarvis auf deinem PC koppeln?', name: 'Name des Handys', pair: 'Koppeln', scan: 'Dieses Handy ist noch nicht mit Jarvis verbunden. Öffne in Jarvis auf dem PC Handy → Über das Internet und scanne den QR-Code.', browser: 'Dieser Browser kann Jarvis auf dem Handy nicht ausführen. Öffne den Link in Safari (iPhone) oder Chrome (Android).', wait: 'Verbinde mit Jarvis…', secure: 'Die Verbindung ist mit einem Schlüssel verschlüsselt, den nur dieses Handy und dein PC haben.', fail: 'Etwas ist schiefgelaufen – versuch es gleich noch einmal.' },
+    pl: { title: 'Jarvis w telefonie', ask: 'Sparować ten telefon z Jarvisem na twoim PC?', name: 'Nazwa telefonu', pair: 'Sparuj', scan: 'Ten telefon nie jest jeszcze połączony z Jarvisem. W Jarvisie na PC otwórz Telefon → Przez internet i zeskanuj kod QR.', browser: 'Ta przeglądarka nie obsłuży Jarvisa w telefonie. Otwórz link w Safari (iPhone) lub w Chrome (Android).', wait: 'Łączę z Jarvisem…', secure: 'Połączenie jest szyfrowane kluczem, który mają tylko ten telefon i twój PC.', fail: 'Coś poszło nie tak – spróbuj za chwilę.' },
+    hu: { title: 'Jarvis a telefonon', ask: 'Párosítod ezt a telefont a géped Jarvisával?', name: 'A telefon neve', pair: 'Párosítás', scan: 'Ez a telefon még nincs összekötve a Jarvisszal. A gépeden a Jarvisban nyisd meg: Telefon → Interneten át, és olvasd be a QR-kódot.', browser: 'Ez a böngésző nem tudja futtatni a Jarvist a telefonon. Nyisd meg a linket Safariban (iPhone) vagy Chrome-ban (Android).', wait: 'Kapcsolódás a Jarvishoz…', secure: 'A kapcsolatot olyan kulcs titkosítja, amely csak ennél a telefonnál és a gépednél van meg.', fail: 'Valami nem sikerült – próbáld újra kicsit később.' },
+    it: { title: 'Jarvis sul telefono', ask: 'Associare questo telefono a Jarvis sul tuo PC?', name: 'Nome del telefono', pair: 'Associa', scan: 'Questo telefono non è ancora collegato a Jarvis. In Jarvis sul PC apri Telefono → Via internet e inquadra il codice QR.', browser: 'Questo browser non può eseguire Jarvis sul telefono. Apri il link in Safari (iPhone) o in Chrome (Android).', wait: 'Connessione a Jarvis…', secure: 'La connessione è cifrata con una chiave che hanno solo questo telefono e il tuo PC.', fail: 'Qualcosa non ha funzionato – riprova tra poco.' },
+  }; // i18n:on
+  const phone = String(navigator.language || 'sk').slice(0, 2).toLowerCase(), t = T[phone] || T.en;
+  document.documentElement.lang = T[phone] ? phone : 'en';
+  const app = document.getElementById('app');
+  const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); for (const kid of kids) if (kid !== null && kid !== undefined) n.append(kid instanceof Node ? kid : document.createTextNode(String(kid))); return n; };
+  const show = (...kids) => app.replaceChildren(el('img', { src: 'icon-192.png', width: '72', height: '72', alt: '' }), el('h1', {}, t.title), ...kids);
+  const db = () => new Promise((resolve, reject) => { const r = indexedDB.open('jarvis-tunel', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => resolve(r.result); r.onerror = () => reject(r.error); });
+  const get = async key => { const d = await db(); return new Promise(resolve => { const r = d.transaction('kv').objectStore('kv').get(key); r.onsuccess = () => resolve(r.result ?? null); r.onerror = () => resolve(null); }); };
+  const put = async (key, value) => { const d = await db(); return new Promise(resolve => { const tr = d.transaction('kv', 'readwrite'); tr.objectStore('kv').put(value, key); tr.oncomplete = () => resolve(); tr.onerror = () => resolve(); }); };
+  const model = () => { const ua = navigator.userAgent; return /iPhone/.test(ua) ? 'iPhone' : /iPad/.test(ua) ? 'iPad' : (/Android[^;]*;\s*([^;)]+?)(?:\s+Build|\))/.exec(ua)?.[1] || 'Android').slice(0, 40); };
+
+  (async () => {
+    if (!('serviceWorker' in navigator) || !window.crypto?.subtle || !window.indexedDB) { show(el('p', {}, t.browser)); return; }
+    // the QR code: #k=<channel>.<key>&p=<pairing code> – kept here, then gone from the address (and the history)
+    const hash = new URLSearchParams(location.hash.slice(1)), k = hash.get('k') || '', code = hash.get('p') || '';
+    if (location.hash) history.replaceState(null, '', '/m/');
+    const [ch, key] = k.split('.');
+    if (/^[A-Za-z0-9_-]{22,64}$/.test(ch || '') && /^[A-Za-z0-9_-]{43}$/.test(key || '')) { await put('spojenie', { ch, key }); await put('cookie', null); }
+    const c = await get('spojenie');
+    if (!c) { show(el('p', {}, t.scan)); return; }
+    show(el('p', {}, t.wait));
+    await navigator.serviceWorker.register('/m/sw.js', { scope: '/m/' });
+    const ready = await navigator.serviceWorker.ready;
+    ready.active?.postMessage({ type: 'spojenie' });
+    if (!navigator.serviceWorker.controller) await new Promise(resolve => { navigator.serviceWorker.addEventListener('controllerchange', resolve, { once: true }); setTimeout(resolve, 4000); });
+    if (!navigator.serviceWorker.controller) { location.reload(); return; }
+    if (!/^[\w-]{8,80}$/.test(code)) { location.replace('/m/app/'); return; }
+    // a new phone: its name and one tap – the PC gives it its own key (the cookie of the pairing, kept by /m/sw.js)
+    const name = el('input', { maxlength: '40', autocomplete: 'off', value: model() }), error = el('p', { class: 'err', role: 'alert' }), go = el('button', { type: 'submit' }, t.pair);
+    const form = el('form', {}, el('label', {}, t.name, name), error, go);
+    form.addEventListener('submit', async event => {
+      event.preventDefault(); go.disabled = true; error.textContent = '';
+      try {
+        const res = await fetch('/pair.json', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ k: code, name: name.value.trim() || model() }) });
+        const out = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(out.error || t.fail);
+        location.replace('/m/app/#/vitaj');
+      } catch (e) { error.textContent = e.message || t.fail; go.disabled = false; }
+    });
+    show(el('p', {}, t.ask), form, el('small', {}, t.secure));
+  })().catch(() => show(el('p', {}, t.fail)));
+})();
+</script>
+</body>
+</html>

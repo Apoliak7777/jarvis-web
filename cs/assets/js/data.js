@@ -25,8 +25,9 @@ window.JARVIS_DATA = {
     mena: '€',
     splatnostDni: 7,
     rocneZaMesiacov: 10,       // ročné predplatné = 12 mesiacov za cenu 10
-    objednavkyUrl: '',         // neskôr adresa na VPS (POST JSON); prázdne = objednávka sa pošle e-mailom
-    platbaKartou: false,       // Stripe neskôr
+    // 3.121: objednávky idú cez Jarvis Bránu na VPS rovno do Alexovho Jarvisa; platbu kartou (Stripe) zapne Alex v Generátore
+    // licencií → Objednávky a košík sa na ňu pýta Brány. Prázdne = objednávka sa pošle e-mailom ako predtým.
+    obchodApi: 'https://stiahnut.apoliak.online/brana',
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
     podmienkyOd: '31. 10. 2026'
@@ -181,7 +182,7 @@ window.JARVIS_DATA = {
       kratko: 'Objednávky z WooCommerce nebo Shoptetu samy do klientů, faktur a skladu.',
       popis: 'Jarvis se každých 30 minut podívá do vašeho e-shopu na WooCommerce nebo Shoptetu a nové objednávky zpracuje sám: zákazníka zapíše do Klientů, vystaví fakturu (pokud ji nevystavuje už e-shop), zboží odepíše ze skladu podle kódu a tržbu zapíše do Byznysu. Klíč stačí jen na čtení – do e-shopu Jarvis nic nezapisuje.' },
     /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
-    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Tým', mesacne: 5, zaCloveka: true, ikona: 'team',
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Tým', mesacne: 5, zaCloveka: true, mnozstvo: true, ikona: 'team',
       kratko: 'Společní klienti, úkoly a poznámky pro všechny ve firmě.',
       popis: 'Klienti, úkoly a poznámky společné pro celou firmu: kdo má kterou zakázku na starosti, co je hotové a co po termínu. Kolegové se připojí kódem týmu a změna na jednom počítači se do půl minuty ukáže na ostatních; když dva změní totéž, platí novější změna. Sdílí se jen to, co je pro tým – Klienti, nástěnka Tým v Úkolech a poznámky označené pro tým, soukromé poznámky zůstávají vaše. Údaje jdou přes server Jarvise zašifrované klíčem týmu, který má jen váš tým – server je přečíst neumí. Platí se za každého člověka v týmu.' },
     { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online rezervace', mesacne: 15, ikona: 'plan',

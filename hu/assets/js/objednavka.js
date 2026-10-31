@@ -1,13 +1,28 @@
-/* Jarvis · potvrdenie objednávky: údaje na platbu s QR kódom PAY by square a odoslanie objednávky predajcovi e-mailom
-   (kým nie je objednávkový server – nastavenia.objednavkyUrl). Objednávka je uložená v tomto prehliadači. */
+/* Jarvis · potvrdenie objednávky: údaje na platbu s QR kódom PAY by square. 3.121: objednávka prišla cez Jarvis Bránu rovno
+   predajcovi (bez Brány sa pošle e-mailom ako predtým); platba kartou – stav zo servera, po návrate zo Stripe overenie
+   platby a „Zaplatiť kartou“ znova. Objednávka je uložená v tomto prehliadači. */
 (function () {
   'use strict';
-  var D = window.JARVIS_DATA, s = D.predajca;
-  var code = new URLSearchParams(location.search).get('c') || '';
-  var all = []; try { all = JSON.parse(localStorage.getItem('jarvis-objednavky-v1') || '[]'); } catch (e) {}
+  var D = window.JARVIS_DATA, s = D.predajca, ORDERS = 'jarvis-objednavky-v1';
+  var q = new URLSearchParams(location.search), code = q.get('c') || '', API = String(D.nastavenia.obchodApi || '').replace(/\/$/, '');
+  var all = []; try { all = JSON.parse(localStorage.getItem(ORDERS) || '[]'); } catch (e) {}
   var o = all.filter(function (x) { return x.kod === code; })[0] || (code ? null : all[0]);
-  if (!o) { document.querySelector('[data-order-missing]').hidden = false; return; }
+  var token = q.get('t') || (o && o.token) || '';
+  var $ = function (sel) { return document.querySelector(sel); };
+  var orderState = function () { return fetch(API + '/v1/verejne/obchod/objednavka/' + encodeURIComponent(o ? o.kod : code) + '?t=' + encodeURIComponent(token), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
+  if (!o) {
+    $('[data-order-missing]').hidden = false;
+    // späť zo Stripe v inom prehliadači: aspoň stav zo servera
+    if (code && token && API) orderState().then(function (st) {
+      if (!st) return;
+      $('[data-missing-title]').textContent = st.stav === 'zaplatena' ? 'A fizetés beérkezett' : 'A megrendelés fizetésre vár';
+      $('[data-missing-text]').textContent = st.stav === 'zaplatena' ? 'Megrendelés: ' + st.kod + ' – kifizetve. A licenckulcsot e-mailben kapja meg.' : 'Megrendelés: ' + st.kod + ' – még nincs kifizetve. Nyissa meg abban a böngészőben, amelyben rendelt.';
+    });
+    return;
+  }
   document.querySelector('[data-order]').hidden = false;
+  var save = function () { all = all.map(function (x) { return x.kod === o.kod ? o : x; }); try { localStorage.setItem(ORDERS, JSON.stringify(all)); } catch (e) {} };
+  if (token && !o.token) { o.token = token; save(); }
 
   var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var eur = function (n) { var v = Math.round(n * 100) / 100, p = v.toFixed(2).split('.'); return p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + (p[1] === '00' ? '' : ',' + p[1]) + ' €'; };
@@ -48,7 +63,7 @@
   var mailBtn = document.querySelector('[data-mailto]');
   mailBtn.href = mailto;
   var status = document.querySelector('[data-send-status]');
-  if (o.odoslana) { document.querySelector('[data-send-text]').textContent = 'A megrendelését már megkaptam. E-mailben visszaigazolom.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Küldés e-mailben is'; }
+  if (o.odoslana) { document.querySelector('[data-send-title]').textContent = 'A megrendelés elküldve'; document.querySelector('[data-send-text]').textContent = 'A megrendelését már megkaptam. E-mailben visszaigazolom.'; mailBtn.classList.remove('btn-primary'); mailBtn.lastChild.textContent = 'Küldés e-mailben is'; }
 
   var copy = function (value, label) {
     var done = function () { window.JarvisShop && window.JarvisShop.toast(label + ' – kimásolva'); };
@@ -58,4 +73,48 @@
   };
   document.querySelector('[data-copy-order]').addEventListener('click', function () { copy(text + '\n\nKüldje a következő címre: ' + s.email, 'A megrendelés szövege'); status.innerHTML = '<div class="info-box">A szöveg a vágólapon van – illessze be egy e-mailbe erre a címre: <b>' + esc(s.email) + '</b>.</div>'; });
   document.querySelectorAll('[data-copy]').forEach(function (b) { b.addEventListener('click', function () { var k = b.getAttribute('data-copy'); copy(k === 'iban' ? s.iban.replace(/\s/g, '') : o.vs, k === 'iban' ? 'IBAN' : 'Változó szimbólum (VS)'); }); });
+
+  // ---------- 3.121 platba kartou (Stripe cez Jarvis Bránu): po návrate zo Stripe sa overí, či prišla; inak sa dá zaplatiť znova
+  // kartou alebo prevodom podľa údajov vyššie
+  if (!API || !token || !(o.platba === 'karta' || q.get('zaplatene') || q.get('zrusene'))) return;
+  var cardPanel = $('[data-card-panel]'), cardTitle = $('[data-card-title]'), cardText = $('[data-card-text]'), cardActions = $('[data-card-actions]'), payBtn = $('[data-card-pay]'), cardError = $('[data-card-error]');
+  var transfer = $('[data-transfer-panel]');
+  $('[data-send-panel]').hidden = true; cardPanel.hidden = false;
+  document.querySelectorAll('[data-num]').forEach(function (el) { el.hidden = true; });
+  $('[data-lead]').innerHTML = 'A(z) <b class="num">' + esc(o.kod) + '</b> számú megrendelés beérkezett.';
+  $('[data-key-text]').textContent = 'A licenckulcsot a fizetés után azonnal megkapja e-mailben – a Jarvisban a Kulcs beillesztése gombbal illeszti be. A csomag és a bővítmények díját ezután automatikusan levonjuk a kártyáról, és a licenc magától meghosszabbodik; az előfizetést bármikor lemondhatja a Jarvisban (Előfizetésem).';
+  var paid = function () {
+    cardActions.hidden = true; transfer.hidden = true; cardError.innerHTML = '';
+    cardTitle.textContent = 'Kártyával kifizetve';
+    cardText.textContent = 'Köszönöm, a fizetés megérkezett. A licenckulcsot néhány percen belül megkapja e-mailben.';
+    if (!o.zaplatena) { o.zaplatena = true; save(); }
+  };
+  var unpaid = function (failed) {
+    cardActions.hidden = false; transfer.hidden = false;
+    cardTitle.textContent = failed ? 'A kártyás fizetés nem sikerült' : 'A kártyás fizetés még nem fejeződött be';
+    cardText.textContent = 'Fizessen újra kártyával, vagy átutalással az alábbi adatok szerint.';
+    $('[data-transfer-title]').textContent = 'Vagy fizessen átutalással';
+  };
+  if (o.zaplatena) paid();
+  else {
+    transfer.hidden = true;
+    cardTitle.textContent = 'Várakozás a fizetés visszaigazolására…'; cardText.textContent = 'Egy pillanat türelmet, a bank visszaigazolja a fizetést.';
+    var tries = q.get('zaplatene') ? 15 : 1;
+    (function poll() {
+      orderState().then(function (st) {
+        if (st && st.stav === 'zaplatena') return paid();
+        if (st && st.stav === 'zlyhala') return unpaid(true);
+        if (--tries > 0) { setTimeout(poll, 3000); return; }
+        if (q.get('zaplatene')) { cardTitle.textContent = 'A fizetés feldolgozás alatt'; cardText.textContent = 'A bank még visszaigazolja a fizetést. Amint megtörténik, a licenckulcsot megkapja e-mailben – az oldalt bezárhatja.'; return; }
+        unpaid(false);
+      });
+    })();
+  }
+  payBtn.addEventListener('click', function () {
+    payBtn.disabled = true; cardError.innerHTML = '';
+    var fail = function () { payBtn.disabled = false; cardError.innerHTML = '<div class="error-box">A kártyás fizetés most nem lehetséges – próbálja újra kicsit később, vagy fizessen átutalással.</div>'; };
+    fetch(API + '/v1/verejne/obchod/objednavka/' + encodeURIComponent(o.kod) + '/platba', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ t: token }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) { if (res.ok && res.j.url) location.href = res.j.url; else if (res.ok && res.j.stav === 'zaplatena') paid(); else fail(); }, fail);
+  });
 })();

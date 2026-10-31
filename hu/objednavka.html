@@ -46,15 +46,22 @@
   <div class="wrap" style="max-width:980px">
     <noscript><div class="error-box">Az oldalhoz be kell kapcsolni a JavaScriptet.</div></noscript>
     <div data-order-missing hidden>
-      <div class="panel empty"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></div><h2 style="margin-bottom:10px">Nem találtam a megrendelést</h2><p class="muted">A megrendelések csak ebben a böngészőben tárolódnak. Ha máshol rendelt, az e-mailben találja meg.</p><div class="actions" style="justify-content:center;margin-top:18px"><a class="btn btn-primary" href="obchod.html">A boltba</a></div></div>
+      <div class="panel empty"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></div><h2 style="margin-bottom:10px" data-missing-title>Nem találtam a megrendelést</h2><p class="muted" data-missing-text>A megrendelések csak ebben a böngészőben tárolódnak. Ha máshol rendelt, az e-mailben találja meg.</p><div class="actions" style="justify-content:center;margin-top:18px"><a class="btn btn-primary" href="obchod.html">A boltba</a></div></div>
     </div>
     <div data-order hidden>
       <span class="eyebrow">Megrendelés fogadva</span>
       <h1 style="font-size:clamp(32px,4.6vw,50px);margin-bottom:14px">Köszönöm, <span data-o="oslovenie"></span></h1>
-      <p class="lead" style="margin-bottom:32px">A(z) <b class="num" data-o="kod"></b> számú megrendelés elkészült. Három lépés van hátra:</p>
+      <p class="lead" style="margin-bottom:32px" data-lead>A(z) <b class="num" data-o="kod"></b> számú megrendelés elkészült. Három lépés van hátra:</p>
+
+      <div class="panel" data-card-panel hidden>
+        <h2 data-card-title>Kártyás fizetés</h2>
+        <p class="muted" style="margin:0" data-card-text></p>
+        <div class="actions no-print" data-card-actions hidden style="margin-top:16px"><button class="btn btn-primary" type="button" data-card-pay><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Fizetés kártyával</button></div>
+        <div data-card-error style="margin-top:14px"></div>
+      </div>
 
       <div class="panel" data-send-panel>
-        <h2><span class="muted num" style="font-weight:600">1.</span> Küldje el nekem a megrendelést</h2>
+        <h2><span class="muted num" style="font-weight:600">1.</span> <span data-send-title>Küldje el nekem a megrendelést</span></h2>
         <p class="muted" data-send-text>A kattintásra megnyílik a levelezője a kitöltött megrendeléssel – csak el kell küldenie. Válaszban visszaigazolom; ha telepítést is rendelt, az időpontot is egyeztetjük.</p>
         <div class="actions no-print">
           <a class="btn btn-primary" data-mailto href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6 8.5-6"/></svg>Megrendelés elküldése e-mailben</a>
@@ -63,8 +70,8 @@
         <div data-send-status style="margin-top:14px"></div>
       </div>
 
-      <div class="panel">
-        <h2><span class="muted num" style="font-weight:600">2.</span> Fizessen átutalással</h2>
+      <div class="panel" data-transfer-panel>
+        <h2><span class="muted num" style="font-weight:600" data-num>2.</span> <span data-transfer-title>Fizessen átutalással</span></h2>
         <div class="pay">
           <div class="no-print-qr"><div class="qr" data-qr aria-label="Fizetési QR-kód"></div><p class="qr-cap" data-qr-cap>PAY by square – olvassa be a banki alkalmazásban</p></div>
           <dl class="kv">
@@ -80,8 +87,8 @@
       </div>
 
       <div class="panel">
-        <h2><span class="muted num" style="font-weight:600">3.</span> Licenckulcs</h2>
-        <p class="muted" style="margin:0">Amint a fizetés megérkezik a számlára, e-mailben elküldöm a licenckulcsot. Előbb szeretné? Küldje el nekem a fizetési igazolást – elég válaszolni az e-mailemre. A Jarvisban aztán a Kulcs beillesztése gombbal illeszti be a kulcsot.</p>
+        <h2><span class="muted num" style="font-weight:600" data-num>3.</span> Licenckulcs</h2>
+        <p class="muted" style="margin:0" data-key-text>Amint a fizetés megérkezik a számlára, e-mailben elküldöm a licenckulcsot. Előbb szeretné? Küldje el nekem a fizetési igazolást – elég válaszolni az e-mailemre. A Jarvisban aztán a Kulcs beillesztése gombbal illeszti be a kulcsot.</p>
       </div>
 
       <div class="panel">

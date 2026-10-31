@@ -98,15 +98,16 @@
           <h2>Zusammenfassung</h2>
           <div data-cart-summary></div>
           <div class="field" style="margin-top:18px"><label>Zahlung</label>
+            <label class="check" style="padding:6px 0" data-card-option hidden><input type="radio" name="platba" value="karta"> <span>Per Karte – die Lizenz erhalten Sie direkt nach der Zahlung per E-Mail</span></label>
             <label class="check" style="padding:6px 0"><input type="radio" name="platba" value="prevod" checked> <span>Per Überweisung auf das Konto – nach der Bestellung erhalten Sie die Zahlungsdaten und einen SEPA-QR-Code</span></label>
-            <p class="hint" style="margin:0">Die Kartenzahlung folgt in Kürze.</p>
+            <p class="hint" data-pay-hint hidden style="margin:4px 0 0;font-size:13px;color:var(--muted)"></p>
           </div>
           <label class="check"><input type="checkbox" name="vop" required> <span>Ich stimme den <a href="obchodne-podmienky.html" target="_blank" rel="noopener">Allgemeinen Geschäftsbedingungen</a> zu und nehme die <a href="ochrana-udajov.html" target="_blank" rel="noopener">Verarbeitung personenbezogener Daten</a> zur Kenntnis. *</span></label>
           <label class="check" data-consent-row><input type="checkbox" name="zaciatok"> <span>Ich verlange, dass Sie mit der Lieferung der Jarvis-Lizenz (und mit der Installation, falls sie in der Bestellung ist) bereits vor Ablauf der 14-tägigen Widerrufsfrist beginnen. Ich nehme zur Kenntnis, dass ich nach vollständiger Erbringung der Dienstleistung und dem Beginn der Lieferung digitaler Inhalte mein Widerrufsrecht verliere.</span></label>
           <p class="hint" data-consent-hint style="margin:0 0 14px;font-size:13px;color:var(--muted)">Ohne diese Zustimmung schicke ich Ihnen den Lizenzschlüssel und beginne mit der Installation erst nach Ablauf der Widerrufsfrist (am 15. Tag nach der Bestellung).</p>
           <div data-cart-error></div>
           <button class="btn btn-primary btn-block" type="submit">Zahlungspflichtig bestellen</button>
-          <p class="hint" style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">Nach dem Absenden sehen Sie die Zahlungsdaten und den QR-Code.</p>
+          <p class="hint" data-send-hint style="margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center">Nach dem Absenden sehen Sie die Zahlungsdaten und den QR-Code.</p>
         </div>
       </aside>
     </form>
@@ -130,6 +131,7 @@
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/web.js"></script>
+<script src="assets/js/ceny.js"></script>
 <script src="assets/js/kosik.js"></script>
 </body>
 </html>
