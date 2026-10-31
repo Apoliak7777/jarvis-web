@@ -29,7 +29,7 @@ window.JARVIS_DATA = {
     platbaKartou: false,       // Stripe neskôr
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
-    podmienkyOd: '28. 10. 2026'
+    podmienkyOd: '31. 10. 2026'
   },
 
   plany: [
@@ -127,17 +127,17 @@ window.JARVIS_DATA = {
     /* Rozšírenia pre firmy: mesačne ku plánu, platia spolu s licenciou (v kľúči pole m). pripravujeme = zatiaľ sa nedá kúpiť.
        zaklad = čo z rozšírenia má každý plán zadarmo (Jarvis 3.117: ľahká verzia v každom Jarvisovi, rozšírenie pridá zvyšok). */
     { id: 'modul-reporty', modul: 'reporty', kategoria: 'rozsirenia', nazov: 'Owner overview', mesacne: 5, ikona: 'chart', snimka: 'modul_prehlad',
-      zaklad: 'the This week card in Business with sales, unpaid invoices and new leads.',
-      kratko: 'A summary every Monday: revenue, leads, unpaid invoices and overdue tasks.',
-      popis: 'Every Monday morning you get a summary of your company: revenue and expenses compared with last week and last month, new leads, quotes in play, what is waiting to be paid and which tasks are overdue. At the end of the month a closing report as a PDF, which you can send to your partner or your accountant. Plus When the money runs out: the account balance in 30, 60 and 90 days by the due dates of invoices, documents and regular payments, and a warning if it would drop below zero.' },
+      zaklad: 'the This week card in Business with sales, unpaid invoices and new leads, and for every job its sales and hours worked.',
+      kratko: 'A summary of your company every Monday and the profitability of every job – what it earned after costs.',
+      popis: 'Every Monday morning you get a summary of your company: revenue and expenses compared with last week and last month, new leads, quotes in play, what is waiting to be paid and which tasks are overdue. At the end of the month a closing report as a PDF, which you can send to your partner or your accountant. Plus When the money runs out: the account balance in 30, 60 and 90 days by the due dates of invoices, documents, regular payments and contracts, and a warning if it would drop below zero. Job profitability: for every job, the revenue from invoices, hours worked from the Timesheet, material from stock and the documents and costs you assign to it – profit, margin and earnings per hour, so you can see which jobs pay off.' },
     { id: 'modul-hovory', modul: 'hovory', kategoria: 'rozsirenia', nazov: 'Calls and meetings to CRM', mesacne: 9, ikona: 'phonecall', snimka: 'modul_hovory_navrh',
       zaklad: 'Meeting minutes – recording, transcript and summary.',
       kratko: 'A recorded call or meeting → transcript, summary and tasks straight to the client.',
       popis: 'Record a call with a customer or a meeting, and Jarvis turns it into a transcript showing who said what, a short summary and tasks. It files everything under the right client and puts the tasks on your board. Transcription runs offline on your computer.' },
     { id: 'modul-faktury', modul: 'faktury', kategoria: 'rozsirenia', nazov: 'Invoices and reminders', mesacne: 9, ikona: 'invoice', snimka: 'modul_faktury',
       zaklad: 'a payment request with a PAY by square QR code and a text for the customer.',
-      kratko: 'An invoice with a QR code in one click, recurring and advance invoices, the e-invoice for 2027 and payment tracking.',
-      popis: 'You issue an invoice with a QR code for payment right from the customer’s card – with numbering, a PDF and also as a Peppol e-invoice for the mandatory e-invoicing from 2027. You send it by e-mail in one click, it is recorded in Business and Jarvis watches the due date: 3 and 14 days after it, it prepares a reminder that you just check and send. Bank payments: the statement from internet banking (XML or CSV, automatically with Fio banka) is matched with invoices and documents by the variable symbol and the amount. Recurring invoices (hosting, a service contract, rent) are issued by themselves every month, quarter or year, you settle a paid advance invoice in one click and issue a credit note to an invoice. For each month it prepares an export for your accountant to POHODA or Money S3. It works for VAT payers and non-payers alike.' },
+      kratko: 'Invoices with a QR code and card payment, e-invoices via Peppol, quotes with an Accept button and payments matched automatically.',
+      popis: 'You issue an invoice with a QR code for payment right from the customer’s card – with numbering, a PDF and also as a Peppol e-invoice for the mandatory e-invoicing from 2027. You send it by e-mail in one click, it is recorded in Business and Jarvis watches the due date: 3 and 14 days after it, it prepares a reminder that you just check and send. E-invoices via Peppol: with an account at a digital postman (a Peppol access point using the Slovak SAPI-SK standard), Jarvis sends the invoice straight into the customer’s system and takes over e-invoices from your suppliers into Documents by itself. Card payment: with your own Stripe account, every invoice e-mail also carries a link to pay by card, and once paid, the invoice marks itself as paid. Bank payments: the statement from internet banking (XML or CSV, automatically with Fio banka) is matched with invoices and documents by the variable symbol and the amount – and the bank’s e-mail notifications of incoming payments are matched automatically every half hour (only verified messages from the bank). Quote with an Accept button: you send a quote as a link, the customer accepts it in one click and a job is created in Clients, with an advance invoice if you like. Recurring invoices (hosting, a service contract, rent) are issued by themselves every month, quarter or year, you settle a paid advance invoice in one click and issue a credit note to an invoice. For each month it prepares an export for your accountant to POHODA or Money S3. It works for VAT payers and non-payers alike.' },
     { id: 'modul-doklady', modul: 'doklady', kategoria: 'rozsirenia', nazov: 'Documents from mail', mesacne: 9, ikona: 'mail', snimka: 'modul_doklady',
       zaklad: 'a document added by hand (PDF or photo) – Jarvis reads the supplier, the amount and the due date and records it in Business.',
       kratko: 'Invoices and receipts from your mail and your phone, into a spreadsheet for your accountant.',
@@ -180,12 +180,21 @@ window.JARVIS_DATA = {
     { id: 'modul-eshop', modul: 'eshop', kategoria: 'rozsirenia', nazov: 'E-shop connection', mesacne: 9, ikona: 'cart',
       kratko: 'Orders from WooCommerce or Shoptet go by themselves into clients, invoices and stock.',
       popis: 'Every 30 minutes Jarvis looks into your e-shop on WooCommerce or Shoptet and processes the new orders by itself: it records the customer in Clients, issues the invoice (if the e-shop does not already), takes the goods out of stock by their code and records the sale in Business. A read-only key is enough – Jarvis writes nothing into the e-shop.' },
-    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Team', mesacne: 5, zaCloveka: true, ikona: 'team', pripravujeme: true,
+    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Team', mesacne: 5, zaCloveka: true, ikona: 'team',
       kratko: 'Shared clients, tasks and notes for everyone in the company.',
-      popis: 'Clients, tasks and notes shared by the whole company: who is responsible for which job, what is done and what is overdue. A change on one computer shows up on the others straight away.' },
-    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online bookings', mesacne: 15, ikona: 'plan', pripravujeme: true,
+      popis: 'Clients, tasks and notes shared by the whole company: who is in charge of which job, what is done and what is overdue. Colleagues join with the team code, and a change on one computer shows up on the others within half a minute; when two people change the same thing, the newer change wins. Only what is meant for the team is shared – Clients, the Team board in Tasks and notes marked for the team; private notes stay yours. The data travel through the Jarvis server encrypted with the team’s key, which only your team has – the server cannot read them. You pay for each person in the team.' },
+    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online bookings', mesacne: 15, ikona: 'plan',
       kratko: 'A booking page for your customers, with appointments straight in the Jarvis calendar.',
-      popis: 'Your customers book appointments themselves on your page (salon, repair shop, consultancy, courses) and the appointment appears in the Jarvis calendar at once. Customers get a reminder before their appointment, and you see your whole day in one place.' },
+      popis: 'Your customers book an appointment themselves on your booking page (salon, service, consultancy, courses) – they choose the service, day and time from the free slots in your Calendar. The appointment is entered into the Jarvis Calendar and the customer into Clients by itself, the customer gets a confirmation by e-mail from your mailbox and a reminder before the appointment, and can cancel it with the link in the confirmation. The page is in 7 languages, in your company’s colour, and works even when your computer is off. You can put the link on your website, your Google profile or Instagram.' },
+    { id: 'modul-zmluvy', modul: 'zmluvy', kategoria: 'rozsirenia', nazov: 'Contracts and insurance', mesacne: 5, ikona: 'contract',
+      zaklad: '5 contracts and insurance policies with their notice deadline and a reminder.',
+      kratko: 'Rent, insurance, energy and leasing with notice deadlines – Jarvis reminds you in good time.',
+      popis: 'All of your company’s contracts in one place – rent, insurance, energy, leasing, phones and services. Jarvis knows how long they run, when they renew by themselves and by when the notice has to be sent, and reminds you ahead of time, a week and a day before. It prepares the notice as a letter in PDF, reads the other party, the amount and the dates from a contract in PDF by itself and counts the regular payments into the When the money runs out overview. The extension adds an unlimited number of contracts, reading contracts with AI and the notice in PDF.' },
+    { id: 'modul-asistent', modul: 'asistent', kategoria: 'rozsirenia', nazov: 'AI assistant for your website', mesacne: 15, ikona: 'chat',
+      zaklad: 'a chat window on your website with a contact form – enquiries go straight into Clients.',
+      kratko: 'A chat window on your website that answers customers from your price lists and documents.',
+      popis: 'You insert one line of code into your website (WordPress, Wix, Shoptet or your own site) and a chat window in your company’s colour appears in the bottom right corner. Visitors are answered by your Jarvis – only from what you allow it: services, prices, opening hours and selected documents from Company knowledge. When it does not know the answer or your computer is off, it offers a contact form and the enquiry goes straight into Clients. Answers go through your own API key or an offline model, and you see every question and answer in Jarvis.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'Custom app in Jarvis', cena: 490, ikona: 'app',
       kratko: 'A small app made exactly for your business – a register, a calculator, a form.',
@@ -221,7 +230,7 @@ window.JARVIS_DATA = {
 
   /* Odvetvové balíky rozšírení (stránka Pre firmy): moduly + nastavenie pre odbor lacnejšie ako samostatne. */
   odvetvia: [
-    { id: 'uctovnictvo', nazov: 'Accounting firm', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'VAT and tax deadlines in Dates and deadlines',
+    { id: 'uctovnictvo', nazov: 'Accounting firm', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'VAT, tax advance and contribution deadlines in the Tax calendar',
       text: 'Client documents from mail straight into spreadsheets, invoices with reminders and replies that follow your procedures.' },
     { id: 'remeslo', nazov: 'Tradesperson and construction firm', ikona: 'deal', mesacne: 15, moduly: ['faktury', 'hovory'], navyse: 'Site photos from your phone attached to a job',
       text: 'A quote, a job, site photos, a timesheet and an invoice – all together under one customer.' },

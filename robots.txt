@@ -13,4 +13,5 @@ Disallow: /hu/kosik.html
 Disallow: /hu/objednavka.html
 Disallow: /it/kosik.html
 Disallow: /it/objednavka.html
+Disallow: /p/
 Sitemap: https://jarvis.apoliak.online/sitemap.xml

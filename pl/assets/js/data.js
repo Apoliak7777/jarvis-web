@@ -29,7 +29,7 @@ window.JARVIS_DATA = {
     platbaKartou: false,       // Stripe neskôr
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
-    podmienkyOd: '28. 10. 2026'
+    podmienkyOd: '31. 10. 2026'
   },
 
   plany: [
@@ -127,17 +127,17 @@ window.JARVIS_DATA = {
     /* Rozšírenia pre firmy: mesačne ku plánu, platia spolu s licenciou (v kľúči pole m). pripravujeme = zatiaľ sa nedá kúpiť.
        zaklad = čo z rozšírenia má každý plán zadarmo (Jarvis 3.117: ľahká verzia v každom Jarvisovi, rozšírenie pridá zvyšok). */
     { id: 'modul-reporty', modul: 'reporty', kategoria: 'rozsirenia', nazov: 'Przegląd dla właściciela', mesacne: 5, ikona: 'chart', snimka: 'modul_prehlad',
-      zaklad: 'karta Ten tydzień w Biznesie z przychodami, niezapłaconymi fakturami i nowymi zainteresowanymi.',
-      kratko: 'W każdy poniedziałek zestawienie: przychody, potencjalni klienci, niezapłacone należności i zadania po terminie.',
-      popis: 'W każdy poniedziałek rano otrzymują Państwo zestawienie firmy: przychody i wydatki w porównaniu z poprzednim tygodniem i miesiącem, nowych potencjalnych klientów, oferty w toku, to, co czeka na zapłatę, oraz zadania po terminie. Na koniec miesiąca – zamknięcie miesiąca w PDF, które można przesłać wspólnikowi lub księgowej. Do tego Kiedy skończą się pieniądze: stan konta za 30, 60 i 90 dni według terminów płatności faktur, dokumentów i stałych płatności oraz ostrzeżenie, gdyby miał spaść poniżej zera.' },
+      zaklad: 'karta Ten tydzień w Biznesie z przychodami, niezapłaconymi fakturami i nowymi zainteresowanymi oraz przy każdym zleceniu przychody i przepracowane godziny.',
+      kratko: 'W każdy poniedziałek zestawienie firmy i rentowność każdego zlecenia – ile zarobiło po kosztach.',
+      popis: 'W każdy poniedziałek rano otrzymują Państwo zestawienie firmy: przychody i wydatki w porównaniu z poprzednim tygodniem i miesiącem, nowych potencjalnych klientów, oferty w toku, to, co czeka na zapłatę, oraz zadania po terminie. Na koniec miesiąca – zamknięcie miesiąca w PDF, które można przesłać wspólnikowi lub księgowej. Do tego Kiedy skończą się pieniądze: stan konta za 30, 60 i 90 dni według terminów płatności faktur, dokumentów, stałych płatności i umów oraz ostrzeżenie, gdyby miał spaść poniżej zera. Rentowność zleceń: przy każdym zleceniu przychody z faktur, przepracowane godziny z Raportu pracy, materiał z magazynu oraz dokumenty i koszty, które Państwo do niego przypiszą – zysk, marża i zarobek na godzinę, aby było widać, które zlecenia się opłacają.' },
     { id: 'modul-hovory', modul: 'hovory', kategoria: 'rozsirenia', nazov: 'Rozmowy i spotkania do CRM', mesacne: 9, ikona: 'phonecall', snimka: 'modul_hovory_navrh',
       zaklad: 'Notatka ze spotkania – nagranie, transkrypcja i podsumowanie.',
       kratko: 'Nagrana rozmowa lub narada → transkrypcja, podsumowanie i zadania od razu przy kliencie.',
       popis: 'Wystarczy nagrać rozmowę z klientem lub naradę, a Jarvis przygotuje z niej transkrypcję z podziałem na mówców, krótkie podsumowanie i zadania. Wszystko zapisze przy właściwym kliencie, a zadania umieści na tablicy. Transkrypcja działa offline na Państwa komputerze.' },
     { id: 'modul-faktury', modul: 'faktury', kategoria: 'rozsirenia', nazov: 'Faktury i upomnienia', mesacne: 9, ikona: 'invoice', snimka: 'modul_faktury',
       zaklad: 'wezwanie do zapłaty z kodem QR PAY by square i tekstem dla klienta.',
-      kratko: 'Faktura z kodem QR jednym kliknięciem, faktury cykliczne i zaliczkowe, e-faktura na rok 2027 i śledzenie płatności.',
-      popis: 'Fakturę z kodem QR do zapłaty wystawia się bezpośrednio z karty klienta – z numeracją, PDF i od razu jako e-fakturę Peppol na obowiązkową e-fakturację od 2027 roku. Wysyła się ją e-mailem jednym kliknięciem, zapisuje się w Biznesie, a Jarvis pilnuje terminu płatności: 3 i 14 dni po nim przygotuje upomnienie, które wystarczy sprawdzić i wysłać. Płatności z banku: wyciąg z bankowości internetowej (XML lub CSV, w Fio banka także automatycznie) zostanie sparowany z fakturami i dokumentami po symbolu zmiennym i kwocie. Faktury cykliczne (hosting, umowa serwisowa, najem) wystawiają się same co miesiąc, kwartał lub rok, zapłaconą fakturę zaliczkową rozlicza się jednym kliknięciem, a do faktury wystawia korektę. Za każdy miesiąc przygotuje eksport dla księgowej do POHODY lub Money S3. Działa dla płatników VAT i niepłatników.' },
+      kratko: 'Faktura z kodem QR i płatnością kartą, e-faktury przez Peppol, oferta z przyciskiem Akceptuj i płatności dopasowywane same.',
+      popis: 'Fakturę z kodem QR do zapłaty wystawia się bezpośrednio z karty klienta – z numeracją, PDF i od razu jako e-fakturę Peppol na obowiązkową e-fakturację od 2027 roku. Wysyła się ją e-mailem jednym kliknięciem, zapisuje się w Biznesie, a Jarvis pilnuje terminu płatności: 3 i 14 dni po nim przygotuje upomnienie, które wystarczy sprawdzić i wysłać. E-faktury przez Peppol: z kontem u cyfrowego listonosza (punkt dostępowy Peppol w słowackim standardzie SAPI-SK) Jarvis wysyła fakturę bezpośrednio do systemu odbiorcy, a e-faktury od dostawców sam przejmuje do Dokumentów. Płatność kartą: z Państwa kontem Stripe każda faktura otrzymuje w e-mailu także link do zapłaty kartą, a po zapłacie sama oznacza się jako opłacona. Płatności z banku: wyciąg z bankowości internetowej (XML lub CSV, w Fio banka także automatycznie) zostanie sparowany z fakturami i dokumentami po symbolu zmiennym i kwocie – a powiadomienia e-mailowe banku o otrzymanej płatności Jarvis paruje sam co pół godziny (tylko zweryfikowane wiadomości od banku). Oferta z przyciskiem Akceptuj: ofertę wysyła się jako link, klient akceptuje ją jednym kliknięciem, a w Klientach powstaje zlecenie, na życzenie także z fakturą zaliczkową. Faktury cykliczne (hosting, umowa serwisowa, najem) wystawiają się same co miesiąc, kwartał lub rok, zapłaconą fakturę zaliczkową rozlicza się jednym kliknięciem, a do faktury wystawia korektę. Za każdy miesiąc przygotuje eksport dla księgowej do POHODY lub Money S3. Działa dla płatników VAT i niepłatników.' },
     { id: 'modul-doklady', modul: 'doklady', kategoria: 'rozsirenia', nazov: 'Dokumenty z poczty', mesacne: 9, ikona: 'mail', snimka: 'modul_doklady',
       zaklad: 'dokument dodany ręcznie (PDF lub zdjęcie) – Jarvis odczyta dostawcę, kwotę i termin płatności i zapisze go w Biznesie.',
       kratko: 'Faktury i paragony z poczty oraz z telefonu – do arkusza dla księgowej.',
@@ -180,12 +180,21 @@ window.JARVIS_DATA = {
     { id: 'modul-eshop', modul: 'eshop', kategoria: 'rozsirenia', nazov: 'Połączenie ze sklepem internetowym', mesacne: 9, ikona: 'cart',
       kratko: 'Zamówienia z WooCommerce lub Shoptetu same trafiają do klientów, faktur i magazynu.',
       popis: 'Co 30 minut Jarvis zagląda do sklepu na WooCommerce lub Shoptecie i sam przetwarza nowe zamówienia: klienta zapisze w Klientach, wystawi fakturę (jeśli nie wystawia jej już sklep), towar odpisze z magazynu według kodu, a sprzedaż zapisze w Biznesie. Wystarczy klucz tylko do odczytu – Jarvis niczego nie zapisuje w sklepie.' },
-    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Zespół', mesacne: 5, zaCloveka: true, ikona: 'team', pripravujeme: true,
+    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Zespół', mesacne: 5, zaCloveka: true, ikona: 'team',
       kratko: 'Wspólni klienci, zadania i notatki dla wszystkich w firmie.',
-      popis: 'Klienci, zadania i notatki wspólne dla całej firmy: kto odpowiada za które zlecenie, co jest gotowe, a co po terminie. Zmiana na jednym komputerze od razu pojawia się na pozostałych.' },
-    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Rezerwacje online', mesacne: 15, ikona: 'plan', pripravujeme: true,
+      popis: 'Klienci, zadania i notatki wspólne dla całej firmy: kto odpowiada za które zlecenie, co jest gotowe, a co po terminie. Współpracownicy dołączają kodem zespołu, a zmiana na jednym komputerze w ciągu pół minuty pojawia się na pozostałych; gdy dwie osoby zmienią to samo, obowiązuje nowsza zmiana. Udostępnia się tylko to, co jest dla zespołu – Klienci, tablica Zespół w Zadaniach i notatki oznaczone dla zespołu; prywatne notatki pozostają Państwa. Dane przechodzą przez serwer Jarvisa zaszyfrowane kluczem zespołu, który ma tylko Państwa zespół – serwer nie potrafi ich odczytać. Płaci się za każdą osobę w zespole.' },
+    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Rezerwacje online', mesacne: 15, ikona: 'plan',
       kratko: 'Strona rezerwacji dla Państwa klientów, terminy od razu w kalendarzu Jarvisa.',
-      popis: 'Państwa klienci rezerwują termin sami na Państwa stronie (salon, serwis, poradnia, kursy), a termin od razu pojawia się w kalendarzu Jarvisa. Klienci otrzymują przed terminem przypomnienie, a Państwo widzą cały dzień w jednym miejscu.' },
+      popis: 'Państwa klienci sami rezerwują termin na Państwa stronie rezerwacji (salon, serwis, poradnia, kursy) – wybierają usługę, dzień i godzinę z wolnych terminów Państwa Kalendarza. Termin sam zapisuje się w Kalendarzu Jarvisa, a klient w Klientach, klient otrzymuje potwierdzenie e-mailem z Państwa skrzynki i przypomnienie przed terminem; odwołać go może sam linkiem z potwierdzenia. Strona jest w 7 językach, w kolorze Państwa firmy i działa także wtedy, gdy Państwa komputer jest wyłączony. Link do niej można umieścić na stronie, w profilu Google lub na Instagramie.' },
+    { id: 'modul-zmluvy', modul: 'zmluvy', kategoria: 'rozsirenia', nazov: 'Umowy i polisy', mesacne: 5, ikona: 'contract',
+      zaklad: '5 umów i polis z terminem wypowiedzenia i przypomnieniem.',
+      kratko: 'Najem, polisy, energia i leasing z terminami wypowiedzenia – Jarvis odezwie się na czas.',
+      popis: 'Wszystkie umowy firmy w jednym miejscu – najem, polisy, energia, leasing, telefony i usługi. Jarvis wie, do kiedy obowiązują, kiedy same się przedłużą i do kiedy trzeba wysłać wypowiedzenie, i odzywa się z wyprzedzeniem, tydzień i dzień wcześniej. Wypowiedzenie przygotuje jako pismo w PDF, z umowy w PDF sam odczyta stronę umowy, kwotę i terminy, a stałe płatności doliczy do zestawienia Kiedy skończą się pieniądze. Rozszerzenie dodaje nieograniczoną liczbę umów, odczytywanie umów przez AI i wypowiedzenie w PDF.' },
+    { id: 'modul-asistent', modul: 'asistent', kategoria: 'rozsirenia', nazov: 'Asystent AI na stronę', mesacne: 15, ikona: 'chat',
+      zaklad: 'okienko na Państwa stronie z formularzem kontaktowym – zapytania trafiają od razu do Klientów.',
+      kratko: 'Okienko na Państwa stronie, które odpowiada klientom na podstawie Państwa cenników i materiałów.',
+      popis: 'Na swoją stronę wklejają Państwo jedną linijkę kodu (WordPress, Wix, Shoptet lub własna strona), a w prawym dolnym rogu pojawia się okienko w kolorze Państwa firmy. Odwiedzającym odpowiada Państwa Jarvis – wyłącznie na podstawie tego, na co mu Państwo pozwolą: usług, cen, godzin otwarcia i wybranych dokumentów z Wiedzy firmowej. Gdy nie wie, co odpowiedzieć, lub komputer jest wyłączony, proponuje formularz kontaktowy, a zapytanie trafia od razu do Klientów. Odpowiedzi idą przez Państwa własny klucz API lub model offline, a każde pytanie i odpowiedź widzą Państwo w Jarvisie.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'Aplikacja na zamówienie w Jarvisie', cena: 490, ikona: 'app',
       kratko: 'Mała aplikacja dokładnie dla Państwa biznesu – ewidencja, kalkulator, formularz.',
@@ -221,7 +230,7 @@ window.JARVIS_DATA = {
 
   /* Odvetvové balíky rozšírení (stránka Pre firmy): moduly + nastavenie pre odbor lacnejšie ako samostatne. */
   odvetvia: [
-    { id: 'uctovnictvo', nazov: 'Biuro rachunkowe', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'Terminy VAT i podatków w aplikacji Daty i terminy',
+    { id: 'uctovnictvo', nazov: 'Biuro rachunkowe', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'Terminy VAT, zaliczek i składek w Kalendarzu podatkowym',
       text: 'Dokumenty klientów z poczty prosto do tabel, faktury z upomnieniami i odpowiedzi zgodne z Państwa procedurami.' },
     { id: 'remeslo', nazov: 'Rzemieślnik i firma budowlana', ikona: 'deal', mesacne: 15, moduly: ['faktury', 'hovory'], navyse: 'Zdjęcia z budowy z telefonu przy zleceniu',
       text: 'Oferta, zlecenie, zdjęcia z budowy, ewidencja godzin i faktura – wszystko przy jednym kliencie.' },

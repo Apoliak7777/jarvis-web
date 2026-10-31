@@ -29,7 +29,7 @@ window.JARVIS_DATA = {
     platbaKartou: false,       // Stripe neskôr
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
-    podmienkyOd: '28. 10. 2026'
+    podmienkyOd: '31. 10. 2026'
   },
 
   plany: [
@@ -127,17 +127,17 @@ window.JARVIS_DATA = {
     /* Rozšírenia pre firmy: mesačne ku plánu, platia spolu s licenciou (v kľúči pole m). pripravujeme = zatiaľ sa nedá kúpiť.
        zaklad = čo z rozšírenia má každý plán zadarmo (Jarvis 3.117: ľahká verzia v každom Jarvisovi, rozšírenie pridá zvyšok). */
     { id: 'modul-reporty', modul: 'reporty', kategoria: 'rozsirenia', nazov: 'Přehled pro majitele', mesacne: 5, ikona: 'chart', snimka: 'modul_prehlad',
-      zaklad: 'karta Tento týden v Byznysu s tržbami, nezaplacenými fakturami a novými zájemci.',
-      kratko: 'Každé pondělí souhrn: tržby, zájemci, nezaplacené a úkoly po termínu.',
-      popis: 'Každé pondělí ráno dostanete souhrn firmy: tržby a výdaje oproti minulému týdnu a měsíci, noví zájemci, nabídky ve hře, co čeká na zaplacení a které úkoly jsou po termínu. Na konci měsíce uzávěrka v PDF, kterou pošlete společníkovi nebo účetní. K tomu Kdy dojdou peníze: stav účtu za 30, 60 a 90 dní podle splatnosti faktur, dokladů a pravidelných plateb a upozornění, kdyby měl klesnout pod nulu.' },
+      zaklad: 'karta Tento týden v Byznysu s tržbami, nezaplacenými fakturami a novými zájemci a u každé zakázky tržby a odpracované hodiny.',
+      kratko: 'Každé pondělí souhrn firmy a ziskovost každé zakázky – co vydělala po nákladech.',
+      popis: 'Každé pondělí ráno dostanete souhrn firmy: tržby a výdaje oproti minulému týdnu a měsíci, noví zájemci, nabídky ve hře, co čeká na zaplacení a které úkoly jsou po termínu. Na konci měsíce uzávěrka v PDF, kterou pošlete společníkovi nebo účetní. K tomu Kdy dojdou peníze: stav účtu za 30, 60 a 90 dní podle splatnosti faktur, dokladů, pravidelných plateb a smluv a upozornění, kdyby měl klesnout pod nulu. Ziskovost zakázek: u každé zakázky tržby z faktur, odpracované hodiny z Výkazu práce, materiál ze skladu a doklady a náklady, které k ní přiřadíte – zisk, marže a výdělek na hodinu, abyste viděli, které zakázky se vyplatí.' },
     { id: 'modul-hovory', modul: 'hovory', kategoria: 'rozsirenia', nazov: 'Hovory a porady do CRM', mesacne: 9, ikona: 'phonecall', snimka: 'modul_hovory_navrh',
       zaklad: 'Zápis ze schůzky – nahrávka, přepis a shrnutí.',
       kratko: 'Nahraný hovor nebo porada → přepis, shrnutí a úkoly rovnou ke klientovi.',
       popis: 'Nahrajte hovor se zákazníkem nebo poradu a Jarvis z ní udělá přepis s označením, kdo co řekl, krátké shrnutí a úkoly. Všechno zapíše ke správnému klientovi a úkoly dá na nástěnku. Přepis běží offline ve vašem počítači.' },
     { id: 'modul-faktury', modul: 'faktury', kategoria: 'rozsirenia', nazov: 'Faktury a upomínky', mesacne: 9, ikona: 'invoice', snimka: 'modul_faktury',
       zaklad: 'výzva k úhradě s QR kódem PAY by square a textem pro zákazníka.',
-      kratko: 'Faktura s QR jedním klikem, opakované a zálohové faktury, e-faktura na rok 2027 a sledování úhrad.',
-      popis: 'Fakturu s QR kódem k zaplacení vystavíte přímo z karty zákazníka – s číslováním, PDF a hned i jako e-fakturu Peppol na povinnou e-fakturaci od roku 2027. Pošlete ji e-mailem jedním klikem, zapíše se do Byznysu a Jarvis hlídá splatnost: 3 a 14 dní po ní připraví upomínku, kterou jen zkontrolujete a odešlete. Úhrady z banky: výpis z internetového bankovnictví (XML nebo CSV, u Fio banky i automaticky) spáruje s fakturami a doklady podle variabilního symbolu a částky. Opakované faktury (hosting, servisní smlouva, nájem) se vystaví samy každý měsíc, čtvrtletí nebo rok, zaplacenou zálohovou fakturu jedním klikem vyúčtujete a k faktuře vystavíte dobropis. Za měsíc připraví export pro účetní do POHODY nebo Money S3. Funguje pro plátce DPH i neplátce.' },
+      kratko: 'Faktura s QR i platbou kartou, e-faktury přes Peppol, nabídka s tlačítkem Přijmout a úhrady spárované samy.',
+      popis: 'Fakturu s QR kódem k zaplacení vystavíte přímo z karty zákazníka – s číslováním, PDF a hned i jako e-fakturu Peppol na povinnou e-fakturaci od roku 2027. Pošlete ji e-mailem jedním klikem, zapíše se do Byznysu a Jarvis hlídá splatnost: 3 a 14 dní po ní připraví upomínku, kterou jen zkontrolujete a odešlete. E-faktury přes Peppol: s účtem u digitálního pošťáka (přístupový bod Peppol se slovenským standardem SAPI-SK) Jarvis fakturu odešle přímo do systému odběratele a e-faktury od dodavatelů si sám převezme do Dokladů. Platba kartou: s vaším účtem Stripe dostane každá faktura v e-mailu i odkaz na zaplacení kartou a po zaplacení se sama označí jako uhrazená. Úhrady z banky: výpis z internetového bankovnictví (XML nebo CSV, u Fio banky i automaticky) spáruje s fakturami a doklady podle variabilního symbolu a částky – a e-mailová oznámení banky o přijaté platbě spáruje sám každou půlhodinu (jen ověřené zprávy od banky). Nabídka s tlačítkem Přijmout: cenovou nabídku pošlete jako odkaz, zákazník ji přijme jedním klikem a v Klientech se založí zakázka, pokud chcete, i se zálohovou fakturou. Opakované faktury (hosting, servisní smlouva, nájem) se vystaví samy každý měsíc, čtvrtletí nebo rok, zaplacenou zálohovou fakturu jedním klikem vyúčtujete a k faktuře vystavíte dobropis. Za měsíc připraví export pro účetní do POHODY nebo Money S3. Funguje pro plátce DPH i neplátce.' },
     { id: 'modul-doklady', modul: 'doklady', kategoria: 'rozsirenia', nazov: 'Doklady z pošty', mesacne: 9, ikona: 'mail', snimka: 'modul_doklady',
       zaklad: 'doklad přidaný ručně (PDF nebo fotka) – Jarvis vypíše dodavatele, částku a splatnost a zapíše ho do Byznysu.',
       kratko: 'Faktury a účtenky z pošty i z mobilu do tabulky pro účetní.',
@@ -180,12 +180,21 @@ window.JARVIS_DATA = {
     { id: 'modul-eshop', modul: 'eshop', kategoria: 'rozsirenia', nazov: 'Propojení s e-shopem', mesacne: 9, ikona: 'cart',
       kratko: 'Objednávky z WooCommerce nebo Shoptetu samy do klientů, faktur a skladu.',
       popis: 'Jarvis se každých 30 minut podívá do vašeho e-shopu na WooCommerce nebo Shoptetu a nové objednávky zpracuje sám: zákazníka zapíše do Klientů, vystaví fakturu (pokud ji nevystavuje už e-shop), zboží odepíše ze skladu podle kódu a tržbu zapíše do Byznysu. Klíč stačí jen na čtení – do e-shopu Jarvis nic nezapisuje.' },
-    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Tým', mesacne: 5, zaCloveka: true, ikona: 'team', pripravujeme: true,
+    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Tým', mesacne: 5, zaCloveka: true, ikona: 'team',
       kratko: 'Společní klienti, úkoly a poznámky pro všechny ve firmě.',
-      popis: 'Klienti, úkoly a poznámky společné pro celou firmu: kdo má kterou zakázku na starosti, co je hotové a co po termínu. Změna na jednom počítači se hned ukáže na ostatních.' },
-    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online rezervace', mesacne: 15, ikona: 'plan', pripravujeme: true,
+      popis: 'Klienti, úkoly a poznámky společné pro celou firmu: kdo má kterou zakázku na starosti, co je hotové a co po termínu. Kolegové se připojí kódem týmu a změna na jednom počítači se do půl minuty ukáže na ostatních; když dva změní totéž, platí novější změna. Sdílí se jen to, co je pro tým – Klienti, nástěnka Tým v Úkolech a poznámky označené pro tým, soukromé poznámky zůstávají vaše. Údaje jdou přes server Jarvise zašifrované klíčem týmu, který má jen váš tým – server je přečíst neumí. Platí se za každého člověka v týmu.' },
+    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online rezervace', mesacne: 15, ikona: 'plan',
       kratko: 'Rezervační stránka pro vaše zákazníky, termíny rovnou v kalendáři Jarvise.',
-      popis: 'Vaši zákazníci si termín rezervují sami na vaší stránce (salon, servis, poradna, kurzy) a termín se hned objeví v kalendáři Jarvise. Zákazníkům před termínem přijde připomínka, vy vidíte celý den na jednom místě.' },
+      popis: 'Vaši zákazníci si termín rezervují sami na vaší rezervační stránce (salon, servis, poradna, kurzy) – vyberou službu, den a čas z volných termínů vašeho Kalendáře. Termín se sám zapíše do Kalendáře Jarvise a zákazník do Klientů, zákazníkovi přijde potvrzení e-mailem z vaší schránky a před termínem připomínka; zrušit ho může sám odkazem z potvrzení. Stránka je v 7 jazycích, v barvě vaší firmy a funguje, i když je váš počítač vypnutý. Odkaz na ni dáte na web, Google profil nebo Instagram.' },
+    { id: 'modul-zmluvy', modul: 'zmluvy', kategoria: 'rozsirenia', nazov: 'Smlouvy a pojistky', mesacne: 5, ikona: 'contract',
+      zaklad: '5 smluv a pojistek s termínem výpovědi a upozorněním.',
+      kratko: 'Nájem, pojistky, energie a leasing s termíny výpovědi – Jarvis se ozve včas.',
+      popis: 'Všechny smlouvy firmy na jednom místě – nájem, pojistky, energie, leasing, telefony a služby. Jarvis ví, dokdy platí, kdy se samy prodlouží a dokdy je třeba poslat výpověď, a ozve se s předstihem, týden a den předem. Výpověď připraví jako dopis v PDF, ze smlouvy v PDF sám vypíše smluvní stranu, částku a termíny a pravidelné platby započítá do přehledu Kdy dojdou peníze. Rozšíření přidá neomezený počet smluv, čtení smluv pomocí AI a výpověď v PDF.' },
+    { id: 'modul-asistent', modul: 'asistent', kategoria: 'rozsirenia', nazov: 'AI asistent na web', mesacne: 15, ikona: 'chat',
+      zaklad: 'okénko na vašem webu s kontaktním formulářem – poptávky jdou rovnou do Klientů.',
+      kratko: 'Okénko na vašem webu, které zákazníkům odpovídá z vašich ceníků a podkladů.',
+      popis: 'Na svůj web vložíte jeden řádek kódu (WordPress, Wix, Shoptet i vlastní web) a vpravo dole se objeví okénko v barvě vaší firmy. Návštěvníkům odpovídá váš Jarvis – jen z toho, co mu povolíte: služby, ceny, otevírací doba a vybrané dokumenty z Firemních znalostí. Když si neví rady nebo je počítač vypnutý, nabídne kontaktní formulář a poptávka přijde rovnou do Klientů. Odpovědi jdou přes váš vlastní API klíč nebo offline model, každý dotaz a odpověď vidíte v Jarvisu.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'Aplikace na míru v Jarvisu', cena: 490, ikona: 'app',
       kratko: 'Malá aplikace přesně pro váš byznys – evidence, kalkulačka, formulář.',
@@ -221,7 +230,7 @@ window.JARVIS_DATA = {
 
   /* Odvetvové balíky rozšírení (stránka Pre firmy): moduly + nastavenie pre odbor lacnejšie ako samostatne. */
   odvetvia: [
-    { id: 'uctovnictvo', nazov: 'Účetní kancelář', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'Termíny DPH a daní ve Lhůtách',
+    { id: 'uctovnictvo', nazov: 'Účetní kancelář', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'Termíny DPH, záloh a odvodů v Daňovém kalendáři',
       text: 'Doklady klientů z pošty rovnou do tabulek, faktury s upomínkami a odpovědi podle vašich postupů.' },
     { id: 'remeslo', nazov: 'Řemeslník a stavební firma', ikona: 'deal', mesacne: 15, moduly: ['faktury', 'hovory'], navyse: 'Fotky ze stavby z mobilu k zakázce',
       text: 'Nabídka, zakázka, fotky ze stavby, výkaz hodin a faktura – vše u jednoho zákazníka.' },

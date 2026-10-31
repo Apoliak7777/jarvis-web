@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Rezervácia</title>
+<style>
+  :root { --accent: #2f6fed; --ink: #17202a; --muted: #5d6874; --line: #e3e7ec; --bg: #f5f7fa; --card: #fff; --ok: #1e8e5a; --bad: #c0392b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 "Segoe UI", system-ui, -apple-system, Arial, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 26px 16px 60px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 24px 26px; box-shadow: 0 12px 40px rgba(20, 30, 45, .06); }
+  h1 { margin: 0 0 4px; font-size: 24px; } h2 { font-size: 15px; margin: 22px 0 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .muted { color: var(--muted); font-size: 14px; } .intro { white-space: pre-wrap; margin-top: 10px; }
+  .services { display: grid; gap: 10px; }
+  .svc { text-align: left; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; background: #fff; cursor: pointer; font: inherit; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .svc:hover, .svc.on { border-color: var(--accent); } .svc.on { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+  .svc b { display: block; } .svc span { color: var(--muted); font-size: 13.5px; }
+  .days { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; }
+  .day { flex: none; width: 74px; border: 1.5px solid var(--line); border-radius: 12px; padding: 8px 6px; background: #fff; cursor: pointer; font: inherit; text-align: center; }
+  .day small { display: block; color: var(--muted); font-size: 12px; text-transform: capitalize; } .day b { font-size: 18px; } .day.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, #fff); }
+  .times { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+  .time { border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 4px; background: #fff; cursor: pointer; font: inherit; font-weight: 600; } .time:hover { border-color: var(--accent); } .time.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  form { display: grid; gap: 10px; margin-top: 8px; } label { display: grid; gap: 4px; font-size: 13.5px; font-weight: 600; } .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; }
+  input, textarea { font: inherit; padding: 10px 12px; border: 1px solid #cfd6de; border-radius: 9px; width: 100%; background: #fff; } textarea { min-height: 70px; resize: vertical; } .check input { width: auto; margin-top: 3px; }
+  .hp { position: absolute; left: -9999px; }
+  button.primary, a.btn { appearance: none; border: 0; border-radius: 10px; padding: 12px 20px; font: inherit; font-weight: 600; cursor: pointer; background: var(--accent); color: #fff; text-decoration: none; display: inline-block; }
+  button.secondary { appearance: none; border: 0; border-radius: 10px; padding: 12px 20px; font: inherit; font-weight: 600; cursor: pointer; background: #eef2f7; color: var(--ink); }
+  button:disabled { opacity: .6; cursor: default; }
+  .summary { border-radius: 12px; background: color-mix(in srgb, var(--accent) 7%, #fff); padding: 12px 14px; font-weight: 600; }
+  .state { border-radius: 12px; padding: 16px 18px; margin-top: 16px; font-weight: 600; } .state.ok { background: #e8f6ef; color: var(--ok); } .state.bad { background: #fbeceb; color: var(--bad); }
+  .error { color: var(--bad); font-size: 14px; min-height: 1em; } .privacy { font-size: 12.5px; color: var(--muted); white-space: pre-wrap; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 18px; } footer a { color: inherit; }
+</style>
+</head>
+<body>
+<main id="app"><div class="card"><p class="muted">…</p></div></main>
+<script>
+'use strict';
+(() => {
+  const API = location.hostname === 'jarvis.apoliak.online' ? 'https://stiahnut.apoliak.online/brana' : location.origin + '/brana';
+  const T = {
+    sk: { title: 'Rezervácia', service: 'Služba', day: 'Deň', time: 'Čas', you: 'Vaše údaje', name: 'Meno a priezvisko', email: 'E-mail', phone: 'Telefón', note: 'Poznámka (nepovinné)', consent: 'Súhlasím so spracovaním mojich údajov na účel rezervácie.', book: 'Rezervovať', none: 'V najbližších dňoch nie je voľný termín. Zavolajte nám.', done: 'Hotovo – termín je rezervovaný. Potvrdenie príde e-mailom.', ics: 'Pridať do kalendára', cancelLink: 'Zrušiť rezerváciu', cancelAsk: 'Naozaj chcete zrušiť túto rezerváciu?', cancelYes: 'Áno, zrušiť', cancelled: 'Rezervácia je zrušená.', min: 'min', missing: 'Stránka sa nenašla. Skontrolujte odkaz.', fail: 'Niečo sa nepodarilo – skúste to o chvíľu.', by: 'Rezervácie cez' },
+    cs: { title: 'Rezervace', service: 'Služba', day: 'Den', time: 'Čas', you: 'Vaše údaje', name: 'Jméno a příjmení', email: 'E-mail', phone: 'Telefon', note: 'Poznámka (nepovinné)', consent: 'Souhlasím se zpracováním svých údajů za účelem rezervace.', book: 'Rezervovat', none: 'V nejbližších dnech není volný termín. Zavolejte nám.', done: 'Hotovo – termín je zarezervován. Potvrzení přijde e-mailem.', ics: 'Přidat do kalendáře', cancelLink: 'Zrušit rezervaci', cancelAsk: 'Opravdu chcete tuto rezervaci zrušit?', cancelYes: 'Ano, zrušit', cancelled: 'Rezervace je zrušena.', min: 'min', missing: 'Stránka nebyla nalezena. Zkontrolujte odkaz.', fail: 'Něco se nepovedlo – zkuste to za chvíli.', by: 'Rezervace přes' },
+    en: { title: 'Booking', service: 'Service', day: 'Day', time: 'Time', you: 'Your details', name: 'Full name', email: 'E-mail', phone: 'Phone', note: 'Note (optional)', consent: 'I agree to the processing of my details for the booking.', book: 'Book', none: 'There is no free time in the next days. Please call us.', done: 'Done – your time is booked. A confirmation will come by e-mail.', ics: 'Add to calendar', cancelLink: 'Cancel the booking', cancelAsk: 'Do you really want to cancel this booking?', cancelYes: 'Yes, cancel', cancelled: 'The booking is cancelled.', min: 'min', missing: 'The page was not found. Please check the link.', fail: 'Something went wrong – please try again shortly.', by: 'Bookings via' },
+    de: { title: 'Terminbuchung', service: 'Leistung', day: 'Tag', time: 'Uhrzeit', you: 'Ihre Angaben', name: 'Vor- und Nachname', email: 'E-Mail', phone: 'Telefon', note: 'Anmerkung (optional)', consent: 'Ich stimme der Verarbeitung meiner Daten für die Buchung zu.', book: 'Buchen', none: 'In den nächsten Tagen ist kein Termin frei. Rufen Sie uns bitte an.', done: 'Fertig – der Termin ist gebucht. Die Bestätigung kommt per E-Mail.', ics: 'Zum Kalender hinzufügen', cancelLink: 'Buchung stornieren', cancelAsk: 'Möchten Sie diese Buchung wirklich stornieren?', cancelYes: 'Ja, stornieren', cancelled: 'Die Buchung ist storniert.', min: 'Min.', missing: 'Die Seite wurde nicht gefunden. Bitte prüfen Sie den Link.', fail: 'Etwas ist schiefgelaufen – bitte versuchen Sie es gleich noch einmal.', by: 'Buchungen über' },
+    pl: { title: 'Rezerwacja', service: 'Usługa', day: 'Dzień', time: 'Godzina', you: 'Dane', name: 'Imię i nazwisko', email: 'E-mail', phone: 'Telefon', note: 'Uwagi (opcjonalnie)', consent: 'Wyrażam zgodę na przetwarzanie moich danych w celu rezerwacji.', book: 'Zarezerwuj', none: 'W najbliższych dniach nie ma wolnego terminu. Prosimy o telefon.', done: 'Gotowe – termin jest zarezerwowany. Potwierdzenie przyjdzie e-mailem.', ics: 'Dodaj do kalendarza', cancelLink: 'Anuluj rezerwację', cancelAsk: 'Czy na pewno anulować tę rezerwację?', cancelYes: 'Tak, anuluj', cancelled: 'Rezerwacja została anulowana.', min: 'min', missing: 'Nie znaleziono strony. Prosimy sprawdzić link.', fail: 'Coś poszło nie tak – prosimy spróbować za chwilę.', by: 'Rezerwacje przez' },
+    hu: { title: 'Foglalás', service: 'Szolgáltatás', day: 'Nap', time: 'Időpont', you: 'Az Ön adatai', name: 'Teljes név', email: 'E-mail', phone: 'Telefon', note: 'Megjegyzés (nem kötelező)', consent: 'Hozzájárulok adataim kezeléséhez a foglalás céljából.', book: 'Foglalás', none: 'A következő napokban nincs szabad időpont. Kérjük, hívjon minket.', done: 'Kész – az időpontot lefoglalta. A visszaigazolás e-mailben érkezik.', ics: 'Hozzáadás a naptárhoz', cancelLink: 'Foglalás lemondása', cancelAsk: 'Biztosan lemondja ezt a foglalást?', cancelYes: 'Igen, lemondom', cancelled: 'A foglalást lemondta.', min: 'perc', missing: 'Az oldal nem található. Kérjük, ellenőrizze a linket.', fail: 'Hiba történt – kérjük, próbálja újra kicsit később.', by: 'Foglalás:' },
+    it: { title: 'Prenotazione', service: 'Servizio', day: 'Giorno', time: 'Ora', you: 'I Suoi dati', name: 'Nome e cognome', email: 'E-mail', phone: 'Telefono', note: 'Nota (facoltativa)', consent: 'Acconsento al trattamento dei miei dati per la prenotazione.', book: 'Prenota', none: 'Nei prossimi giorni non ci sono orari liberi. Ci chiami.', done: 'Fatto – l’orario è prenotato. La conferma arriverà via e-mail.', ics: 'Aggiungi al calendario', cancelLink: 'Annulla la prenotazione', cancelAsk: 'Vuole davvero annullare questa prenotazione?', cancelYes: 'Sì, annulla', cancelled: 'La prenotazione è annullata.', min: 'min', missing: 'Pagina non trovata. Controlli il link.', fail: 'Qualcosa non ha funzionato – riprovi tra poco.', by: 'Prenotazioni tramite' },
+  };
+  const LOCALE = { sk: 'sk-SK', cs: 'cs-CZ', en: 'en-GB', de: 'de-DE', pl: 'pl-PL', hu: 'hu-HU', it: 'it-IT' };
+  const app = document.getElementById('app'), q = new URLSearchParams(location.search), slug = q.get('f') || '', cancel = q.get('zrusit') || '';
+  let t = T.sk, lang = 'sk', page = null, svc = null, day = '', start = '';
+  const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === 'class') n.className = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else if (v !== null && v !== undefined && v !== false) n.setAttribute(k, v === true ? '' : v); } for (const kid of kids.flat()) if (kid !== null && kid !== undefined && kid !== false) n.append(kid instanceof Node ? kid : document.createTextNode(String(kid))); return n; };
+  const fmt = (iso, opts) => new Intl.DateTimeFormat(LOCALE[lang], { timeZone: page?.tz || undefined, ...opts }).format(new Date(iso));
+  const dayKey = iso => fmt(iso, { year: 'numeric', month: '2-digit', day: '2-digit' });
+  const money = n => new Intl.NumberFormat(LOCALE[lang], { style: 'currency', currency: 'EUR' }).format(n);
+  async function api(path = '', body) {
+    const r = await fetch(API + '/v1/verejne/rezervacie/' + encodeURIComponent(slug) + path, body ? { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) } : {});
+    const json = await r.json().catch(() => ({})); if (!r.ok) throw Object.assign(new Error(json.error || t.fail), { status: r.status }); return json;
+  }
+  function shell(...kids) { app.replaceChildren(el('div', { class: 'card' }, ...kids), el('footer', {}, t.by + ' ', el('a', { href: 'https://jarvis.apoliak.online', target: '_blank', rel: 'noopener' }, 'Jarvis'))); }
+  const head = () => [el('h1', {}, page.firm || t.title), page.address || page.phone ? el('div', { class: 'muted' }, [page.address, page.phone].filter(Boolean).join(' · ')) : null, page.intro ? el('div', { class: 'intro' }, page.intro) : null];
+  function render() {
+    const kids = [...head(), el('h2', {}, t.service), el('div', { class: 'services' }, page.services.map(s => el('button', { class: 'svc' + (svc?.id === s.id ? ' on' : ''), type: 'button', onclick: () => { svc = s; day = ''; start = ''; render(); } },
+      el('div', {}, el('b', {}, s.name), s.note ? el('span', {}, s.note) : null), el('span', {}, `${s.minutes} ${t.min}${s.price !== null && s.price !== undefined ? ' · ' + money(s.price) : ''}`))))];
+    if (svc) {
+      const byDay = new Map(); for (const iso of svc.starts) { const k = dayKey(iso); if (!byDay.has(k)) byDay.set(k, []); byDay.get(k).push(iso); }
+      if (!byDay.size) kids.push(el('p', { class: 'muted' }, t.none));
+      else {
+        if (!day || !byDay.has(day)) day = byDay.keys().next().value;
+        kids.push(el('h2', {}, t.day), el('div', { class: 'days' }, [...byDay.entries()].slice(0, 60).map(([k, list]) => el('button', { class: 'day' + (k === day ? ' on' : ''), type: 'button', onclick: () => { day = k; start = ''; render(); } }, el('small', {}, fmt(list[0], { weekday: 'short' })), el('b', {}, fmt(list[0], { day: 'numeric' })), el('small', {}, fmt(list[0], { month: 'short' }))))));
+        kids.push(el('h2', {}, t.time), el('div', { class: 'times' }, byDay.get(day).map(iso => el('button', { class: 'time' + (iso === start ? ' on' : ''), type: 'button', onclick: () => { start = iso; render(); setTimeout(() => document.getElementById('name')?.focus(), 30); } }, fmt(iso, { hour: '2-digit', minute: '2-digit' })))));
+      }
+    }
+    if (svc && start) kids.push(el('h2', {}, t.you), form());
+    shell(...kids);
+  }
+  function form() {
+    const error = el('div', { class: 'error' }), submit = el('button', { class: 'primary', type: 'submit' }, t.book);
+    const name = el('input', { id: 'name', required: true, maxlength: 100, autocomplete: 'name' }), email = el('input', { type: 'email', required: true, maxlength: 200, autocomplete: 'email' }), phone = el('input', { type: 'tel', maxlength: 40, autocomplete: 'tel' }), note = el('textarea', { maxlength: 600 }), consent = el('input', { type: 'checkbox' }), hp = el('input', { class: 'hp', tabindex: '-1', autocomplete: 'off', 'aria-hidden': 'true' });
+    return el('form', { onsubmit: async event => {
+      event.preventDefault(); submit.disabled = true; error.textContent = '';
+      try {
+        const out = await api('', { service: svc.id, start, name: name.value, email: email.value, phone: phone.value, note: note.value, consent: consent.checked, hp: hp.value, lang });
+        done(out, name.value);
+      } catch (e) { error.textContent = e.message; submit.disabled = false; if (e.status === 409) { page = await api().catch(() => page); svc = page.services.find(s => s.id === svc.id) || null; start = ''; setTimeout(render, 1800); } }
+    } }, el('div', { class: 'summary' }, `${svc.name} · ${fmt(start, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}`),
+      el('label', {}, t.name, name), el('label', {}, t.email, email), el('label', {}, t.phone, phone), el('label', {}, t.note, note), hp,
+      el('label', { class: 'check' }, consent, t.consent), page.privacy ? el('div', { class: 'privacy' }, page.privacy) : null, error, el('div', {}, submit));
+  }
+  function done(out, who) {
+    const stamp = iso => iso.replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
+    const esc = text => String(text).replace(/\\/g, '\\\\').replace(/([,;])/g, '\\$1').replace(/\r?\n/g, '\\n');
+    const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Jarvis//Rezervacie//SK', 'BEGIN:VEVENT', `UID:${out.id}@jarvis`, `DTSTAMP:${stamp(new Date().toISOString())}`, `DTSTART:${stamp(out.start)}`, `DTEND:${stamp(out.end)}`, `SUMMARY:${esc(out.service + ' – ' + (page.firm || ''))}`, page.address ? `LOCATION:${esc(page.address)}` : '', 'END:VEVENT', 'END:VCALENDAR'].filter(Boolean).join('\r\n');
+    const href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+    const cancelUrl = `${location.pathname}?f=${encodeURIComponent(slug)}&zrusit=${encodeURIComponent(out.cancel)}`;
+    shell(...head(), el('div', { class: 'state ok' }, t.done), el('div', { class: 'summary', style: 'margin-top:14px' }, `${out.service} · ${fmt(out.start, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}`),
+      el('div', { class: 'row' }, el('a', { class: 'btn', href, download: 'rezervacia.ics' }, t.ics), el('a', { href: cancelUrl, class: 'muted' }, t.cancelLink)));
+  }
+  async function cancelView() {
+    const error = el('div', { class: 'error' });
+    const mine = page.mine, what = mine ? el('div', { class: 'summary', style: 'margin-top:14px' },`${mine.service} · ${fmt(mine.start, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}`) : null;
+    if (mine?.cancelled) return shell(...head(), what, el('div', { class: 'state ok', style: 'margin-top:14px' }, t.cancelled));
+    const yes = el('button', { class: 'secondary', type: 'button', onclick: async () => { yes.disabled = true; try { await api('/zrusit', { token: cancel }); shell(...head(), what, el('div', { class: 'state ok', style: 'margin-top:14px' }, t.cancelled)); } catch (e) { error.textContent = e.message; yes.disabled = false; } } }, t.cancelYes);
+    shell(...head(), what, el('p', {}, t.cancelAsk), error, yes);
+  }
+  (async () => {
+    if (!/^[a-z0-9-]{3,40}$/.test(slug)) { shell(el('div', { class: 'state bad' }, T.sk.missing)); return; }
+    try {
+      page = await api(cancel ? '?zrusit=' + encodeURIComponent(cancel) : '');
+      lang = T[page.lang] ? page.lang : 'sk'; t = T[lang]; document.documentElement.lang = lang;
+      if (/^#[0-9a-f]{6}$/i.test(page.color || '')) document.documentElement.style.setProperty('--accent', page.color);
+      document.title = `${t.title} · ${page.firm}`;
+      if (cancel) return cancelView();
+      if (page.services.length === 1) svc = page.services[0];
+      render();
+    } catch (e) { shell(el('div', { class: 'state bad' }, e.status === 404 ? t.missing : t.fail)); }
+  })();
+})();
+</script>
+</body>
+</html>

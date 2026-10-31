@@ -29,7 +29,7 @@ window.JARVIS_DATA = {
     platbaKartou: false,       // Stripe neskôr
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
-    podmienkyOd: '28. 10. 2026'
+    podmienkyOd: '31. 10. 2026'
   },
 
   plany: [
@@ -127,17 +127,17 @@ window.JARVIS_DATA = {
     /* Rozšírenia pre firmy: mesačne ku plánu, platia spolu s licenciou (v kľúči pole m). pripravujeme = zatiaľ sa nedá kúpiť.
        zaklad = čo z rozšírenia má každý plán zadarmo (Jarvis 3.117: ľahká verzia v každom Jarvisovi, rozšírenie pridá zvyšok). */
     { id: 'modul-reporty', modul: 'reporty', kategoria: 'rozsirenia', nazov: 'Áttekintés a tulajdonosnak', mesacne: 5, ikona: 'chart', snimka: 'modul_prehlad',
-      zaklad: 'az Ez a hét kártya az Üzletben bevételekkel, kifizetetlen számlákkal és új érdeklődőkkel.',
-      kratko: 'Minden hétfőn összefoglaló: bevételek, érdeklődők, kifizetetlen tételek és lejárt határidejű feladatok.',
-      popis: 'Minden hétfő reggel megkapja a cég összefoglalóját: bevételek és kiadások az előző héthez és hónaphoz képest, új érdeklődők, nyitott ajánlatok, mi vár kifizetésre, és mely feladatok határideje járt le. A hónap végén PDF-ben a zárás, amelyet elküldhet a társtulajdonosnak vagy a könyvelőnek. Ehhez jön a Mikor fogy el a pénz: a számlaegyenleg 30, 60 és 90 nap múlva a számlák, bizonylatok és rendszeres kifizetések esedékessége szerint, és figyelmeztetés, ha nulla alá csökkenne.' },
+      zaklad: 'az Ez a hét kártya az Üzletben bevételekkel, kifizetetlen számlákkal és új érdeklődőkkel, valamint minden munkánál a bevétel és a ledolgozott órák.',
+      kratko: 'Minden hétfőn a cég összefoglalója és minden munka jövedelmezősége – mennyit hozott a költségek után.',
+      popis: 'Minden hétfő reggel megkapja a cég összefoglalóját: bevételek és kiadások az előző héthez és hónaphoz képest, új érdeklődők, nyitott ajánlatok, mi vár kifizetésre, és mely feladatok határideje járt le. A hónap végén PDF-ben a zárás, amelyet elküldhet a társtulajdonosnak vagy a könyvelőnek. Ehhez jön a Mikor fogy el a pénz: a számlaegyenleg 30, 60 és 90 nap múlva a számlák, bizonylatok, rendszeres kifizetések és szerződések esedékessége szerint, és figyelmeztetés, ha nulla alá csökkenne. Munkák jövedelmezősége: minden munkánál a számlákból származó bevétel, a Munkaidő-kimutatás ledolgozott órái, a raktári anyag, valamint a hozzá rendelt bizonylatok és költségek – nyereség, árrés és óránkénti kereset, hogy lássa, mely munkák érik meg.' },
     { id: 'modul-hovory', modul: 'hovory', kategoria: 'rozsirenia', nazov: 'Hívások és megbeszélések a CRM-be', mesacne: 9, ikona: 'phonecall', snimka: 'modul_hovory_navrh',
       zaklad: 'Megbeszélés jegyzőkönyve – felvétel, átirat és összefoglaló.',
       kratko: 'Felvett hívás vagy megbeszélés → átirat, összefoglaló és feladatok egyenesen az ügyfélhez.',
       popis: 'Vegyen fel egy ügyfélhívást vagy megbeszélést, és a Jarvis átiratot készít belőle arról, hogy ki mit mondott, rövid összefoglalót és feladatokat. Mindent a megfelelő ügyfélhez rögzít, a feladatokat pedig a táblára teszi. Az átírás offline, az Ön számítógépén fut.' },
     { id: 'modul-faktury', modul: 'faktury', kategoria: 'rozsirenia', nazov: 'Számlák és fizetési felszólítások', mesacne: 9, ikona: 'invoice', snimka: 'modul_faktury',
       zaklad: 'fizetési felszólítás PAY by square QR-kóddal és szöveggel az ügyfélnek.',
-      kratko: 'Számla QR-kóddal egy kattintással, ismétlődő és előlegszámlák, e-számla 2027-re és a fizetések követése.',
-      popis: 'A fizetéshez QR-kódos számlát közvetlenül az ügyfél adatlapjáról állítja ki – sorszámozással, PDF-ben és rögtön Peppol e-számlaként is a 2027-től kötelező e-számlázáshoz. Egy kattintással elküldi e-mailben, rögzül az Üzletben, a Jarvis pedig figyeli a határidőt: utána 3 és 14 nappal felszólítást készít, amelyet Önnek csak ellenőriznie és elküldenie kell. Banki befizetések: a netbanki kivonatot (XML vagy CSV, a Fio banka esetén automatikusan is) a változó szimbólum és az összeg alapján párosítja a számlákkal és bizonylatokkal. Az ismétlődő számlák (tárhely, szervizszerződés, bérleti díj) havonta, negyedévente vagy évente maguktól elkészülnek, a kifizetett előlegszámlát egy kattintással elszámolja, a számlához pedig jóváírást állít ki. Minden hónapra exportot készít a könyvelőnek POHODA-ba vagy Money S3-ba. Áfaalanyoknak és alanyi mentességű vállalkozásoknak egyaránt működik.' },
+      kratko: 'Számla QR-kóddal és kártyás fizetéssel, e-számlák Peppolon keresztül, ajánlat Elfogadás gombbal és magától párosított befizetések.',
+      popis: 'A fizetéshez QR-kódos számlát közvetlenül az ügyfél adatlapjáról állítja ki – sorszámozással, PDF-ben és rögtön Peppol e-számlaként is a 2027-től kötelező e-számlázáshoz. Egy kattintással elküldi e-mailben, rögzül az Üzletben, a Jarvis pedig figyeli a határidőt: utána 3 és 14 nappal felszólítást készít, amelyet Önnek csak ellenőriznie és elküldenie kell. E-számlák Peppolon keresztül: egy digitális postásnál (a szlovák SAPI-SK szabványt használó Peppol hozzáférési pontnál) vezetett fiókkal a Jarvis a számlát közvetlenül a vevő rendszerébe küldi, a beszállítók e-számláit pedig maga veszi át a Bizonylatokba. Kártyás fizetés: az Ön Stripe-fiókjával minden számla e-mailje kártyás fizetési linket is tartalmaz, és fizetés után a számla magától kifizetettnek jelölődik. Banki befizetések: a netbanki kivonatot (XML vagy CSV, a Fio banka esetén automatikusan is) a változó szimbólum és az összeg alapján párosítja a számlákkal és bizonylatokkal – a bank beérkezett fizetésről szóló e-mail-értesítéseit pedig félóránként magától párosítja (csak a banktól származó, ellenőrzött üzeneteket). Ajánlat Elfogadás gombbal: az árajánlatot linkként küldi el, az ügyfél egy kattintással elfogadja, és az Ügyfelekben létrejön a munka, ha kéri, előlegszámlával együtt. Az ismétlődő számlák (tárhely, szervizszerződés, bérleti díj) havonta, negyedévente vagy évente maguktól elkészülnek, a kifizetett előlegszámlát egy kattintással elszámolja, a számlához pedig jóváírást állít ki. Minden hónapra exportot készít a könyvelőnek POHODA-ba vagy Money S3-ba. Áfaalanyoknak és alanyi mentességű vállalkozásoknak egyaránt működik.' },
     { id: 'modul-doklady', modul: 'doklady', kategoria: 'rozsirenia', nazov: 'Bizonylatok a levelezésből', mesacne: 9, ikona: 'mail', snimka: 'modul_doklady',
       zaklad: 'kézzel felvitt bizonylat (PDF vagy fotó) – Jarvis kiolvassa a szállítót, az összeget és a határidőt, és felveszi az Üzletbe.',
       kratko: 'Számlák és nyugták a levelezésből és a telefonról egy táblázatba a könyvelőnek.',
@@ -180,12 +180,21 @@ window.JARVIS_DATA = {
     { id: 'modul-eshop', modul: 'eshop', kategoria: 'rozsirenia', nazov: 'Webáruház-kapcsolat', mesacne: 9, ikona: 'cart',
       kratko: 'A WooCommerce- vagy Shoptet-rendelések maguktól kerülnek az ügyfelekhez, a számlákhoz és a raktárba.',
       popis: 'A Jarvis 30 percenként benéz az Ön WooCommerce- vagy Shoptet-webáruházába, és az új rendeléseket magától feldolgozza: az ügyfelet rögzíti az Ügyfelekben, kiállítja a számlát (ha nem a webáruház teszi), az árut kód szerint leírja a raktárból, a bevételt pedig rögzíti az Üzletben. Elég egy csak olvasásra szóló kulcs – a Jarvis semmit sem ír a webáruházba.' },
-    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Csapat', mesacne: 5, zaCloveka: true, ikona: 'team', pripravujeme: true,
+    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Csapat', mesacne: 5, zaCloveka: true, ikona: 'team',
       kratko: 'Közös ügyfelek, feladatok és jegyzetek mindenkinek a cégnél.',
-      popis: 'Az egész cég számára közös ügyfelek, feladatok és jegyzetek: ki melyik megrendelésért felel, mi van kész, és mi késik. Az egyik számítógépen végzett módosítás azonnal megjelenik a többin.' },
-    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online foglalások', mesacne: 15, ikona: 'plan', pripravujeme: true,
+      popis: 'Ügyfelek, feladatok és jegyzetek közösen az egész cégnek: ki melyik munkáért felel, mi kész és mi késik. A kollégák a csapatkóddal csatlakoznak, és az egyik számítógépen végzett változás fél percen belül megjelenik a többin; ha ketten ugyanazt módosítják, az újabb változás érvényes. Csak az kerül megosztásra, ami a csapatnak szól – az Ügyfelek, a Feladatokban a Csapat tábla és a csapatnak jelölt jegyzetek; a privát jegyzetek az Önéi maradnak. Az adatok a csapat kulcsával titkosítva – ez a kulcs csak az Ön csapatánál van meg – utaznak a Jarvis szerverén keresztül, így a szerver nem tudja elolvasni őket. A díj a csapat minden tagja után jár.' },
+    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Online foglalások', mesacne: 15, ikona: 'plan',
       kratko: 'Foglalási oldal az ügyfeleinek, az időpontok egyenesen a Jarvis naptárában.',
-      popis: 'Az ügyfelei maguk foglalnak időpontot az Ön oldalán (szalon, szerviz, tanácsadás, tanfolyamok), és az időpont azonnal megjelenik a Jarvis naptárában. Az ügyfelek az időpont előtt emlékeztetőt kapnak, Ön pedig az egész napot egy helyen látja.' },
+      popis: 'Ügyfelei maguk foglalnak időpontot a foglalási oldalán (szalon, szerviz, tanácsadás, tanfolyamok) – a szolgáltatást, a napot és az időt a Naptára szabad időpontjai közül választják. Az időpont magától bekerül a Jarvis Naptárába, az ügyfél pedig az Ügyfelekbe, az ügyfél visszaigazolást kap e-mailben az Ön postafiókjából, és az időpont előtt emlékeztetőt; a visszaigazolásban kapott linkkel maga is lemondhatja. Az oldal 7 nyelven, a cége színében érhető el, és akkor is működik, ha a számítógépe ki van kapcsolva. A linkjét kiteheti a weboldalára, a Google-profiljába vagy az Instagramra.' },
+    { id: 'modul-zmluvy', modul: 'zmluvy', kategoria: 'rozsirenia', nazov: 'Szerződések és biztosítások', mesacne: 5, ikona: 'contract',
+      zaklad: '5 szerződés és biztosítás felmondási határidővel és emlékeztetővel.',
+      kratko: 'Bérlet, biztosítások, energia és lízing felmondási határidőkkel – a Jarvis időben szól.',
+      popis: 'A cég összes szerződése egy helyen – bérlet, biztosítások, energia, lízing, telefonok és szolgáltatások. A Jarvis tudja, meddig érvényesek, mikor hosszabbodnak meg maguktól, és meddig kell elküldeni a felmondást, és előre szól, egy héttel és egy nappal előtte. A felmondást PDF-levélként készíti el, a PDF-szerződésből maga olvassa ki a szerződő felet, az összeget és a határidőket, a rendszeres kifizetéseket pedig beszámítja a Mikor fogy el a pénz áttekintésbe. A bővítmény korlátlan számú szerződést, a szerződések AI-alapú kiolvasását és a PDF-felmondást adja hozzá.' },
+    { id: 'modul-asistent', modul: 'asistent', kategoria: 'rozsirenia', nazov: 'AI-asszisztens a weboldalra', mesacne: 15, ikona: 'chat',
+      zaklad: 'ablak az Ön weboldalán kapcsolatfelvételi űrlappal – a megkeresések egyenesen az Ügyfelekbe kerülnek.',
+      kratko: 'Ablak az Ön weboldalán, amely az Ön árlistái és anyagai alapján válaszol az ügyfeleknek.',
+      popis: 'A weboldalába egyetlen sor kódot illeszt be (WordPress, Wix, Shoptet vagy saját weboldal), és a jobb alsó sarokban megjelenik egy ablak a cége színében. A látogatóknak az Ön Jarvisa válaszol – csak abból, amit engedélyez neki: szolgáltatások, árak, nyitvatartás és kiválasztott dokumentumok a Céges tudásbázisból. Ha nem tudja a választ, vagy a számítógép ki van kapcsolva, kapcsolatfelvételi űrlapot kínál, és a megkeresés egyenesen az Ügyfelekbe kerül. A válaszok az Ön saját API-kulcsán vagy offline modellen keresztül készülnek, és minden kérdést és választ lát a Jarvisban.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'Testre szabott alkalmazás a Jarvisban', cena: 490, ikona: 'app',
       kratko: 'Kis alkalmazás pontosan az Ön üzletéhez – nyilvántartás, kalkulátor, űrlap.',
@@ -221,7 +230,7 @@ window.JARVIS_DATA = {
 
   /* Odvetvové balíky rozšírení (stránka Pre firmy): moduly + nastavenie pre odbor lacnejšie ako samostatne. */
   odvetvia: [
-    { id: 'uctovnictvo', nazov: 'Könyvelőiroda', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'Áfa- és adóhatáridők a Határidők alkalmazásban',
+    { id: 'uctovnictvo', nazov: 'Könyvelőiroda', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'Áfa-, adóelőleg- és járulékhatáridők az Adónaptárban',
       text: 'Az ügyfelek bizonylatai a levelezésből egyenesen táblázatokba, számlák fizetési felszólításokkal és válaszok az Ön munkafolyamatai szerint.' },
     { id: 'remeslo', nazov: 'Iparos és építőipari cég', ikona: 'deal', mesacne: 15, moduly: ['faktury', 'hovory'], navyse: 'Építkezési fotók a telefonról a megrendeléshez',
       text: 'Ajánlat, megrendelés, fotók az építkezésről, munkaidő-kimutatás és számla – minden egy ügyfélnél.' },

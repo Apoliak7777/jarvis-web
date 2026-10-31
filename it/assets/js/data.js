@@ -29,7 +29,7 @@ window.JARVIS_DATA = {
     platbaKartou: false,       // Stripe neskôr
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
-    podmienkyOd: '28. 10. 2026'
+    podmienkyOd: '31. 10. 2026'
   },
 
   plany: [
@@ -127,17 +127,17 @@ window.JARVIS_DATA = {
     /* Rozšírenia pre firmy: mesačne ku plánu, platia spolu s licenciou (v kľúči pole m). pripravujeme = zatiaľ sa nedá kúpiť.
        zaklad = čo z rozšírenia má každý plán zadarmo (Jarvis 3.117: ľahká verzia v každom Jarvisovi, rozšírenie pridá zvyšok). */
     { id: 'modul-reporty', modul: 'reporty', kategoria: 'rozsirenia', nazov: 'Panoramica per il titolare', mesacne: 5, ikona: 'chart', snimka: 'modul_prehlad',
-      zaklad: 'la scheda Questa settimana in Business con incassi, fatture non pagate e nuovi contatti.',
-      kratko: 'Ogni lunedì un riepilogo: ricavi, potenziali clienti, pagamenti in sospeso e attività scadute.',
-      popis: 'Ogni lunedì mattina riceve un riepilogo dell’azienda: ricavi e spese rispetto alla settimana e al mese precedenti, nuovi potenziali clienti, offerte in corso, pagamenti in sospeso e attività scadute. A fine mese una chiusura in PDF da inviare al socio o al commercialista. In più Quando finiranno i soldi: il saldo del conto tra 30, 60 e 90 giorni secondo le scadenze di fatture, documenti e pagamenti regolari e un avviso se dovesse scendere sotto zero.' },
+      zaklad: 'la scheda Questa settimana in Business con incassi, fatture non pagate e nuovi contatti e, per ogni commessa, incassi e ore lavorate.',
+      kratko: 'Ogni lunedì un riepilogo dell’azienda e la redditività di ogni commessa – quanto ha reso al netto dei costi.',
+      popis: 'Ogni lunedì mattina riceve un riepilogo dell’azienda: ricavi e spese rispetto alla settimana e al mese precedenti, nuovi potenziali clienti, offerte in corso, pagamenti in sospeso e attività scadute. A fine mese una chiusura in PDF da inviare al socio o al commercialista. In più Quando finiranno i soldi: il saldo del conto tra 30, 60 e 90 giorni secondo le scadenze di fatture, documenti, pagamenti regolari e contratti e un avviso se dovesse scendere sotto zero. Redditività delle commesse: per ogni commessa i ricavi dalle fatture, le ore lavorate dal Resoconto ore, il materiale dal magazzino e i documenti e i costi che Lei vi assegna – utile, margine e guadagno all’ora, per vedere quali commesse convengono.' },
     { id: 'modul-hovory', modul: 'hovory', kategoria: 'rozsirenia', nazov: 'Chiamate e riunioni nel CRM', mesacne: 9, ikona: 'phonecall', snimka: 'modul_hovory_navrh',
       zaklad: 'Verbale della riunione – registrazione, trascrizione e riassunto.',
       kratko: 'Telefonata o riunione registrata → trascrizione, riassunto e attività direttamente nella scheda del cliente.',
       popis: 'Registri una telefonata con un cliente o una riunione e Jarvis ne ricava la trascrizione con l’indicazione di chi ha detto cosa, un breve riassunto e le attività. Registra tutto nella scheda del cliente giusto e porta le attività sulla bacheca. La trascrizione avviene offline sul Suo computer.' },
     { id: 'modul-faktury', modul: 'faktury', kategoria: 'rozsirenia', nazov: 'Fatture e solleciti', mesacne: 9, ikona: 'invoice', snimka: 'modul_faktury',
       zaklad: 'una richiesta di pagamento con codice QR PAY by square e un testo per il cliente.',
-      kratko: 'Fattura con QR in un clic, fatture ricorrenti e di acconto, fattura elettronica per il 2027 e monitoraggio dei pagamenti.',
-      popis: 'La fattura con codice QR per il pagamento la emette direttamente dalla scheda del cliente – con numerazione, PDF e subito anche come fattura elettronica Peppol per l’obbligo di fatturazione elettronica dal 2027. La invia via e-mail con un clic, viene registrata in Business e Jarvis sorveglia la scadenza: 3 e 14 giorni dopo prepara un sollecito che Lei deve solo controllare e inviare. Pagamenti dalla banca: l’estratto conto dell’home banking (XML o CSV, con Fio banka anche in automatico) viene abbinato a fatture e documenti in base al simbolo variabile e all’importo. Le fatture ricorrenti (hosting, contratto di assistenza, affitto) si emettono da sole ogni mese, trimestre o anno, una fattura di acconto pagata la salda con un clic e a una fattura emette una nota di credito. Per ogni mese prepara un’esportazione per il commercialista in POHODA o Money S3. Funziona sia per i soggetti IVA sia per chi non lo è.' },
+      kratko: 'Fattura con QR e pagamento con carta, fatture elettroniche via Peppol, offerta con pulsante Accetta e pagamenti abbinati da soli.',
+      popis: 'La fattura con codice QR per il pagamento la emette direttamente dalla scheda del cliente – con numerazione, PDF e subito anche come fattura elettronica Peppol per l’obbligo di fatturazione elettronica dal 2027. La invia via e-mail con un clic, viene registrata in Business e Jarvis sorveglia la scadenza: 3 e 14 giorni dopo prepara un sollecito che Lei deve solo controllare e inviare. Fatture elettroniche via Peppol: con un account presso un postino digitale (punto di accesso Peppol con lo standard slovacco SAPI-SK) Jarvis invia la fattura direttamente nel sistema del cliente e prende da solo le fatture elettroniche dei fornitori in Documenti. Pagamento con carta: con il Suo account Stripe ogni fattura nell’e-mail contiene anche un link per pagare con carta e, una volta pagata, si segna da sola come saldata. Pagamenti dalla banca: l’estratto conto dell’home banking (XML o CSV, con Fio banka anche in automatico) viene abbinato a fatture e documenti in base al simbolo variabile e all’importo – e le notifiche e-mail della banca sui pagamenti ricevuti Jarvis le abbina da solo ogni mezz’ora (solo messaggi verificati della banca). Offerta con pulsante Accetta: invia l’offerta come link, il cliente la accetta con un clic e in Clienti si crea una commessa, se vuole anche con fattura di acconto. Le fatture ricorrenti (hosting, contratto di assistenza, affitto) si emettono da sole ogni mese, trimestre o anno, una fattura di acconto pagata la salda con un clic e a una fattura emette una nota di credito. Per ogni mese prepara un’esportazione per il commercialista in POHODA o Money S3. Funziona sia per i soggetti IVA sia per chi non lo è.' },
     { id: 'modul-doklady', modul: 'doklady', kategoria: 'rozsirenia', nazov: 'Documenti dalla posta', mesacne: 9, ikona: 'mail', snimka: 'modul_doklady',
       zaklad: 'un documento aggiunto a mano (PDF o foto) – Jarvis legge fornitore, importo e scadenza e lo registra in Business.',
       kratko: 'Fatture e scontrini dalla posta e dal telefono in una tabella per il commercialista.',
@@ -180,12 +180,21 @@ window.JARVIS_DATA = {
     { id: 'modul-eshop', modul: 'eshop', kategoria: 'rozsirenia', nazov: 'Collegamento all’e-shop', mesacne: 9, ikona: 'cart',
       kratko: 'Gli ordini da WooCommerce o Shoptet vanno da soli in clienti, fatture e magazzino.',
       popis: 'Ogni 30 minuti Jarvis guarda nel Suo e-shop su WooCommerce o Shoptet ed elabora da solo i nuovi ordini: registra il cliente in Clienti, emette la fattura (se non lo fa già l’e-shop), scarica la merce dal magazzino in base al codice e registra l’incasso in Business. Basta una chiave di sola lettura – Jarvis non scrive nulla nell’e-shop.' },
-    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Team', mesacne: 5, zaCloveka: true, ikona: 'team', pripravujeme: true,
+    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
+    { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Team', mesacne: 5, zaCloveka: true, ikona: 'team',
       kratko: 'Clienti, attività e note condivisi da tutti in azienda.',
-      popis: 'Clienti, attività e note condivisi da tutta l’azienda: chi segue quale commessa, che cosa è fatto e che cosa è in ritardo. Una modifica fatta su un computer compare subito sugli altri.' },
-    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Prenotazioni online', mesacne: 15, ikona: 'plan', pripravujeme: true,
+      popis: 'Clienti, attività e note condivisi da tutta l’azienda: chi segue quale commessa, cosa è fatto e cosa è scaduto. I colleghi si uniscono con il codice del team e una modifica su un computer compare sugli altri entro mezzo minuto; se due persone modificano la stessa cosa, vale la modifica più recente. Si condivide solo ciò che è per il team – Clienti, la bacheca Team in Attività e le note contrassegnate per il team; le note private restano Sue. I dati passano attraverso il server di Jarvis cifrati con la chiave del team, che ha solo il Suo team: il server non è in grado di leggerli. Si paga per ogni persona del team.' },
+    { id: 'modul-rezervacie', modul: 'rezervacie', kategoria: 'rozsirenia', nazov: 'Prenotazioni online', mesacne: 15, ikona: 'plan',
       kratko: 'Pagina di prenotazione per i Suoi clienti, con gli appuntamenti direttamente nel calendario di Jarvis.',
-      popis: 'I Suoi clienti prenotano da soli l’appuntamento sulla Sua pagina (salone, officina, studio di consulenza, corsi) e l’appuntamento compare subito nel calendario di Jarvis. Ai clienti arriva un promemoria prima dell’appuntamento, mentre Lei vede l’intera giornata in un unico posto.' },
+      popis: 'I Suoi clienti prenotano da soli un appuntamento sulla Sua pagina di prenotazione (salone, officina, consulenza, corsi): scelgono servizio, giorno e ora tra gli orari liberi del Suo Calendario. L’appuntamento si registra da solo nel Calendario di Jarvis e il cliente in Clienti, il cliente riceve una conferma via e-mail dalla Sua casella e un promemoria prima dell’appuntamento; può disdirlo da solo con il link nella conferma. La pagina è in 7 lingue, nel colore della Sua azienda, e funziona anche quando il Suo computer è spento. Il link lo mette sul Suo sito, sul profilo Google o su Instagram.' },
+    { id: 'modul-zmluvy', modul: 'zmluvy', kategoria: 'rozsirenia', nazov: 'Contratti e polizze', mesacne: 5, ikona: 'contract',
+      zaklad: '5 contratti e polizze con termine di disdetta e promemoria.',
+      kratko: 'Affitto, polizze, energia e leasing con le scadenze di disdetta – Jarvis La avvisa in tempo.',
+      popis: 'Tutti i contratti dell’azienda in un unico posto: affitto, polizze, energia, leasing, telefoni e servizi. Jarvis sa fino a quando valgono, quando si rinnovano da soli ed entro quando va inviata la disdetta, e La avvisa con anticipo, una settimana e un giorno prima. Prepara la disdetta come lettera in PDF, da un contratto in PDF ricava da solo la controparte, l’importo e le scadenze e conteggia i pagamenti regolari nel prospetto Quando finiranno i soldi. L’estensione aggiunge un numero illimitato di contratti, la lettura dei contratti con l’IA e la disdetta in PDF.' },
+    { id: 'modul-asistent', modul: 'asistent', kategoria: 'rozsirenia', nazov: 'Assistente IA per il sito', mesacne: 15, ikona: 'chat',
+      zaklad: 'una finestra sul Suo sito con modulo di contatto – le richieste arrivano direttamente in Clienti.',
+      kratko: 'Una finestra sul Suo sito che risponde ai clienti in base ai Suoi listini e documenti.',
+      popis: 'Inserisce nel Suo sito una riga di codice (WordPress, Wix, Shoptet o un sito proprio) e in basso a destra compare una finestra nel colore della Sua azienda. Ai visitatori risponde il Suo Jarvis, solo con ciò che Lei gli consente: servizi, prezzi, orari di apertura e documenti selezionati da Conoscenze aziendali. Quando non sa rispondere o il computer è spento, propone un modulo di contatto e la richiesta arriva direttamente in Clienti. Le risposte passano dalla Sua chiave API o da un modello offline, e ogni domanda e risposta la vede in Jarvis.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'App su misura in Jarvis', cena: 490, ikona: 'app',
       kratko: 'Una piccola app pensata per la Sua attività: registro, calcolatrice, modulo.',
@@ -221,7 +230,7 @@ window.JARVIS_DATA = {
 
   /* Odvetvové balíky rozšírení (stránka Pre firmy): moduly + nastavenie pre odbor lacnejšie ako samostatne. */
   odvetvia: [
-    { id: 'uctovnictvo', nazov: 'Studio contabile', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'Scadenze IVA e imposte nell’app Date e scadenze',
+    { id: 'uctovnictvo', nazov: 'Studio contabile', ikona: 'invoice', mesacne: 19, moduly: ['doklady', 'faktury', 'znalosti'], navyse: 'Scadenze di IVA, acconti e contributi nel Calendario fiscale',
       text: 'I documenti dei clienti dalla posta direttamente in tabelle, fatture con solleciti e risposte secondo le Sue procedure.' },
     { id: 'remeslo', nazov: 'Artigiano e impresa edile', ikona: 'deal', mesacne: 15, moduly: ['faktury', 'hovory'], navyse: 'Foto del cantiere dal telefono direttamente nella commessa',
       text: 'Preventivo, commessa, foto del cantiere, resoconto ore e fattura: tutto nella scheda dello stesso cliente.' },

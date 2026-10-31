@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Cenová ponuka</title>
+<style>
+  :root { --accent: #2f6fed; --ink: #17202a; --muted: #5d6874; --line: #e3e7ec; --bg: #f5f7fa; --card: #fff; --ok: #1e8e5a; --bad: #c0392b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 "Segoe UI", system-ui, -apple-system, Arial, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 28px 16px 60px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 26px 28px; box-shadow: 0 12px 40px rgba(20, 30, 45, .06); }
+  .head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-bottom: 3px solid var(--accent); padding-bottom: 16px; margin-bottom: 18px; }
+  .firm { font-size: 20px; font-weight: 700; } .muted { color: var(--muted); font-size: 13.5px; }
+  .kind { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; color: var(--muted); text-align: right; } .num { font-size: 20px; font-weight: 700; text-align: right; }
+  h1 { font-size: 22px; margin: 6px 0 14px; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 4px; font-size: 14px; }
+  th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); border-bottom: 1px solid var(--line); padding: 8px 6px; }
+  td { border-bottom: 1px solid #eef1f4; padding: 10px 6px; vertical-align: top; } .r { text-align: right; white-space: nowrap; }
+  .totals { margin: 12px 0 0 auto; max-width: 320px; } .totals div { display: flex; justify-content: space-between; padding: 3px 0; }
+  .grand { font-size: 18px; font-weight: 700; border-top: 2px solid var(--ink); margin-top: 6px; padding-top: 8px !important; }
+  .note { white-space: pre-wrap; margin-top: 18px; font-size: 14px; color: #2d3742; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+  button, .btn { appearance: none; border: 0; border-radius: 10px; padding: 12px 20px; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+  .primary { background: var(--accent); color: #fff; } .secondary { background: #eef2f7; color: var(--ink); }
+  button:disabled { opacity: .6; cursor: default; }
+  form { display: grid; gap: 10px; margin-top: 18px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: #fbfcfd; }
+  label { display: grid; gap: 4px; font-size: 13.5px; font-weight: 600; } .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; }
+  input, textarea { font: inherit; padding: 10px 12px; border: 1px solid #cfd6de; border-radius: 9px; width: 100%; background: #fff; } textarea { min-height: 90px; resize: vertical; }
+  .check input { width: auto; margin-top: 3px; }
+  .state { border-radius: 12px; padding: 16px 18px; margin-top: 18px; font-weight: 600; } .state.ok { background: #e8f6ef; color: var(--ok); } .state.bad { background: #fbeceb; color: var(--bad); }
+  .error { color: var(--bad); font-size: 14px; min-height: 1em; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 18px; } footer a { color: inherit; }
+  @media (max-width: 560px) { .card { padding: 18px 16px; } .num, .kind { text-align: left; } th:nth-child(2), td:nth-child(2) { display: none; } }
+</style>
+</head>
+<body>
+<main id="app"><div class="card"><p class="muted" id="loading">…</p></div></main>
+<script>
+'use strict';
+(() => {
+  const API = location.hostname === 'jarvis.apoliak.online' ? 'https://stiahnut.apoliak.online/brana' : location.origin + '/brana';
+  const T = {
+    sk: { offer: 'Cenová ponuka', for: 'Pre', item: 'Položka', qty: 'Množstvo', price: 'Cena/j.', total: 'Spolu', net: 'Základ', vat: 'DPH', grand: 'Spolu', grandVat: 'Spolu s DPH', valid: 'Platí do', pdf: 'Stiahnuť PDF', accept: 'Prijať ponuku', ask: 'Mám otázku', name: 'Vaše meno', note: 'Poznámka (nepovinné)', agree: 'Prijímam túto ponuku a súhlasím s jej podmienkami.', send: 'Odoslať', question: 'Vaša otázka', email: 'E-mail na odpoveď', accepted: 'Ďakujeme, ponuka je prijatá. Ozveme sa vám.', already: 'Ponuka už bola prijatá.', asked: 'Ďakujeme, otázku sme dostali a odpovieme e-mailom.', expired: 'Platnosť ponuky uplynula. Napíšte nám, radi ju obnovíme.', withdrawn: 'Táto ponuka už nie je platná.', missing: 'Ponuka sa nenašla. Skontrolujte odkaz.', fail: 'Niečo sa nepodarilo – skúste to o chvíľu.', by: 'Ponuka cez' },
+    cs: { offer: 'Cenová nabídka', for: 'Pro', item: 'Položka', qty: 'Množství', price: 'Cena/j.', total: 'Celkem', net: 'Základ', vat: 'DPH', grand: 'Celkem', grandVat: 'Celkem s DPH', valid: 'Platí do', pdf: 'Stáhnout PDF', accept: 'Přijmout nabídku', ask: 'Mám dotaz', name: 'Vaše jméno', note: 'Poznámka (nepovinné)', agree: 'Přijímám tuto nabídku a souhlasím s jejími podmínkami.', send: 'Odeslat', question: 'Váš dotaz', email: 'E-mail pro odpověď', accepted: 'Děkujeme, nabídka je přijata. Ozveme se vám.', already: 'Nabídka už byla přijata.', asked: 'Děkujeme, dotaz jsme dostali a odpovíme e-mailem.', expired: 'Platnost nabídky vypršela. Napište nám, rádi ji obnovíme.', withdrawn: 'Tato nabídka už neplatí.', missing: 'Nabídka nebyla nalezena. Zkontrolujte odkaz.', fail: 'Něco se nepovedlo – zkuste to za chvíli.', by: 'Nabídka přes' },
+    en: { offer: 'Quotation', for: 'For', item: 'Item', qty: 'Quantity', price: 'Unit price', total: 'Total', net: 'Net', vat: 'VAT', grand: 'Total', grandVat: 'Total incl. VAT', valid: 'Valid until', pdf: 'Download PDF', accept: 'Accept the offer', ask: 'I have a question', name: 'Your name', note: 'Note (optional)', agree: 'I accept this offer and agree to its terms.', send: 'Send', question: 'Your question', email: 'E-mail for the reply', accepted: 'Thank you, the offer is accepted. We will be in touch.', already: 'The offer has already been accepted.', asked: 'Thank you, we have your question and will reply by e-mail.', expired: 'This offer has expired. Write to us and we will gladly renew it.', withdrawn: 'This offer is no longer valid.', missing: 'The offer was not found. Please check the link.', fail: 'Something went wrong – please try again shortly.', by: 'Offer via' },
+    de: { offer: 'Angebot', for: 'Für', item: 'Position', qty: 'Menge', price: 'Einzelpreis', total: 'Summe', net: 'Netto', vat: 'MwSt.', grand: 'Gesamt', grandVat: 'Gesamt inkl. MwSt.', valid: 'Gültig bis', pdf: 'PDF herunterladen', accept: 'Angebot annehmen', ask: 'Ich habe eine Frage', name: 'Ihr Name', note: 'Anmerkung (optional)', agree: 'Ich nehme dieses Angebot an und stimme seinen Bedingungen zu.', send: 'Senden', question: 'Ihre Frage', email: 'E-Mail für die Antwort', accepted: 'Vielen Dank, das Angebot ist angenommen. Wir melden uns.', already: 'Das Angebot wurde bereits angenommen.', asked: 'Vielen Dank, wir haben Ihre Frage erhalten und antworten per E-Mail.', expired: 'Das Angebot ist abgelaufen. Schreiben Sie uns, wir erneuern es gern.', withdrawn: 'Dieses Angebot gilt nicht mehr.', missing: 'Das Angebot wurde nicht gefunden. Bitte prüfen Sie den Link.', fail: 'Etwas ist schiefgelaufen – bitte versuchen Sie es gleich noch einmal.', by: 'Angebot über' },
+    pl: { offer: 'Oferta cenowa', for: 'Dla', item: 'Pozycja', qty: 'Ilość', price: 'Cena jedn.', total: 'Razem', net: 'Netto', vat: 'VAT', grand: 'Razem', grandVat: 'Razem z VAT', valid: 'Ważna do', pdf: 'Pobierz PDF', accept: 'Przyjmij ofertę', ask: 'Mam pytanie', name: 'Imię i nazwisko', note: 'Uwagi (opcjonalnie)', agree: 'Przyjmuję tę ofertę i akceptuję jej warunki.', send: 'Wyślij', question: 'Pytanie', email: 'E-mail do odpowiedzi', accepted: 'Dziękujemy, oferta została przyjęta. Odezwiemy się.', already: 'Oferta została już przyjęta.', asked: 'Dziękujemy, otrzymaliśmy pytanie i odpowiemy e-mailem.', expired: 'Oferta straciła ważność. Prosimy o kontakt, chętnie ją odnowimy.', withdrawn: 'Ta oferta nie jest już ważna.', missing: 'Nie znaleziono oferty. Prosimy sprawdzić link.', fail: 'Coś poszło nie tak – prosimy spróbować za chwilę.', by: 'Oferta przez' },
+    hu: { offer: 'Árajánlat', for: 'Címzett', item: 'Tétel', qty: 'Mennyiség', price: 'Egységár', total: 'Összesen', net: 'Nettó', vat: 'ÁFA', grand: 'Összesen', grandVat: 'Összesen ÁFÁ-val', valid: 'Érvényes', pdf: 'PDF letöltése', accept: 'Ajánlat elfogadása', ask: 'Kérdésem van', name: 'Az Ön neve', note: 'Megjegyzés (nem kötelező)', agree: 'Elfogadom az ajánlatot és annak feltételeit.', send: 'Küldés', question: 'Az Ön kérdése', email: 'E-mail a válaszhoz', accepted: 'Köszönjük, az ajánlatot elfogadta. Hamarosan jelentkezünk.', already: 'Az ajánlatot már elfogadták.', asked: 'Köszönjük, megkaptuk a kérdést, e-mailben válaszolunk.', expired: 'Az ajánlat lejárt. Írjon nekünk, szívesen megújítjuk.', withdrawn: 'Ez az ajánlat már nem érvényes.', missing: 'Az ajánlat nem található. Kérjük, ellenőrizze a linket.', fail: 'Hiba történt – kérjük, próbálja újra kicsit később.', by: 'Ajánlat:' },
+    it: { offer: 'Preventivo', for: 'Per', item: 'Voce', qty: 'Quantità', price: 'Prezzo unit.', total: 'Totale', net: 'Imponibile', vat: 'IVA', grand: 'Totale', grandVat: 'Totale IVA inclusa', valid: 'Valido fino al', pdf: 'Scarica il PDF', accept: 'Accetta il preventivo', ask: 'Ho una domanda', name: 'Il Suo nome', note: 'Nota (facoltativa)', agree: 'Accetto questo preventivo e le sue condizioni.', send: 'Invia', question: 'La Sua domanda', email: 'E-mail per la risposta', accepted: 'Grazie, il preventivo è accettato. La contatteremo.', already: 'Il preventivo è già stato accettato.', asked: 'Grazie, abbiamo ricevuto la domanda e risponderemo via e-mail.', expired: 'Il preventivo è scaduto. Ci scriva e lo rinnoveremo volentieri.', withdrawn: 'Questo preventivo non è più valido.', missing: 'Preventivo non trovato. Controlli il link.', fail: 'Qualcosa non ha funzionato – riprovi tra poco.', by: 'Preventivo tramite' },
+  };
+  const LOCALE = { sk: 'sk-SK', cs: 'cs-CZ', en: 'en-GB', de: 'de-DE', pl: 'pl-PL', hu: 'hu-HU', it: 'it-IT' };
+  const app = document.getElementById('app');
+  const tok = new URLSearchParams(location.search).get('t') || '';
+  let t = T.sk, lang = 'sk', offer = null;
+  const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === 'class') n.className = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else if (v !== null && v !== undefined && v !== false) n.setAttribute(k, v === true ? '' : v); } for (const kid of kids.flat()) if (kid !== null && kid !== undefined && kid !== false) n.append(kid instanceof Node ? kid : document.createTextNode(String(kid))); return n; };
+  const money = n => new Intl.NumberFormat(LOCALE[lang], { style: 'currency', currency: offer?.currency || 'EUR' }).format(Number(n) || 0);
+  const day = iso => new Intl.DateTimeFormat(LOCALE[lang], { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(iso + 'T00:00:00Z'));
+  async function api(path, body) {
+    const r = await fetch(API + '/v1/verejne/ponuky/' + encodeURIComponent(tok) + path, body ? { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) } : {});
+    const json = await r.json().catch(() => ({})); if (!r.ok) throw Object.assign(new Error(json.error || t.fail), { status: r.status }); return json;
+  }
+  function shell(...kids) { app.replaceChildren(el('div', { class: 'card' }, ...kids), el('footer', {}, t.by + ' ', el('a', { href: 'https://jarvis.apoliak.online', target: '_blank', rel: 'noopener' }, 'Jarvis'))); }
+  function render(message = null) {
+    const o = offer, vat = o.vatPayer;
+    const rows = o.items.map(i => el('tr', {}, el('td', {}, el('strong', {}, i.name)), el('td', { class: 'r' }, `${new Intl.NumberFormat(LOCALE[lang], { maximumFractionDigits: 3 }).format(i.qty)} ${i.unit || ''}`), el('td', { class: 'r' }, money(i.price)), el('td', { class: 'r' }, money(i.total))));
+    const totals = el('div', { class: 'totals' }, vat ? el('div', {}, el('span', {}, t.net), el('span', {}, money(o.totals.net))) : null, vat ? el('div', {}, el('span', {}, t.vat), el('span', {}, money(o.totals.vat))) : null, el('div', { class: 'grand' }, el('span', {}, vat ? t.grandVat : t.grand), el('span', {}, money(o.totals.total))));
+    const state = o.state === 'accepted' ? el('div', { class: 'state ok' }, message || t.already) : o.state === 'expired' ? el('div', { class: 'state bad' }, t.expired) : o.state === 'withdrawn' ? el('div', { class: 'state bad' }, t.withdrawn) : message ? el('div', { class: 'state ok' }, message) : null;
+    const actions = o.state === 'open' ? el('div', { class: 'actions' }, el('button', { class: 'primary', type: 'button', onclick: () => form('accept') }, t.accept), el('button', { class: 'secondary', type: 'button', onclick: () => form('ask') }, t.ask), o.pdf ? el('a', { class: 'btn secondary', href: API + '/v1/verejne/ponuky/' + encodeURIComponent(tok) + '/pdf', target: '_blank', rel: 'noopener' }, t.pdf) : null) : o.pdf ? el('div', { class: 'actions' }, el('a', { class: 'btn secondary', href: API + '/v1/verejne/ponuky/' + encodeURIComponent(tok) + '/pdf', target: '_blank', rel: 'noopener' }, t.pdf)) : null;
+    shell(
+      el('div', { class: 'head' }, el('div', {}, el('div', { class: 'firm' }, o.firm), o.firmContact ? el('div', { class: 'muted' }, o.firmContact) : null), el('div', {}, el('div', { class: 'kind' }, t.offer), el('div', { class: 'num' }, o.number), el('div', { class: 'muted' }, `${t.valid} ${day(o.validUntil)}`))),
+      o.client ? el('div', { class: 'muted' }, `${t.for}: ${o.client}`) : null,
+      o.title ? el('h1', {}, o.title) : null,
+      el('table', {}, el('thead', {}, el('tr', {}, el('th', {}, t.item), el('th', { class: 'r' }, t.qty), el('th', { class: 'r' }, t.price), el('th', { class: 'r' }, t.total))), el('tbody', {}, rows)),
+      totals, o.note ? el('div', { class: 'note' }, o.note) : null, state, actions, el('div', { id: 'form' }));
+  }
+  function form(kind) {
+    const box = document.getElementById('form'), error = el('div', { class: 'error' });
+    const name = el('input', { required: true, maxlength: 120, autocomplete: 'name' }), note = el('textarea', { maxlength: 1000 }), agree = el('input', { type: 'checkbox' });
+    const text = el('textarea', { required: true, maxlength: 2000 }), email = el('input', { type: 'email', required: true, maxlength: 200, autocomplete: 'email' });
+    const submit = el('button', { class: 'primary', type: 'submit' }, t.send);
+    const f = el('form', { onsubmit: async event => {
+      event.preventDefault(); submit.disabled = true; error.textContent = '';
+      try {
+        if (kind === 'accept') { await api('/prijat', { name: name.value, note: note.value, consent: agree.checked, email: '' }); offer.state = 'accepted'; render(t.accepted); }
+        else { await api('/otazka', { text: text.value, email: email.value }); render(t.asked); }
+      } catch (e) { error.textContent = e.message; submit.disabled = false; }
+    } }, kind === 'accept' ? [el('label', {}, t.name, name), el('label', {}, t.note, note), el('label', { class: 'check' }, agree, t.agree)] : [el('label', {}, t.question, text), el('label', {}, t.email, email)], error, el('div', {}, submit));
+    box.replaceChildren(f); (kind === 'accept' ? name : text).focus();
+  }
+  (async () => {
+    if (!/^[\w-]{20,40}$/.test(tok)) { shell(el('div', { class: 'state bad' }, T.sk.missing)); return; }
+    try {
+      offer = await api('');
+      lang = T[offer.lang] ? offer.lang : 'sk'; t = T[lang]; document.documentElement.lang = lang;
+      if (/^#[0-9a-f]{6}$/i.test(offer.color || '')) document.documentElement.style.setProperty('--accent', offer.color);
+      document.title = `${t.offer} ${offer.number} · ${offer.firm}`;
+      render();
+    } catch (e) { shell(el('div', { class: 'state bad' }, e.status === 404 ? t.missing : t.fail)); }
+  })();
+})();
+</script>
+</body>
+</html>
