@@ -1,14 +1,14 @@
 {
  "v": 1,
- "verzia": "3.127.0",
- "id": "f5aaa8d0770047929e3d3c62e0b01625",
- "builtAt": "2026-11-02T22:30:09.4534400Z",
+ "verzia": "3.127.1",
+ "id": "97ca07e4f7fc4047badfb47a45ca6a5e",
+ "builtAt": "2026-11-02T22:41:36.0288733Z",
  "edicia": "zakaznik",
- "subor": "https://stiahnut.apoliak.online/Jarvis-3.127.0-zakaznik.zip",
- "velkost": 204442034,
- "sha256": "249db2b9c2680cf847690909a84290518ac5d5c509681e70f1f1d484ff07476d",
- "podpis": "cqEtaUl6hKWbOB5J9Qd48JXi5XgGoqwUos5YtdEuaOZ2WhWc+oTH9e7CNaVj0c6vttah0C83YXIewXX/UDMrCg==",
- "vydane": "2026-11-02T22:30:49.230Z",
+ "subor": "https://stiahnut.apoliak.online/Jarvis-3.127.1-zakaznik.zip",
+ "velkost": 204442357,
+ "sha256": "e47c5a6311a7dfc4c846df6354bb3449524efc53fb8f10de9de7eba7270a3cd3",
+ "podpis": "9qANtgWwoYit2aei2KPvU/iQ7yIwMxhN4dTgxl3YRuirKJdECtSXwTH0i7Io3OJu5Gq3cmQypuya4m53bJ+ZBg==",
+ "vydane": "2026-11-02T22:42:01.744Z",
  "instalator": "https://stiahnut.apoliak.online/Jarvis-Setup.exe",
- "instalatorVelkost": 204459970
+ "instalatorVelkost": 204460293
 }
