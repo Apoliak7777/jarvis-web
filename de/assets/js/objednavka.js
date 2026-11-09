@@ -38,7 +38,7 @@
     return '<tr><td><b>' + esc(l.nazov) + '</b>' + (l.qty > 1 ? ' × ' + l.qty : '') + (l.detail ? '<br><span class="muted" style="font-size:13.5px">' + esc(l.detail) + '</span>' : '') + '</td><td>' + (l.spolu ? eur(l.spolu) : 'inklusive') + '</td></tr>';
   }).join('') + '<tr class="total"><td>Gesamt zu zahlen</td><td>' + eur(o.spolu) + '</td></tr>';
 
-  var cust = [['Name', z.meno], ['Firma', z.firma], ['Firmennummer', z.ico], ['Steuernummer', z.dic], ['USt-IdNr.', z.icdph], ['Adresse', [z.ulica, (z.psc + ' ' + z.mesto).trim(), z.krajina].filter(Boolean).join(', ')], ['E-mail', z.email], ['Telefon', z.telefon], ['Lizenz', o.licencia], ['Anmerkung', o.poznamka]].filter(function (r) { return r[1]; });
+  var cust = [['Name', z.meno], ['Firma', z.firma], ['Firmennummer', z.ico], ['Steuernummer', z.dic], ['USt-IdNr.', z.icdph], ['Adresse', [z.ulica, (z.psc + ' ' + z.mesto).trim(), z.krajina].filter(Boolean).join(', ')], ['E-Mail', z.email], ['Telefon', z.telefon], ['Lizenz', o.licencia], ['Anmerkung', o.poznamka]].filter(function (r) { return r[1]; });
   document.querySelector('[data-order-customer]').innerHTML = cust.map(function (r) { return '<dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('');
 
   // QR PAY by square (slovenské banky); 3.105: web v inom jazyku – európsky QR na platbu (EPC069-12, SEPA), ktorý čítajú
