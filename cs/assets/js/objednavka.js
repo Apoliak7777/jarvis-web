@@ -30,7 +30,7 @@
   var z = o.zakaznik, sprava = 'Jarvis objednavka ' + o.kod;
   var set = function (k, v) { document.querySelectorAll('[data-o="' + k + '"]').forEach(function (el) { el.textContent = v; }); };
   set('oslovenie', z.meno.split(' ')[0] || z.meno);
-  set('kod', o.kod); set('suma', eur(o.spolu)); set('iban', s.iban); set('bic', s.bic); set('prijemca', s.meno);
+  set('kod', o.kod); set('suma', eur(o.spolu)); set('iban', s.iban); set('bic', s.bic); set('prijemca', s.prijemca || s.meno);
   set('vs', o.vs); set('sprava', sprava); set('splatnost', skDay(o.splatnost));
   set('zaciatok', o.suhlasZaciatok === false && o.zaciatokOd ? 'S instalací začnu po uplynutí lhůty pro odstoupení od smlouvy, nejdříve ' + skDay(o.zaciatokOd) + '.' : o.suhlasZaciatok ? 'Požádali jste o zahájení před uplynutím lhůty pro odstoupení od smlouvy – termín instalace domluvíme ihned po platbě.' : 'Termín instalace domluvíme ihned po platbě.');
 
@@ -44,11 +44,11 @@
   // QR PAY by square (slovenské banky); 3.105: web v inom jazyku – európsky QR na platbu (EPC069-12, SEPA), ktorý čítajú
   // bankové appky v eurozóne
   var lang = (document.documentElement.lang || 'sk').slice(0, 2);
-  var epc = function () { return ['BCD', '002', '1', 'SCT', s.bic || '', String(s.meno).slice(0, 70), String(s.iban).replace(/\s+/g, ''), 'EUR' + (Math.round(o.spolu * 100) / 100).toFixed(2), '', '', ('VS ' + o.vs + ' ' + (sprava || '')).trim().slice(0, 140)].join('\n'); };
+  var epc = function () { return ['BCD', '002', '1', 'SCT', s.bic || '', String(s.prijemca || s.meno).slice(0, 70), String(s.iban).replace(/\s+/g, ''), 'EUR' + (Math.round(o.spolu * 100) / 100).toFixed(2), '', '', ('VS ' + o.vs + ' ' + (sprava || '')).trim().slice(0, 140)].join('\n'); };
   var qrBox = document.querySelector('[data-qr]'), qrCap = document.querySelector('[data-qr-cap]');
   if (lang !== 'sk' && qrCap) qrCap.textContent = 'QR platba SEPA (EPC) – naskenujte v bankovní aplikaci';
   try {
-    var payload = lang === 'sk' ? window.JarvisQR.payBySquare({ amount: o.spolu, iban: s.iban, bic: s.bic, variableSymbol: o.vs, note: sprava, dueDate: o.splatnost, beneficiaryName: s.meno }) : epc();
+    var payload = lang === 'sk' ? window.JarvisQR.payBySquare({ amount: o.spolu, iban: s.iban, bic: s.bic, variableSymbol: o.vs, note: sprava, dueDate: o.splatnost, beneficiaryName: s.prijemca || s.meno }) : epc();
     qrBox.innerHTML = window.JarvisQR.qrSvg(payload, { ecc: 'M', margin: 2, title: 'QR platba ' + eur(o.spolu) });
   } catch (e) { qrBox.parentNode.innerHTML = '<div class="info-box">QR kód se nepodařilo vytvořit – zaplaťte podle údajů vedle.</div>'; }
 

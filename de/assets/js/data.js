@@ -4,9 +4,12 @@
 window.JARVIS_DATA = {
   // i18n:off – údaje predajcu sa neprekladajú (nastroje/preklad.mjs)
   predajca: {
-    meno: 'Alex Poliak',
+    // na webe len značka, telefón a e-mail (9. 11. 2026), bez adresy; IČO doplniť po osvedčení živnosti
+    meno: 'Apoliak',
     znacka: 'Apoliak',
-    adresa: 'Mierová 24, 900 29 Nová Dedinka',
+    adresa: '',
+    // majiteľ účtu – len pri platbe prevodom (QR a údaje na platbu po objednávke): banka overuje meno príjemcu s účtom
+    prijemca: 'Alex Poliak',
     krajina: 'Slovenská republika',
     ico: '',            // keď bude živnosť alebo firma, doplň – zobrazí sa v pätičke, podmienkach a objednávke
     dic: '',
