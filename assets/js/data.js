@@ -4,14 +4,15 @@
 window.JARVIS_DATA = {
   // i18n:off – údaje predajcu sa neprekladajú (nastroje/preklad.mjs)
   predajca: {
-    // na webe len značka, telefón a e-mail (9. 11. 2026), bez adresy; IČO doplniť po osvedčení živnosti
+    // na webe značka, telefón, e-mail, IČO a zápis v živnostenskom registri (živnosť od 9. 11. 2026), bez mena a adresy
     meno: 'Apoliak',
     znacka: 'Apoliak',
     adresa: '',
     // majiteľ účtu – len pri platbe prevodom (QR a údaje na platbu po objednávke): banka overuje meno príjemcu s účtom
     prijemca: 'Alex Poliak',
     krajina: 'Slovenská republika',
-    ico: '',            // keď bude živnosť alebo firma, doplň – zobrazí sa v pätičke, podmienkach a objednávke
+    ico: '57 990 883',  // zobrazí sa v pätičke, podmienkach, ochrane údajov, kontakte a objednávke
+    zapis: 'zapísaný v živnostenskom registri Okresného úradu Senec, č. 140-39176', // § 3a ObZ – podmienky a ochrana údajov
     dic: '',
     icdph: '',
     platitelDph: false,
