@@ -200,6 +200,11 @@ window.JARVIS_DATA = {
       zaklad: 'okienko na vašom webe s kontaktným formulárom – dopyty idú rovno do Klientov.',
       kratko: 'Okienko na vašom webe, ktoré zákazníkom odpovedá z vašich cenníkov a podkladov.',
       popis: 'Na svoj web vložíte jeden riadok kódu (WordPress, Wix, Shoptet aj vlastný web) a vpravo dole sa objaví okienko vo farbe vašej firmy. Návštevníkom odpovedá váš Jarvis – len z toho, čo mu povolíte: služby, ceny, otváracie hodiny a vybrané dokumenty z Firemných znalostí. Keď si nevie rady alebo je počítač vypnutý, ponúkne kontaktný formulár a dopyt príde rovno do Klientov. Odpovede idú cez váš vlastný API kľúč alebo offline model, každú otázku a odpoveď vidíte v Jarvisovi.' },
+    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium */
+    { id: 'modul-letenky', modul: 'letenky', kategoria: 'rozsirenia', nazov: 'Letenky + oddych', mesacne: 5, ikona: 'plane',
+      zaklad: 'najlacnejšie spiatočné letenky Ryanairu z jedného letiska – desať najlacnejších destinácií.',
+      kratko: 'Lacné letenky z Bratislavy, Viedne, Košíc a Budapešti naraz a strážca cien, ktorý napíše, keď let zlacnie.',
+      popis: 'Zadáte obdobie, koľko nocí chcete ostať a najvyššiu cenu – Jarvis prehľadá ceny Ryanairu deň po dni na každej trase z Bratislavy, Viedne, Košíc aj Budapešti a k tomu nízkonákladové aerolinky cez AZair, a ukáže najlacnejšie spiatočné letenky s časmi odletu a príletu. Pri každej destinácii ďalšie termíny, počasie v tom mesiaci a fotka miesta. Strážca cien pozrie vaše hľadanie každé 3 hodiny a ozve sa upozornením, keď sa objaví lacnejší let. Základ v každom Jarvisovi: jedno letisko a desať najlacnejších destinácií.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'Appka na mieru v Jarvisovi', cena: 490, ikona: 'app',
       kratko: 'Malá appka presne pre váš biznis – evidencia, kalkulačka, formulár.',

@@ -200,6 +200,11 @@ window.JARVIS_DATA = {
       zaklad: 'a chat window on your website with a contact form – enquiries go straight into Clients.',
       kratko: 'A chat window on your website that answers customers from your price lists and documents.',
       popis: 'You insert one line of code into your website (WordPress, Wix, Shoptet or your own site) and a chat window in your company’s colour appears in the bottom right corner. Visitors are answered by your Jarvis – only from what you allow it: services, prices, opening hours and selected documents from Company knowledge. When it does not know the answer or your computer is off, it offers a contact form and the enquiry goes straight into Clients. Answers go through your own API key or an offline model, and you see every question and answer in Jarvis.' },
+    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium */
+    { id: 'modul-letenky', modul: 'letenky', kategoria: 'rozsirenia', nazov: 'Letenky + oddych', mesacne: 5, ikona: 'plane',
+      zaklad: 'najlacnejšie spiatočné letenky Ryanairu z jedného letiska – desať najlacnejších destinácií.',
+      kratko: 'Lacné letenky z Bratislavy, Viedne, Košíc a Budapešti naraz a strážca cien, ktorý napíše, keď let zlacnie.',
+      popis: 'Zadáte obdobie, koľko nocí chcete ostať a najvyššiu cenu – Jarvis prehľadá ceny Ryanairu deň po dni na každej trase z Bratislavy, Viedne, Košíc aj Budapešti a k tomu nízkonákladové aerolinky cez AZair, a ukáže najlacnejšie spiatočné letenky s časmi odletu a príletu. Pri každej destinácii ďalšie termíny, počasie v tom mesiaci a fotka miesta. Strážca cien pozrie vaše hľadanie každé 3 hodiny a ozve sa upozornením, keď sa objaví lacnejší let. Základ v každom Jarvisovi: jedno letisko a desať najlacnejších destinácií.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'Custom app in Jarvis', cena: 490, ikona: 'app',
       kratko: 'A small app made exactly for your business – a register, a calculator, a form.',

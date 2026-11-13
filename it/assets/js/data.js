@@ -200,6 +200,11 @@ window.JARVIS_DATA = {
       zaklad: 'una finestra sul Suo sito con modulo di contatto – le richieste arrivano direttamente in Clienti.',
       kratko: 'Una finestra sul Suo sito che risponde ai clienti in base ai Suoi listini e documenti.',
       popis: 'Inserisce nel Suo sito una riga di codice (WordPress, Wix, Shoptet o un sito proprio) e in basso a destra compare una finestra nel colore della Sua azienda. Ai visitatori risponde il Suo Jarvis, solo con ciò che Lei gli consente: servizi, prezzi, orari di apertura e documenti selezionati da Conoscenze aziendali. Quando non sa rispondere o il computer è spento, propone un modulo di contatto e la richiesta arriva direttamente in Clienti. Le risposte passano dalla Sua chiave API o da un modello offline, e ogni domanda e risposta la vede in Jarvis.' },
+    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium */
+    { id: 'modul-letenky', modul: 'letenky', kategoria: 'rozsirenia', nazov: 'Letenky + oddych', mesacne: 5, ikona: 'plane',
+      zaklad: 'najlacnejšie spiatočné letenky Ryanairu z jedného letiska – desať najlacnejších destinácií.',
+      kratko: 'Lacné letenky z Bratislavy, Viedne, Košíc a Budapešti naraz a strážca cien, ktorý napíše, keď let zlacnie.',
+      popis: 'Zadáte obdobie, koľko nocí chcete ostať a najvyššiu cenu – Jarvis prehľadá ceny Ryanairu deň po dni na každej trase z Bratislavy, Viedne, Košíc aj Budapešti a k tomu nízkonákladové aerolinky cez AZair, a ukáže najlacnejšie spiatočné letenky s časmi odletu a príletu. Pri každej destinácii ďalšie termíny, počasie v tom mesiaci a fotka miesta. Strážca cien pozrie vaše hľadanie každé 3 hodiny a ozve sa upozornením, keď sa objaví lacnejší let. Základ v každom Jarvisovi: jedno letisko a desať najlacnejších destinácií.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'App su misura in Jarvis', cena: 490, ikona: 'app',
       kratko: 'Una piccola app pensata per la Sua attività: registro, calcolatrice, modulo.',

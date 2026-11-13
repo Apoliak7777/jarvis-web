@@ -200,6 +200,11 @@ window.JARVIS_DATA = {
       zaklad: 'ein Fenster auf Ihrer Website mit Kontaktformular – Anfragen landen direkt in Kunden.',
       kratko: 'Ein Fenster auf Ihrer Website, das Kunden aus Ihren Preislisten und Unterlagen antwortet.',
       popis: 'Sie fügen in Ihre Website eine Zeile Code ein (WordPress, Wix, Shoptet oder eine eigene Website), und unten rechts erscheint ein Fenster in der Farbe Ihrer Firma. Den Besuchern antwortet Ihr Jarvis – nur aus dem, was Sie ihm erlauben: Leistungen, Preise, Öffnungszeiten und ausgewählte Dokumente aus Firmenwissen. Wenn er nicht weiterweiß oder der Computer ausgeschaltet ist, bietet er ein Kontaktformular an, und die Anfrage landet direkt in Kunden. Die Antworten laufen über Ihren eigenen API-Schlüssel oder ein Offline-Modell, jede Frage und Antwort sehen Sie in Jarvis.' },
+    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium */
+    { id: 'modul-letenky', modul: 'letenky', kategoria: 'rozsirenia', nazov: 'Letenky + oddych', mesacne: 5, ikona: 'plane',
+      zaklad: 'najlacnejšie spiatočné letenky Ryanairu z jedného letiska – desať najlacnejších destinácií.',
+      kratko: 'Lacné letenky z Bratislavy, Viedne, Košíc a Budapešti naraz a strážca cien, ktorý napíše, keď let zlacnie.',
+      popis: 'Zadáte obdobie, koľko nocí chcete ostať a najvyššiu cenu – Jarvis prehľadá ceny Ryanairu deň po dni na každej trase z Bratislavy, Viedne, Košíc aj Budapešti a k tomu nízkonákladové aerolinky cez AZair, a ukáže najlacnejšie spiatočné letenky s časmi odletu a príletu. Pri každej destinácii ďalšie termíny, počasie v tom mesiaci a fotka miesta. Strážca cien pozrie vaše hľadanie každé 3 hodiny a ozve sa upozornením, keď sa objaví lacnejší let. Základ v každom Jarvisovi: jedno letisko a desať najlacnejších destinácií.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'App nach Maß in Jarvis', cena: 490, ikona: 'app',
       kratko: 'Eine kleine App genau für Ihr Geschäft – Verwaltung, Rechner, Formular.',

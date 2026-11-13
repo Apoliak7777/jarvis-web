@@ -200,6 +200,11 @@ window.JARVIS_DATA = {
       zaklad: 'ablak az Ön weboldalán kapcsolatfelvételi űrlappal – a megkeresések egyenesen az Ügyfelekbe kerülnek.',
       kratko: 'Ablak az Ön weboldalán, amely az Ön árlistái és anyagai alapján válaszol az ügyfeleknek.',
       popis: 'A weboldalába egyetlen sor kódot illeszt be (WordPress, Wix, Shoptet vagy saját weboldal), és a jobb alsó sarokban megjelenik egy ablak a cége színében. A látogatóknak az Ön Jarvisa válaszol – csak abból, amit engedélyez neki: szolgáltatások, árak, nyitvatartás és kiválasztott dokumentumok a Céges tudásbázisból. Ha nem tudja a választ, vagy a számítógép ki van kapcsolva, kapcsolatfelvételi űrlapot kínál, és a megkeresés egyenesen az Ügyfelekbe kerül. A válaszok az Ön saját API-kulcsán vagy offline modellen keresztül készülnek, és minden kérdést és választ lát a Jarvisban.' },
+    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium */
+    { id: 'modul-letenky', modul: 'letenky', kategoria: 'rozsirenia', nazov: 'Letenky + oddych', mesacne: 5, ikona: 'plane',
+      zaklad: 'najlacnejšie spiatočné letenky Ryanairu z jedného letiska – desať najlacnejších destinácií.',
+      kratko: 'Lacné letenky z Bratislavy, Viedne, Košíc a Budapešti naraz a strážca cien, ktorý napíše, keď let zlacnie.',
+      popis: 'Zadáte obdobie, koľko nocí chcete ostať a najvyššiu cenu – Jarvis prehľadá ceny Ryanairu deň po dni na každej trase z Bratislavy, Viedne, Košíc aj Budapešti a k tomu nízkonákladové aerolinky cez AZair, a ukáže najlacnejšie spiatočné letenky s časmi odletu a príletu. Pri každej destinácii ďalšie termíny, počasie v tom mesiaci a fotka miesta. Strážca cien pozrie vaše hľadanie každé 3 hodiny a ozve sa upozornením, keď sa objaví lacnejší let. Základ v každom Jarvisovi: jedno letisko a desať najlacnejších destinácií.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'Testre szabott alkalmazás a Jarvisban', cena: 490, ikona: 'app',
       kratko: 'Kis alkalmazás pontosan az Ön üzletéhez – nyilvántartás, kalkulátor, űrlap.',
