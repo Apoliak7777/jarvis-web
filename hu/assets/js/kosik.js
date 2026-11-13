@@ -7,9 +7,10 @@
   var D = window.JARVIS_DATA, S = window.JarvisShop, C = window.JarvisCeny && window.JarvisCeny.create(D);
   var form = document.querySelector('[data-cart-form]'); if (!form || !S || !C) return;
   var K = C.K, ORDERS = 'jarvis-objednavky-v1', API = String(D.nastavenia.obchodApi || '').replace(/\/$/, '');
-  // web v inom jazyku: krajina vopred podľa jazyka stránky (čeština Česko, ostatné Iná krajina EÚ), číslo firmy aj s písmenami
+  // web v inom jazyku: krajina vopred podľa jazyka stránky (čeština Česko, ukrajinčina ostáva Slovensko – tak píšu najmä
+  // Ukrajinci žijúci na Slovensku, ostatné Iná krajina EÚ), číslo firmy aj s písmenami
   var lang = (document.documentElement.lang || 'sk').slice(0, 2);
-  if (lang !== 'sk' && form.elements.krajina) form.elements.krajina.selectedIndex = lang === 'cs' ? 1 : 2;
+  if (lang !== 'sk' && lang !== 'uk' && form.elements.krajina) form.elements.krajina.selectedIndex = lang === 'cs' ? 1 : 2;
   if (lang !== 'sk' && lang !== 'cs' && form.elements.ico) form.elements.ico.removeAttribute('inputmode');
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var eur = function (n) { var v = Math.round(n * 100) / 100, p = v.toFixed(2).split('.'); return p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + (p[1] === '00' ? '' : ',' + p[1]) + ' €'; };

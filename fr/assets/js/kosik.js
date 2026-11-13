@@ -1,0 +1,183 @@
+/* Jarvis · košík a objednávka. Pravidlá: inštalácia je na želanie (28. 10. 2026 – Jarvis sa stiahne zadarmo a 7 dní
+   skúša; pri balíku je v cene), doplnky v cene plánu sa neúčtujú, doplnky bez plánu len pre existujúceho zákazníka.
+   Ceny vždy z data.js, výpočet v ceny.js (ten istý prepočíta Jarvis Brána pred platbou kartou). 3.121: objednávka ide
+   cez Bránu rovno do Alexovho Jarvisa; platba kartou otvorí Stripe a licencia príde e-mailom sama. */
+(function () {
+  'use strict';
+  var D = window.JARVIS_DATA, S = window.JarvisShop, C = window.JarvisCeny && window.JarvisCeny.create(D);
+  var form = document.querySelector('[data-cart-form]'); if (!form || !S || !C) return;
+  var K = C.K, ORDERS = 'jarvis-objednavky-v1', API = String(D.nastavenia.obchodApi || '').replace(/\/$/, '');
+  // web v inom jazyku: krajina vopred podľa jazyka stránky (čeština Česko, ukrajinčina ostáva Slovensko – tak píšu najmä
+  // Ukrajinci žijúci na Slovensku, ostatné Iná krajina EÚ), číslo firmy aj s písmenami
+  var lang = (document.documentElement.lang || 'sk').slice(0, 2);
+  if (lang !== 'sk' && lang !== 'uk' && form.elements.krajina) form.elements.krajina.selectedIndex = lang === 'cs' ? 1 : 2;
+  if (lang !== 'sk' && lang !== 'cs' && form.elements.ico) form.elements.ico.removeAttribute('inputmode');
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var eur = function (n) { var v = Math.round(n * 100) / 100, p = v.toFixed(2).split('.'); return p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + (p[1] === '00' ? '' : ',' + p[1]) + ' €'; };
+  var ICON = { cart: '<path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"/>', plan: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>', install: '<path d="M12 4v11M7 10l5 5 5-5"/><path d="M4 18v1a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1"/>', pack: '<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/>' };
+  var svg = function (name) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICON[name] || ICON.cart) + '</svg>'; };
+  var cartPlan = C.cartPlan, line = C.line, normalize = C.normalize;
+
+  /** Ponuka inštalácie pri pláne, ktorý ju nemá (nie pri predĺžení, balíku ani pri zákazníkovi s licenciou). */
+  function offerInstall(c) {
+    var hasPlan = c.items.some(function (it) { var p = S.product(it.id); return p && p.plan; });
+    var hasInst = c.items.some(function (it) { return it.id === 'instalacia'; });
+    var inst = S.product('instalacia');
+    if (!inst || !hasPlan || hasInst || c.mamLicenciu) return '';
+    return '<div class="info-box" style="margin-top:16px"><b>Installation sur demande</b> – j’installe et je configure Jarvis pour vous : nous connectons vos comptes et votre messagerie et je vous montre tout l’essentiel (' + (inst.povodne ? '<s>' + eur(inst.povodne) + '</s> ' : '') + eur(inst.cena) + ', payé une seule fois). Sinon, vous le téléchargez et l’installez vous-même gratuitement.' +
+      '<div class="actions" style="margin-top:12px"><button type="button" class="btn btn-small" data-add="instalacia">+ Ajouter l’installation ' + eur(inst.cena) + '</button></div></div>';
+  }
+
+  var listEl = form.querySelector('[data-cart-items]'), notesEl = form.querySelector('[data-cart-notes]'), sumEl = form.querySelector('[data-cart-summary]');
+  var haveEl = form.querySelector('[data-have-license]'), licField = form.querySelector('[data-license-field]');
+  var cardEl = form.querySelector('[data-card-option]'), payHint = form.querySelector('[data-pay-hint]'), sendHint = form.querySelector('[data-send-hint]');
+  var submitBtn = form.querySelector('button[type="submit"]');
+
+  function problems(c) {
+    var out = [], ids = c.items.map(function (it) { return it.id; });
+    var plan = cartPlan(c), inst = ids.indexOf('instalacia') >= 0;
+    if (inst && !plan) out.push({ t: 'Choisissez un plan mensuel ou annuel avec l’installation.', plans: true });
+    if (!plan && !inst && !c.mamLicenciu && c.items.length) out.push({ t: 'Les options et services sont destinés aux clients qui ont déjà Jarvis. Ajoutez un plan ou cochez la case indiquant que vous avez déjà Jarvis.', plans: true });
+    return out;
+  }
+  var payment = function () { return (form.querySelector('input[name="platba"]:checked') || {}).value || 'prevod'; };
+  /** pri karte: s plánom (alebo predĺžením) sa plán a rozšírenia ďalej strhávajú samy – mesačne alebo ročne */
+  function payNote(c) {
+    var card = payment() === 'karta', repeat = c.items.some(function (it) { var p = S.product(it.id); return p && (p.plan || it.id === 'predlzenie'); });
+    var yearly = c.items.some(function (it) { var p = S.product(it.id); return p && (p.plan || it.id === 'predlzenie') && it.variant === 'rok'; });
+    if (payHint) payHint.textContent = !card ? '' : repeat ? (yearly ? 'Le plan et les extensions sont ensuite prélevés automatiquement sur la carte chaque année et la licence se prolonge d’elle-même. Vous pouvez résilier l’abonnement à tout moment dans Jarvis (Mon abonnement).' : 'Le plan et les extensions sont ensuite prélevés automatiquement sur la carte chaque mois et la licence se prolonge d’elle-même. Vous pouvez résilier l’abonnement à tout moment dans Jarvis (Mon abonnement).') : 'Le paiement par carte est ponctuel.';
+    if (payHint) payHint.hidden = !card;
+    if (sendHint) sendHint.textContent = card ? 'Après l’envoi, un paiement par carte sécurisé (Stripe) s’ouvre. La clé de licence vous parvient par e-mail dès le paiement effectué.' : 'Après l’envoi, vous verrez les coordonnées de paiement et un code QR.';
+  }
+
+  function render() {
+    var c = normalize(S.read()); S.write(c);
+    document.querySelector('[data-cart-empty]').hidden = c.items.length > 0;
+    form.hidden = !c.items.length;
+    if (!c.items.length) return;
+    haveEl.checked = !!c.mamLicenciu; licField.hidden = !c.mamLicenciu;
+    if (c.licencia && !form.elements.licencia.value) form.elements.licencia.value = c.licencia;
+    var total = 0;
+    listEl.innerHTML = c.items.map(function (it, i) {
+      var p = S.product(it.id), l = line(it, c); total += l.spolu;
+      var ctrl = '';
+      if (p.plan || it.id === 'predlzenie' || l.ownVariant) ctrl += '<select data-variant-of="' + i + '" aria-label="Période"><option value="mesiac"' + (l.variant !== 'rok' ? ' selected' : '') + '>Mensuel</option><option value="rok"' + (l.variant === 'rok' ? ' selected' : '') + '>Annuel (12 pour le prix de ' + K + ')</option></select>';
+      if (p.mnozstvo) ctrl += '<span class="qty"><button type="button" data-qty="' + i + '" data-d="-1" aria-label="Moins">−</button><output>' + l.qty + '</output><button type="button" data-qty="' + i + '" data-d="1" aria-label="Plus">+</button></span>';
+      ctrl += '<button type="button" class="link-btn" data-remove="' + i + '">Retirer</button>';
+      var ic = p.balik ? 'pack' : it.id === 'instalacia' ? 'install' : p.plan || it.id === 'predlzenie' ? 'plan' : 'cart';
+      var perUnit = p.mnozstvo && l.qty > 1 ? '<small>' + l.qty + ' × ' + eur(l.cena) + '</small>' : (p.plan || p.modul || it.id === 'predlzenie') ? '<small>' + (l.variant === 'rok' ? 'par an' : 'par mois') + '</small>' : '';
+      return '<div class="cart-item"><span class="icon">' + svg(ic) + '</span><div><h3>' + esc(l.nazov) + '</h3>' + (l.detail ? '<div class="sub">' + esc(l.detail) + '</div>' : '') + '<div class="controls">' + ctrl + '</div></div><div class="item-price">' + (l.spolu === 0 && p.vCene ? '<span class="badge blue">inclus</span>' : eur(l.spolu)) + perUnit + '</div></div>';
+    }).join('');
+    var probs = problems(c);
+    notesEl.innerHTML = probs.map(function (pr) {
+      return '<div class="info-box" style="margin-top:16px">' + esc(pr.t) + (pr.plans ? '<div class="actions" style="margin-top:12px">' + D.plany.map(function (p) { return '<button type="button" class="btn btn-small" data-add="plan-' + p.id + '" data-variant="mesiac">+ ' + esc(p.nazov) + ' ' + eur(p.mesacne) + '/mois</button>'; }).join('') + '</div>' : '') + '</div>';
+    }).join('') + offerInstall(c);
+    var monthly = c.items.filter(function (it) { var p = S.product(it.id); return p && (p.plan || it.id === 'predlzenie') && it.variant !== 'rok'; })[0];
+    sumEl.innerHTML = c.items.map(function (it) { var l = line(it, c); return '<div class="sum-row"><span>' + esc(l.nazov) + (l.qty > 1 ? ' × ' + l.qty : '') + '</span><b>' + (l.spolu || !S.product(it.id).vCene ? eur(l.spolu) : 'inclus') + '</b></div>'; }).join('') +
+      '<div class="sum-total"><span>Total à payer</span><b>' + eur(total) + '</b></div>' +
+      '<p class="hint" style="margin:6px 0 0;font-size:13px;color:var(--muted)">' + (D.predajca.platitelDph ? 'Prix TTC.' : 'Prix final, le vendeur n’est pas assujetti à la TVA.') + (monthly ? ' Mois suivants : ' + eur(line(monthly, c).mesacne + c.items.filter(function (it) { var p = S.product(it.id); return p && p.modul; }).reduce(function (sum, it) { return sum + line(it, c).mesacne; }, 0)) + ' par mois, d’avance.' : '') + '</p>';
+    consentRow(); payNote(c);
+  }
+
+  // ovládanie položiek
+  form.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-remove],[data-qty]'); if (!t) return;
+    var c = S.read();
+    if (t.hasAttribute('data-remove')) c.items.splice(+t.getAttribute('data-remove'), 1);
+    else { var it = c.items[+t.getAttribute('data-qty')]; if (it) it.qty = Math.max(1, Math.min(20, (it.qty || 1) + (+t.getAttribute('data-d')))); }
+    S.write(c); render();
+  });
+  form.addEventListener('change', function (e) {
+    var t = e.target, c = S.read();
+    if (t.hasAttribute('data-variant-of')) { var it = c.items[+t.getAttribute('data-variant-of')]; if (it) it.variant = t.value; S.write(c); render(); }
+    else if (t === haveEl) { c.mamLicenciu = haveEl.checked; S.write(c); render(); }
+    else if (t.name === 'typ') consentRow();
+    else if (t.name === 'platba') payNote(normalize(c));
+  });
+  document.addEventListener('click', function (e) { if (e.target.closest('[data-add]')) setTimeout(render, 0); });
+
+  function consentRow() {
+    var osoba = form.elements.typ.value === 'osoba';
+    form.querySelector('[data-firm-fields]').hidden = osoba;
+    form.querySelector('[data-consent-row]').hidden = !osoba;
+    form.querySelector('[data-consent-hint]').hidden = !osoba;
+  }
+
+  // 3.121: platba kartou len keď ju má Brána zapnutú (Alexov Stripe) – potom je predvolená, licencia príde hneď
+  if (API && cardEl) {
+    fetch(API + '/v1/verejne/obchod/stav').then(function (r) { return r.ok ? r.json() : null; }).then(function (s) {
+      if (!s || !s.karta) return;
+      cardEl.hidden = false; cardEl.querySelector('input').checked = true; payNote(normalize(S.read()));
+    }).catch(function () {});
+  }
+
+  // odoslanie objednávky
+  var sending = false;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (sending) return;
+    var c = normalize(S.read()), f = form.elements, err = form.querySelector('[data-cart-error]'), bad = [];
+    var osoba = f.typ.value === 'osoba';
+    // IČO zo Slovenska a Česka má 6 až 8 číslic; firma z inej krajiny EÚ zadá svoje číslo (NIP, adószám, P. IVA, HRB …)
+    var domaca = f.krajina.selectedIndex < 2;
+    var need =['meno', 'email', 'telefon', 'ulica', 'mesto', 'psc'].concat(osoba ? [] : ['firma', 'ico']);
+    form.querySelectorAll('[aria-invalid]').forEach(function (el) { el.removeAttribute('aria-invalid'); });
+    need.forEach(function (n) {
+      var v = f[n].value.trim(), ok = !!v;
+      if (n === 'email') ok = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v);
+      if (n === 'telefon') ok = v.replace(/\D/g, '').length >= 9;
+      if (n === 'ico') ok = domaca ? /^\d{6,8}$/.test(v.replace(/\s/g, '')) : /\d/.test(v);
+      if (!ok) { f[n].setAttribute('aria-invalid', 'true'); bad.push(n); }
+    });
+    var lic = f.licencia.value.trim();
+    if (c.mamLicenciu && !/^(JRV-[0-9A-Z]{4}-[0-9A-Z]{4}|JARVIS-[\w.-]+)$/i.test(lic.replace(/\s+/g, ''))) { f.licencia.setAttribute('aria-invalid', 'true'); bad.push('licencia'); }
+    var msgs = [];
+    if (bad.length) msgs.push('Vérifiez les champs mis en évidence' + (bad.indexOf('ico') >= 0 && domaca ? ' (l’IČO comporte 6 à 8 chiffres)' : '') + (bad.indexOf('licencia') >= 0 ? ' (licence : JRV-XXXX-XXXX ou la clé complète)' : '') + '.');
+    if (problems(c).length) msgs.push(problems(c)[0].t);
+    if (!f.vop.checked) msgs.push('Confirmez votre accord avec les conditions générales de vente.');
+    var show = function (list) { err.innerHTML = list.length ? '<div class="error-box">' + list.map(esc).join('<br>') + '</div>' : ''; };
+    show(msgs);
+    if (msgs.length) { var first = form.querySelector('[aria-invalid="true"]'); if (first) first.focus(); return; }
+
+    var lines = C.lines(c), platba = payment();
+    var now = new Date(), pad = function (n) { return String(n).padStart(2, '0'); };
+    var vs = String(now.getFullYear()).slice(2) + pad(now.getMonth() + 1) + pad(now.getDate()) + String(Math.floor(1000 + Math.random() * 9000));
+    var due = new Date(now.getTime() + D.nastavenia.splatnostDni * 864e5);
+    var start = osoba && !f.zaciatok.checked ? new Date(now.getTime() + 15 * 864e5) : null;
+    var order = {
+      kod: vs, vs: vs, vytvorena: now.toISOString(), splatnost: due.getFullYear() + '-' + pad(due.getMonth() + 1) + '-' + pad(due.getDate()),
+      polozky: lines, spolu: C.total(c), plan: cartPlan(c),
+      zakaznik: { typ: osoba ? 'osoba' : 'firma', meno: f.meno.value.trim(), firma: osoba ? '' : f.firma.value.trim(), ico: osoba ? '' : f.ico.value.replace(/\s/g, ''), dic: osoba ? '' : f.dic.value.trim(), icdph: osoba ? '' : f.icdph.value.trim(), email: f.email.value.trim(), telefon: f.telefon.value.trim(), ulica: f.ulica.value.trim(), mesto: f.mesto.value.trim(), psc: f.psc.value.trim(), krajina: f.krajina.value },
+      licencia: c.mamLicenciu ? lic : '', poznamka: f.poznamka.value.trim(), platba: platba,
+      suhlasZaciatok: osoba ? !!f.zaciatok.checked : null, zaciatokOd: start ? start.getFullYear() + '-' + pad(start.getMonth() + 1) + '-' + pad(start.getDate()) : null, odoslana: false
+    };
+    var keep = function () {
+      var all = []; try { all = JSON.parse(localStorage.getItem(ORDERS) || '[]'); } catch (x) {}
+      all = all.filter(function (x) { return x.kod !== order.kod; }); all.unshift(order);
+      try { localStorage.setItem(ORDERS, JSON.stringify(all.slice(0, 20))); } catch (x) {}
+    };
+    var done = function (url) { keep(); S.write({ items: [], mamLicenciu: false, licencia: '' }); location.href = url || 'objednavka.html?c=' + encodeURIComponent(order.kod) + (order.token ? '&t=' + encodeURIComponent(order.token) : ''); };
+    if (!API) { done(); return; }
+    // Brána prepočíta ceny sama (z cenníka webu), Alexov Jarvis dostane objednávku hneď; pri karte vráti adresu platby Stripe
+    sending = true; submitBtn.disabled = true; var label = submitBtn.textContent; submitBtn.textContent = 'Envoi de la commande…';
+    var again = function (text) { sending = false; submitBtn.disabled = false; submitBtn.textContent = label; if (text) show([text]); };
+    fetch(API + '/v1/verejne/obchod/objednavka', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+      vs: vs, platba: platba, jazyk: lang, suhlasVop: true, spolu: order.spolu, kosik: c.items, mamLicenciu: !!c.mamLicenciu, licencia: order.licencia,
+      zakaznik: order.zakaznik, poznamka: order.poznamka, suhlasZaciatok: order.suhlasZaciatok, zaciatokOd: order.zaciatokOd, splatnost: order.splatnost
+    }) }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); }).then(function (res) {
+      // Brána bez obchodu alebo mimo prevádzky: prevod ide po starom (objednávka e-mailom zo stránky objednávky)
+      if (!res.ok && platba !== 'karta' && (res.status === 404 || res.status >= 500)) { done(); return; }
+      // hlášky Brány sú po slovensky – v inom jazyku preložená všeobecná
+      if (!res.ok) { again(lang === 'sk' && res.j && res.j.error ? res.j.error : platba === 'karta' && (res.status === 409 || res.status === 503) ? 'Le paiement par carte est indisponible pour le moment – réessayez dans un instant ou choisissez le virement bancaire.' : 'La commande ne peut pas être envoyée pour le moment – réessayez dans un instant.'); return; }
+      order.kod = res.j.kod || order.kod; order.vs = res.j.vs || order.kod; order.token = res.j.token || ''; order.odoslana = true;
+      if (typeof res.j.spolu === 'number') order.spolu = res.j.spolu;
+      done(platba === 'karta' ? res.j.url : '');
+    }).catch(function () {
+      // Brána nedostupná: prevod pôjde po starom (objednávka e-mailom zo stránky objednávky), karta nejde
+      if (platba === 'karta') { again('Le paiement par carte est indisponible pour le moment – réessayez dans un instant ou choisissez le virement bancaire.'); return; }
+      done();
+    });
+  });
+
+  render();
+})();

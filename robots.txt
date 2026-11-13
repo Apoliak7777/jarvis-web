@@ -13,6 +13,12 @@ Disallow: /hu/kosik.html
 Disallow: /hu/objednavka.html
 Disallow: /it/kosik.html
 Disallow: /it/objednavka.html
+Disallow: /fr/kosik.html
+Disallow: /fr/objednavka.html
+Disallow: /es/kosik.html
+Disallow: /es/objednavka.html
+Disallow: /uk/kosik.html
+Disallow: /uk/objednavka.html
 Disallow: /p/
 Disallow: /m/
 Sitemap: https://jarvis.apoliak.online/sitemap.xml

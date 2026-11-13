@@ -8,7 +8,7 @@
   var lang = (document.documentElement.lang || 'sk').slice(0, 2);
   var err = document.querySelector('[data-withdraw-error]'), done = document.querySelector('[data-withdraw-done]'), btn = form.querySelector('[data-withdraw-submit]');
   var EMAIL = /^[^\s@<>,;"]{1,64}@[^\s@<>,;"]{1,190}\.[^\s@<>,;"]{2,24}$/;
-  var LOCALES = { sk: 'sk-SK', cs: 'cs-CZ', en: 'en-GB', de: 'de-DE', pl: 'pl-PL', hu: 'hu-HU', it: 'it-IT' };
+  var LOCALES = { sk: 'sk-SK', cs: 'cs-CZ', en: 'en-GB', de: 'de-DE', pl: 'pl-PL', hu: 'hu-HU', it: 'it-IT', fr: 'fr-FR', es: 'es-ES', uk: 'uk-UA' };
   var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var when = function (iso) {
     try { return new Intl.DateTimeFormat(LOCALES[lang] || LOCALES.sk, { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Bratislava', timeZoneName: 'short' }).format(new Date(iso)); }
