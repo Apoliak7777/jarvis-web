@@ -200,11 +200,12 @@ window.JARVIS_DATA = {
       zaklad: 'okénko na vašem webu s kontaktním formulářem – poptávky jdou rovnou do Klientů.',
       kratko: 'Okénko na vašem webu, které zákazníkům odpovídá z vašich ceníků a podkladů.',
       popis: 'Na svůj web vložíte jeden řádek kódu (WordPress, Wix, Shoptet i vlastní web) a vpravo dole se objeví okénko v barvě vaší firmy. Návštěvníkům odpovídá váš Jarvis – jen z toho, co mu povolíte: služby, ceny, otevírací doba a vybrané dokumenty z Firemních znalostí. Když si neví rady nebo je počítač vypnutý, nabídne kontaktní formulář a poptávka přijde rovnou do Klientů. Odpovědi jdou přes váš vlastní API klíč nebo offline model, každý dotaz a odpověď vidíte v Jarvisu.' },
-    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium */
-    { id: 'modul-letenky', modul: 'letenky', kategoria: 'rozsirenia', nazov: 'Letenky + oddych', mesacne: 5, ikona: 'plane',
-      zaklad: 'najlacnejšie spiatočné letenky Ryanairu z jedného letiska – desať najlacnejších destinácií.',
-      kratko: 'Lacné letenky z Bratislavy, Viedne, Košíc a Budapešti naraz a strážca cien, ktorý napíše, keď let zlacnie.',
-      popis: 'Zadáte obdobie, koľko nocí chcete ostať a najvyššiu cenu – Jarvis prehľadá ceny Ryanairu deň po dni na každej trase z Bratislavy, Viedne, Košíc aj Budapešti a k tomu nízkonákladové aerolinky cez AZair, a ukáže najlacnejšie spiatočné letenky s časmi odletu a príletu. Pri každej destinácii ďalšie termíny, počasie v tom mesiaci a fotka miesta. Strážca cien pozrie vaše hľadanie každé 3 hodiny a ozve sa upozornením, keď sa objaví lacnejší let. Základ v každom Jarvisovi: jedno letisko a desať najlacnejších destinácií.' },
+    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium;
+       3.152 aj Wizz Air, ubytovanie na dni letu s cenou celej dovolenky a zájazdy */
+    { id: 'modul-letenky', modul: 'letenky', kategoria: 'rozsirenia', nazov: 'Letenky + odpočinek', mesacne: 5, ikona: 'plane',
+      zaklad: 'nejlevnější zpáteční letenky Ryanairu z jednoho letiště – deset nejlevnějších destinací.',
+      kratko: 'Levné letenky Ryanair i Wizz Air ze čtyř letišť najednou, ubytování na dny letu, zájezdy a hlídač cen.',
+      popis: 'Zadáte období, kolik nocí chcete zůstat a nejvyšší cenu – Jarvis projde ceny Ryanairu a Wizz Air den po dni na každé trase z Bratislavy, Vídně, Košic i Budapešti a k tomu další nízkonákladové aerolinky přes AZair, a ukáže nejlevnější zpáteční letenky s časy odletu. K nejlevnějším letům hned najde ubytování přesně na ty dny – hotely i apartmány s dobrým hodnocením – a řekne, kolik stojí celá dovolená. V záložce Zájezdy najde nejlevnější zájezdy s letem, hotelem a stravou od slovenských a českých cestovních kanceláří. U každé destinace další termíny, počasí v tom měsíci a fotka místa. Hlídač cen projde vaše hledání každé 3 hodiny a ozve se upozorněním, když se objeví levnější let. Základ v každém Jarvisovi: jedno letiště a deset nejlevnějších destinací.' },
 
     { id: 'appka', kategoria: 'sluzby', nazov: 'Aplikace na míru v Jarvisu', cena: 490, ikona: 'app',
       kratko: 'Malá aplikace přesně pro váš byznys – evidence, kalkulačka, formulář.',
