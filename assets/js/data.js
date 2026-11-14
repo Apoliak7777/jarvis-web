@@ -162,8 +162,8 @@ window.JARVIS_DATA = {
     /* Jarvis 3.118: druhá várka – Preverenie firmy, Dokumenty zo šablón, Hromadné maily, Tendre a dotácie; Sklad hotový */
     { id: 'modul-preverenie', modul: 'preverenie', kategoria: 'rozsirenia', nazov: 'Preverenie firmy', mesacne: 5, ikona: 'shield',
       zaklad: 'preverenie jednej firmy na klik podľa IČO – konkurz, likvidácia, dlžníci a ručenie za DPH.',
-      kratko: 'Každý týždeň stráži klientov a dodávateľov: dlhy, konkurz a ručenie za DPH.',
-      popis: 'Pred obchodom zadáte IČO a Jarvis pozrie register firiem, poslednú účtovnú závierku, dlžníkov Finančnej správy a Sociálnej poisťovne a zoznam platiteľov DPH s dôvodom na zrušenie registrácie, za ktorých DPH by ste ručili. S rozšírením každý týždeň sám znova preverí všetkých klientov a dodávateľov a ozve sa, keď sa niektorý objaví medzi dlžníkmi alebo v konkurze.' },
+      kratko: 'Týždenné stráženie klientov a dodávateľov, celý zoznam IČO naraz a firmy jednej osoby so semaforom.',
+      popis: 'Pred obchodom zadáte IČO a Jarvis pozrie register firiem, poslednú účtovnú závierku, dlžníkov Finančnej správy a Sociálnej poisťovne a zoznam platiteľov DPH s dôvodom na zrušenie registrácie, za ktorých DPH by ste ručili. S rozšírením každý týždeň sám znova preverí všetkých klientov a dodávateľov a ozve sa, keď sa niektorý objaví medzi dlžníkmi alebo v konkurze. Navyše preverí celý zoznam IČO naraz, do 200 firiem: ku každej semafor, skóre a dôvody a výsledok ako tabuľka do Excelu. Jedným klikom preverí aj firmy, v ktorých osoba podľa obchodného registra pôsobí, do 25 naraz.' },
     { id: 'modul-sablony', modul: 'sablony', kategoria: 'rozsirenia', nazov: 'Dokumenty zo šablón', mesacne: 5, ikona: 'invoice',
       zaklad: 'dve vlastné Word šablóny vyplnené z Klientov a registra firiem – Word aj PDF.',
       kratko: 'Zmluvy, protokoly a objednávky z vašich Word šablón jedným klikom.',

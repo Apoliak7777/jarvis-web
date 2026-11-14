@@ -162,8 +162,8 @@ window.JARVIS_DATA = {
     /* Jarvis 3.118: druhá várka – Preverenie firmy, Dokumenty zo šablón, Hromadné maily, Tendre a dotácie; Sklad hotový */
     { id: 'modul-preverenie', modul: 'preverenie', kategoria: 'rozsirenia', nazov: 'Cégellenőrzés', mesacne: 5, ikona: 'shield',
       zaklad: 'egy cég ellenőrzése egy kattintással cégszám alapján – csőd, felszámolás, adósok és áfa-felelősség.',
-      kratko: 'Minden héten figyeli az ügyfeleket és a beszállítókat: tartozások, csőd és áfa-felelősség.',
-      popis: 'Üzlet előtt megadja a cégszámot, a Jarvis pedig átnézi a cégnyilvántartást, az utolsó beszámolót, az adóhivatal és a társadalombiztosító adósait, valamint azoknak az áfaalanyoknak a listáját, akiknél a regisztráció törlésének oka áll fenn, és akiknek az áfájáért Ön felelne. A bővítménnyel minden héten maga ellenőrzi újra az összes ügyfelet és beszállítót, és szól, ha valamelyik megjelenik az adósok között vagy csődbe kerül.' },
+      kratko: 'Az ügyfelek és beszállítók heti figyelése, egész cégszámlista egyszerre és egy személy cégei jelzőlámpával.',
+      popis: 'Üzlet előtt megadja a cégszámot, a Jarvis pedig átnézi a cégnyilvántartást, az utolsó beszámolót, az adóhivatal és a társadalombiztosító adósait, valamint azoknak az áfaalanyoknak a listáját, akiknél a regisztráció törlésének oka áll fenn, és akiknek az áfájáért Ön felelne. A bővítménnyel minden héten maga ellenőrzi újra az összes ügyfelet és beszállítót, és szól, ha valamelyik megjelenik az adósok között vagy csődbe kerül. Emellett egyszerre ellenőriz egy egész cégszámlistát, legfeljebb 200 céget: mindegyikhez jelzőlámpa, pontszám és indokok, az eredmény pedig Excelbe tölthető táblázat. Egy kattintással azokat a cégeket is ellenőrzi, amelyekben egy személy a cégjegyzék szerint szerepel, egyszerre legfeljebb 25-öt.' },
     { id: 'modul-sablony', modul: 'sablony', kategoria: 'rozsirenia', nazov: 'Dokumentumok sablonokból', mesacne: 5, ikona: 'invoice',
       zaklad: 'két saját Word-sablon az Ügyfelekből és a cégnyilvántartásból kitöltve – Word és PDF.',
       kratko: 'Szerződések, jegyzőkönyvek és rendelések az Ön Word-sablonjaiból egy kattintással.',

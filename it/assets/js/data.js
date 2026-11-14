@@ -162,8 +162,8 @@ window.JARVIS_DATA = {
     /* Jarvis 3.118: druhá várka – Preverenie firmy, Dokumenty zo šablón, Hromadné maily, Tendre a dotácie; Sklad hotový */
     { id: 'modul-preverenie', modul: 'preverenie', kategoria: 'rozsirenia', nazov: 'Verifica azienda', mesacne: 5, ikona: 'shield',
       zaklad: 'verifica di un’azienda con un clic in base al numero – fallimento, liquidazione, debitori e responsabilità per l’IVA.',
-      kratko: 'Ogni settimana controlla clienti e fornitori: debiti, fallimento e responsabilità per l’IVA.',
-      popis: 'Prima di un affare inserisce il numero dell’azienda e Jarvis controlla il registro delle imprese, l’ultimo bilancio, i debitori del fisco e della previdenza sociale e l’elenco dei soggetti IVA con un motivo di cancellazione, della cui IVA risponderebbe Lei. Con l’estensione ricontrolla da solo ogni settimana tutti i clienti e i fornitori e La avvisa quando uno compare tra i debitori o in fallimento.' },
+      kratko: 'Controllo settimanale di clienti e fornitori, un intero elenco di numeri d’azienda in una volta e le aziende di una persona con il semaforo.',
+      popis: 'Prima di un affare inserisce il numero dell’azienda e Jarvis controlla il registro delle imprese, l’ultimo bilancio, i debitori del fisco e della previdenza sociale e l’elenco dei soggetti IVA con un motivo di cancellazione, della cui IVA risponderebbe Lei. Con l’estensione ricontrolla da solo ogni settimana tutti i clienti e i fornitori e La avvisa quando uno compare tra i debitori o in fallimento. Inoltre verifica un intero elenco di numeri d’azienda in una volta, fino a 200 aziende: per ciascuna semaforo, punteggio e motivi, e il risultato come tabella per Excel. Con un clic verifica anche le aziende in cui una persona opera secondo il registro delle imprese, fino a 25 alla volta.' },
     { id: 'modul-sablony', modul: 'sablony', kategoria: 'rozsirenia', nazov: 'Documenti da modelli', mesacne: 5, ikona: 'invoice',
       zaklad: 'due modelli Word propri compilati da Clienti e dal registro delle imprese – Word e PDF.',
       kratko: 'Contratti, verbali e ordini dai Suoi modelli Word con un clic.',

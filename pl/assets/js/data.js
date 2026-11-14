@@ -162,8 +162,8 @@ window.JARVIS_DATA = {
     /* Jarvis 3.118: druhá várka – Preverenie firmy, Dokumenty zo šablón, Hromadné maily, Tendre a dotácie; Sklad hotový */
     { id: 'modul-preverenie', modul: 'preverenie', kategoria: 'rozsirenia', nazov: 'Weryfikacja firmy', mesacne: 5, ikona: 'shield',
       zaklad: 'weryfikacja jednej firmy jednym kliknięciem po numerze – upadłość, likwidacja, dłużnicy i odpowiedzialność za VAT.',
-      kratko: 'Co tydzień pilnuje klientów i dostawców: długi, upadłość i odpowiedzialność za VAT.',
-      popis: 'Przed transakcją podaje się numer firmy, a Jarvis sprawdza rejestr firm, ostatnie sprawozdanie finansowe, dłużników urzędu skarbowego i ubezpieczalni społecznej oraz listę płatników VAT z powodem do wykreślenia z rejestru, za których VAT odpowiadaliby Państwo. Z rozszerzeniem co tydzień sam ponownie sprawdza wszystkich klientów i dostawców i daje znać, gdy któryś pojawi się wśród dłużników lub w upadłości.' },
+      kratko: 'Cotygodniowe pilnowanie klientów i dostawców, cała lista numerów firm naraz i firmy jednej osoby z sygnalizatorem.',
+      popis: 'Przed transakcją podaje się numer firmy, a Jarvis sprawdza rejestr firm, ostatnie sprawozdanie finansowe, dłużników urzędu skarbowego i ubezpieczalni społecznej oraz listę płatników VAT z powodem do wykreślenia z rejestru, za których VAT odpowiadaliby Państwo. Z rozszerzeniem co tydzień sam ponownie sprawdza wszystkich klientów i dostawców i daje znać, gdy któryś pojawi się wśród dłużników lub w upadłości. Ponadto sprawdza całą listę numerów firm naraz, do 200 firm: przy każdej sygnalizator, wynik i powody, a rezultat jako tabela do Excela. Jednym kliknięciem sprawdza też firmy, w których dana osoba działa według rejestru handlowego, do 25 naraz.' },
     { id: 'modul-sablony', modul: 'sablony', kategoria: 'rozsirenia', nazov: 'Dokumenty z szablonów', mesacne: 5, ikona: 'invoice',
       zaklad: 'dwa własne szablony Word wypełnione z Klientów i rejestru firm – Word i PDF.',
       kratko: 'Umowy, protokoły i zamówienia z Państwa szablonów Word jednym kliknięciem.',
