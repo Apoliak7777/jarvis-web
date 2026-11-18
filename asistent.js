@@ -19,6 +19,12 @@
     it: { ai: 'Risponde un assistente IA, non una persona.', open: 'Scrivici', ask: 'Scriva la domanda…', send: 'Invia', wait: 'Sto scrivendo la risposta…', offline: 'Ora non possiamo rispondere subito – ci lasci un contatto e La ricontatteremo.', name: 'Nome', email: 'E-mail', phone: 'Telefono', text: 'Come possiamo aiutarLa?', consent: 'Acconsento al trattamento dei dati per la risposta.', leave: 'Lascia un contatto', thanks: 'Grazie, La ricontatteremo al più presto.', fail: 'Non è riuscito – riprovi tra poco.', need: 'Lasci un’e-mail o un telefono.', close: 'Chiudi', by: 'tramite Jarvis', hi: 'Buongiorno! Come posso aiutarLa?' },
   };
   const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === 'class') n.className = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else if (v !== null && v !== undefined && v !== false) n.setAttribute(k, v === true ? '' : v); } for (const kid of kids.flat()) if (kid !== null && kid !== undefined && kid !== false) n.append(kid instanceof Node ? kid : document.createTextNode(String(kid))); return n; };
+  // 3.178: a web address in the firm's text about personal data is a link to its rules (only http and https)
+  const linked = text => String(text).split(/(https?:\/\/[^\s<>"']+)/).flatMap((part, i) => {
+    if (i % 2 === 0) return part ? [part] : [];
+    const url = part.replace(/[.,;:!?)\]]+$/, '');
+    return [el('a', { href: url, target: '_blank', rel: 'noopener noreferrer nofollow' }, url), part.slice(url.length)].filter(Boolean);
+  });
   const post = (path, body) => fetch(`${API}/v1/verejne/asistent/${id}${path}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }).then(async r => { const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || 'fail'); return j; });
   const conv = (() => { try { return sessionStorage.getItem('jarvis-asistent-conv') || (sessionStorage.setItem('jarvis-asistent-conv', 'c' + Math.random().toString(36).slice(2, 12)), sessionStorage.getItem('jarvis-asistent-conv')); } catch { return 'c' + Math.random().toString(36).slice(2, 12); } })();
 
@@ -45,7 +51,7 @@
       form.contact { display: grid; gap: 8px; padding: 12px 14px; border-top: 1px solid #e3e7ec; background: #fff; }
       .check { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; color: #5d6874; } .check input { width: auto; margin-top: 2px; }
       .err { color: #c0392b; font-size: 12.5px; min-height: 1em; } .foot { text-align: center; font-size: 11px; color: #8a949e; padding: 4px 0 8px; background: #fff; }
-      .privacy { font-size: 11.5px; color: #8a949e; white-space: pre-wrap; }
+      .privacy { font-size: 11.5px; color: #8a949e; white-space: pre-wrap; overflow-wrap: anywhere; } .privacy a { color: ${color}; }
     `));
     const icon = () => { const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('fill', 'none'); svg.setAttribute('stroke', 'currentColor'); svg.setAttribute('stroke-width', '1.8'); const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', 'M20 11.5a8 8 0 0 1-8 8H5l-3 2v-9a9 9 0 0 1 18-.5Z'); svg.append(p); return svg; };
     const msgs = el('div', { class: 'msgs' }), history = [];
@@ -61,7 +67,7 @@
         btn.disabled = true;
         try { await post('/kontakt', { name: name.value, email: email.value, phone: phone.value, text: text.value || history.map(h => h.text).join('\n'), consent: agree.checked, page: location.href }); f.replaceWith(el('div', { class: 'm bot', style: 'margin:12px' }, t.thanks)); }
         catch (x) { err.textContent = x.message === 'fail' ? t.fail : x.message; btn.disabled = false; }
-      } }, name, email, phone, text, el('label', { class: 'check' }, agree, t.consent), cfg.privacy ? el('div', { class: 'privacy' }, cfg.privacy) : null, err, btn);
+      } }, name, email, phone, text, el('label', { class: 'check' }, agree, t.consent), cfg.privacy ? el('div', { class: 'privacy' }, linked(cfg.privacy)) : null, err, btn);
       askForm.replaceWith(f);
     };
     const askForm = el('form', { class: 'ask', onsubmit: async e => {

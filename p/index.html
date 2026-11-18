@@ -32,6 +32,7 @@
   .check input { width: auto; margin-top: 3px; }
   .state { border-radius: 12px; padding: 16px 18px; margin-top: 18px; font-weight: 600; } .state.ok { background: #e8f6ef; color: var(--ok); } .state.bad { background: #fbeceb; color: var(--bad); }
   .error { color: var(--bad); font-size: 14px; min-height: 1em; }
+  .privacy { font-size: 12.5px; color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; } .privacy a { color: var(--accent); }
   footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 18px; } footer a { color: inherit; }
   @media (max-width: 560px) { .card { padding: 18px 16px; } .num, .kind { text-align: left; } th:nth-child(2), td:nth-child(2) { display: none; } }
 </style>
@@ -56,6 +57,14 @@
   const tok = new URLSearchParams(location.search).get('t') || '';
   let t = T.sk, lang = 'sk', offer = null;
   const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (k === 'class') n.className = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else if (v !== null && v !== undefined && v !== false) n.setAttribute(k, v === true ? '' : v); } for (const kid of kids.flat()) if (kid !== null && kid !== undefined && kid !== false) n.append(kid instanceof Node ? kid : document.createTextNode(String(kid))); return n; };
+  // 3.178: the firm's own words about the personal data of its client (the firm is the controller) – a web address in them
+  // is a link to its rules, only http and https, the rest stays text
+  const linked = text => String(text).split(/(https?:\/\/[^\s<>"']+)/).flatMap((part, i) => {
+    if (i % 2 === 0) return part ? [part] : [];
+    const url = part.replace(/[.,;:!?)\]]+$/, '');
+    return [el('a', { href: url, target: '_blank', rel: 'noopener noreferrer nofollow' }, url), part.slice(url.length)].filter(Boolean);
+  });
+  const privacy = () => offer?.privacy ? el('div', { class: 'privacy' }, linked(offer.privacy)) : null;
   const money = n => new Intl.NumberFormat(LOCALE[lang], { style: 'currency', currency: offer?.currency || 'EUR' }).format(Number(n) || 0);
   const day = iso => new Intl.DateTimeFormat(LOCALE[lang], { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(iso + 'T00:00:00Z'));
   async function api(path, body) {
@@ -87,7 +96,7 @@
         if (kind === 'accept') { await api('/prijat', { name: name.value, note: note.value, consent: agree.checked, email: '' }); offer.state = 'accepted'; render(t.accepted); }
         else { await api('/otazka', { text: text.value, email: email.value }); render(t.asked); }
       } catch (e) { error.textContent = e.message; submit.disabled = false; }
-    } }, kind === 'accept' ? [el('label', {}, t.name, name), el('label', {}, t.note, note), el('label', { class: 'check' }, agree, t.agree)] : [el('label', {}, t.question, text), el('label', {}, t.email, email)], error, el('div', {}, submit));
+    } }, kind === 'accept' ? [el('label', {}, t.name, name), el('label', {}, t.note, note), el('label', { class: 'check' }, agree, t.agree)] : [el('label', {}, t.question, text), el('label', {}, t.email, email)], privacy(), error, el('div', {}, submit));
     box.replaceChildren(f); (kind === 'accept' ? name : text).focus();
   }
   (async () => {
