@@ -47,7 +47,7 @@
   document.querySelector('[data-withdraw-save]').addEventListener('click', function () {
     if (!last) return;
     var text = ['Elállási nyilatkozat', ''].concat(rows(last).map(function (r) { return r[0] + ': ' + r[1]; }))
-      .concat(['', 'Eladó: ' + s.meno + ', ' + s.email, location.origin + location.pathname]).join('\r\n');
+      .concat(['', 'Eladó: ' + (s.obchodneMeno ? s.obchodneMeno + ' (' + s.znacka + ')' : s.meno) + ', ' + s.email, location.origin + location.pathname]).join('\r\n');
     var a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob(['﻿' + text], { type: 'text/plain;charset=utf-8' }));
     a.download = 'odstupenie-' + last.id + '.txt';

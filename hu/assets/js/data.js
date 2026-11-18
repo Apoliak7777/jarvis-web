@@ -6,6 +6,12 @@ window.JARVIS_DATA = {
   predajca: {
     // na webe značka, telefón, e-mail, IČO a zápis v živnostenskom registri (živnosť od 9. 11. 2026), bez mena a adresy
     meno: 'Apoliak',
+    // Alex 18.11.2026 „zákonné minimum áno, nič navyše“: obchodné meno (= meno a priezvisko, § 9 ObZ) len v podmienkach,
+    // ochrane údajov, potvrdení odstúpenia a na stránke Údaje o podnikateľovi – nie v pätičke. Miesto podnikania a adresu
+    // bydliska (§ 4 ods. 1 písm. a) zák. 22/2004) vyplniť LEN na jeho výslovné rozhodnutie.
+    obchodneMeno: 'Alex Poliak',
+    miestoPodnikania: '',
+    adresaBydliska: '',
     znacka: 'Apoliak',
     adresa: '',
     // majiteľ účtu – len pri platbe prevodom (QR a údaje na platbu po objednávke): banka overuje meno príjemcu s účtom
@@ -22,7 +28,7 @@ window.JARVIS_DATA = {
     iban: 'LT06 3250 0031 5962 5775',
     bic: 'REVOLT21',
     banka: 'Revolut Bank UAB',
-    dozor: 'Slovenská obchodná inšpekcia, Inšpektorát SOI pre Bratislavský kraj, Bajkalská 21/A, Bratislava'
+    dozor: 'Slovenská obchodná inšpekcia, Inšpektorát SOI pre Bratislavský kraj, Bajkalská 21/A, P. O. BOX 5, 820 07 Bratislava'
   },
   // i18n:on
   nastavenia: {
@@ -79,7 +85,7 @@ window.JARVIS_DATA = {
     { id: 'baliky', nazov: 'Csomagajánlatok' }
   ],
   produkty: [
-    { id: 'instalacia', kategoria: 'plany', nazov: 'A Jarvis telepítése és beállítása', cena: 99, povodne: 149, ikona: 'install',
+    { id: 'instalacia', kategoria: 'plany', nazov: 'A Jarvis telepítése és beállítása', cena: 99, ikona: 'install',
       kratko: 'A munkájához telepített és beállított Jarvis. Igény szerint – letölteni és telepíteni maga is tudja.',
       popis: 'A Jarvist úgy telepítem és állítom be, hogy már az első naptól valódi munkára használhassa – ne csak kipróbálásra. Összekapcsoljuk az AI-fiókjait, a levelezését és a naptárát, beállítjuk a cégeit, az árait és a válaszok stílusát, és egy óra alatt megmutatok mindent, ami fontos.',
       obsahuje: 'instalacia', poznamka: 'Egyszer kell fizetni. A telepítéshez havi vagy éves csomagot választ.' },
@@ -200,7 +206,8 @@ window.JARVIS_DATA = {
       zaklad: 'ablak az Ön weboldalán kapcsolatfelvételi űrlappal – a megkeresések egyenesen az Ügyfelekbe kerülnek.',
       kratko: 'Ablak az Ön weboldalán, amely az Ön árlistái és anyagai alapján válaszol az ügyfeleknek.',
       popis: 'A weboldalába egyetlen sor kódot illeszt be (WordPress, Wix, Shoptet vagy saját weboldal), és a jobb alsó sarokban megjelenik egy ablak a cége színében. A látogatóknak az Ön Jarvisa válaszol – csak abból, amit engedélyez neki: szolgáltatások, árak, nyitvatartás és kiválasztott dokumentumok a Céges tudásbázisból. Ha nem tudja a választ, vagy a számítógép ki van kapcsolva, kapcsolatfelvételi űrlapot kínál, és a megkeresés egyenesen az Ügyfelekbe kerül. A válaszok az Ön saját API-kulcsán vagy offline modellen keresztül készülnek, és minden kérdést és választ lát a Jarvisban.' },
-    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium;
+
+    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium;
        3.152 aj Wizz Air, ubytovanie na dni letu s cenou celej dovolenky a zájazdy */
     { id: 'modul-letenky', modul: 'letenky', kategoria: 'rozsirenia', nazov: 'Repülőjegyek + pihenés', mesacne: 5, ikona: 'plane',
       zaklad: 'a legolcsóbb Ryanair retúrjegyek egy repülőtérről – a tíz legolcsóbb úti cél.',
@@ -226,11 +233,11 @@ window.JARVIS_DATA = {
       kratko: 'Ha ég a ház: munkanapon 2 órán belül jelentkezem.',
       popis: 'Egyszeri segítség, ha a dolog nem várhat: munkanapon 8:00 és 18:00 között 2 órán belül jelentkezem, és a problémát képernyőmegosztással megoldjuk.' },
 
-    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis egyéni vállalkozónak', cena: 498, povodne: 627, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis egyéni vállalkozónak', cena: 498, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
       kratko: 'Telepítés, Business csomag 12 hónapra, testre szabott Kereskedő és betanítás.',
       popis: 'Minden, amire egy egyéni vállalkozónak az első évben szüksége van: telepítés és beállítás, Business csomag 12 hónapra (akár 3 számítógép, Jarvis a telefonon), az Ön üzletére beállított Kereskedő és online betanítás.',
       vBaliku: ['A Jarvis telepítése és beállítása', 'Business csomag 12 hónapra', 'Jarvis a telefonon', 'Testre szabott Kereskedő', 'Online betanítás (90 perc)'] },
-    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis cégnek', cena: 789, povodne: 955, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis cégnek', cena: 789, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
       kratko: 'Telepítés, Pro csomag 12 hónapra, 2 további számítógép, adatátvitel és a csapat betanítása.',
       popis: 'Jarvis az egész kis cégnek az első évre: telepítés, Pro csomag 12 hónapra (offline AI és havonta egy óra testre szabott munka), Jarvis két további számítógépen, névjegyek és adatok átvitele, valamint a csapat betanítása.',
       vBaliku: ['A Jarvis telepítése és beállítása', 'Pro csomag 12 hónapra', 'Jarvis 2 további számítógépen', 'Saját offline AI-modell', 'Névjegyek és adatok átvitele', 'A csapat online betanítása (90 perc)'] },

@@ -6,6 +6,12 @@ window.JARVIS_DATA = {
   predajca: {
     // na webe značka, telefón, e-mail, IČO a zápis v živnostenskom registri (živnosť od 9. 11. 2026), bez mena a adresy
     meno: 'Apoliak',
+    // Alex 18.11.2026 „zákonné minimum áno, nič navyše“: obchodné meno (= meno a priezvisko, § 9 ObZ) len v podmienkach,
+    // ochrane údajov, potvrdení odstúpenia a na stránke Údaje o podnikateľovi – nie v pätičke. Miesto podnikania a adresu
+    // bydliska (§ 4 ods. 1 písm. a) zák. 22/2004) vyplniť LEN na jeho výslovné rozhodnutie.
+    obchodneMeno: 'Alex Poliak',
+    miestoPodnikania: '',
+    adresaBydliska: '',
     znacka: 'Apoliak',
     adresa: '',
     // majiteľ účtu – len pri platbe prevodom (QR a údaje na platbu po objednávke): banka overuje meno príjemcu s účtom
@@ -22,7 +28,7 @@ window.JARVIS_DATA = {
     iban: 'LT06 3250 0031 5962 5775',
     bic: 'REVOLT21',
     banka: 'Revolut Bank UAB',
-    dozor: 'Slovenská obchodná inšpekcia, Inšpektorát SOI pre Bratislavský kraj, Bajkalská 21/A, Bratislava'
+    dozor: 'Slovenská obchodná inšpekcia, Inšpektorát SOI pre Bratislavský kraj, Bajkalská 21/A, P. O. BOX 5, 820 07 Bratislava'
   },
   // i18n:on
   nastavenia: {
@@ -79,7 +85,7 @@ window.JARVIS_DATA = {
     { id: 'baliky', nazov: 'Balíčky' }
   ],
   produkty: [
-    { id: 'instalacia', kategoria: 'plany', nazov: 'Instalace a nastavení Jarvise', cena: 99, povodne: 149, ikona: 'install',
+    { id: 'instalacia', kategoria: 'plany', nazov: 'Instalace a nastavení Jarvise', cena: 99, ikona: 'install',
       kratko: 'Jarvis nainstalovaný a nastavený na vaši práci. Na přání – stáhnout a nainstalovat si ho můžete i sami.',
       popis: 'Jarvise vám nainstaluji a nastavím tak, abyste ho od prvního dne používali na skutečnou práci – ne na zkoušení. Připojíme vaše AI účty, poštu i kalendář, nastavíme firmy, ceny a styl odpovědí a za hodinu vám ukážu všechno podstatné.',
       obsahuje: 'instalacia', poznamka: 'Platí se jednou. K instalaci si vyberete měsíční nebo roční plán.' },
@@ -200,7 +206,8 @@ window.JARVIS_DATA = {
       zaklad: 'okénko na vašem webu s kontaktním formulářem – poptávky jdou rovnou do Klientů.',
       kratko: 'Okénko na vašem webu, které zákazníkům odpovídá z vašich ceníků a podkladů.',
       popis: 'Na svůj web vložíte jeden řádek kódu (WordPress, Wix, Shoptet i vlastní web) a vpravo dole se objeví okénko v barvě vaší firmy. Návštěvníkům odpovídá váš Jarvis – jen z toho, co mu povolíte: služby, ceny, otevírací doba a vybrané dokumenty z Firemních znalostí. Když si neví rady nebo je počítač vypnutý, nabídne kontaktní formulář a poptávka přijde rovnou do Klientů. Odpovědi jdou přes váš vlastní API klíč nebo offline model, každý dotaz a odpověď vidíte v Jarvisu.' },
-    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium;
+
+    /* Jarvis 3.151 (Alex 13. 11. 2026: „tie letenky to bude za nejaký príplatok … dobre naceň“): 50 € ročne ako Going Premium;
        3.152 aj Wizz Air, ubytovanie na dni letu s cenou celej dovolenky a zájazdy */
     { id: 'modul-letenky', modul: 'letenky', kategoria: 'rozsirenia', nazov: 'Letenky + odpočinek', mesacne: 5, ikona: 'plane',
       zaklad: 'nejlevnější zpáteční letenky Ryanairu z jednoho letiště – deset nejlevnějších destinací.',
@@ -226,11 +233,11 @@ window.JARVIS_DATA = {
       kratko: 'Když něco hoří: ozvu se do 2 hodin v pracovní den.',
       popis: 'Jednorázová pomoc, když to nepočká: ozvu se do 2 hodin v pracovní den mezi 8:00 a 18:00 a věc vyřešíme přes sdílení obrazovky.' },
 
-    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis pro živnostníka', cena: 498, povodne: 627, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
+    { id: 'balik-zivnostnik', kategoria: 'baliky', nazov: 'Jarvis pro živnostníka', cena: 498, ikona: 'pack', balik: { plan: 'biznis', mesiacov: 12 },
       kratko: 'Instalace, plán Business na 12 měsíců, Obchodník na míru a zaškolení.',
       popis: 'Vše, co živnostník potřebuje na první rok: instalace a nastavení, plán Business na 12 měsíců (až 3 počítače, Jarvis v mobilu), Obchodník nastavený na váš byznys a online zaškolení.',
       vBaliku: ['Instalace a nastavení Jarvise', 'Plán Business na 12 měsíců', 'Jarvis v mobilu', 'Obchodník na míru', 'Online zaškolení (90 min)'] },
-    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis pro firmu', cena: 789, povodne: 955, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
+    { id: 'balik-firma', kategoria: 'baliky', nazov: 'Jarvis pro firmu', cena: 789, ikona: 'pack', balik: { plan: 'pro', mesiacov: 12 },
       kratko: 'Instalace, plán Pro na 12 měsíců, 2 další počítače, přenos dat a zaškolení týmu.',
       popis: 'Jarvis pro celou malou firmu na první rok: instalace, plán Pro na 12 měsíců (offline AI a hodina práce na míru každý měsíc), Jarvis na další dva počítače, přenos kontaktů a dat a zaškolení týmu.',
       vBaliku: ['Instalace a nastavení Jarvise', 'Plán Pro na 12 měsíců', 'Jarvis na 2 další počítače', 'Vlastní offline AI model', 'Přenos kontaktů a dat', 'Online zaškolení týmu (90 min)'] },

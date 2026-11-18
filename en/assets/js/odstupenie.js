@@ -47,7 +47,7 @@
   document.querySelector('[data-withdraw-save]').addEventListener('click', function () {
     if (!last) return;
     var text = ['Notice of withdrawal from the contract', ''].concat(rows(last).map(function (r) { return r[0] + ': ' + r[1]; }))
-      .concat(['', 'Seller: ' + s.meno + ', ' + s.email, location.origin + location.pathname]).join('\r\n');
+      .concat(['', 'Seller: ' + (s.obchodneMeno ? s.obchodneMeno + ' (' + s.znacka + ')' : s.meno) + ', ' + s.email, location.origin + location.pathname]).join('\r\n');
     var a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob(['﻿' + text], { type: 'text/plain;charset=utf-8' }));
     a.download = 'odstupenie-' + last.id + '.txt';
