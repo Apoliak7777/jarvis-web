@@ -22,7 +22,7 @@ window.JARVIS_DATA = {
     dic: '',
     icdph: '',
     platitelDph: false,
-    email: 'apoliak@apoliak.online',
+    email: 'info@apoliak.sk',
     telefon: '0902 464 022',
     web: 'https://apoliak.online',
     iban: 'LT06 3250 0031 5962 5775',
