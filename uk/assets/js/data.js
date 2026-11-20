@@ -6,18 +6,18 @@ window.JARVIS_DATA = {
   predajca: {
     // na webe značka, telefón, e-mail, IČO a zápis v živnostenskom registri (živnosť od 9. 11. 2026), bez mena a adresy
     meno: 'Apoliak',
-    // Alex 18.11.2026 „zákonné minimum áno, nič navyše“: obchodné meno (= meno a priezvisko, § 9 ObZ) len v podmienkach,
-    // ochrane údajov, potvrdení odstúpenia a na stránke Údaje o podnikateľovi – nie v pätičke. Miesto podnikania a adresu
-    // bydliska (§ 4 ods. 1 písm. a) zák. 22/2004) vyplniť LEN na jeho výslovné rozhodnutie.
+    // 20.11.2026 (Alex: „nepíš tam Alex Poliak, dávaj Apoliak … kde je zapísané IČO, tam nedávaj … nič navyše … aby nebola
+    // pokuta“ a adresu na stránke údajov odsúhlasil): obchodné meno (= meno a priezvisko, § 9 ObZ), miesto podnikania, adresa,
+    // IČO a zápis LEN na stránke Údaje o podnikateľovi; pätička, kontakt, podmienky a zásady len „Apoliak“ s odkazom na ňu.
     obchodneMeno: 'Alex Poliak',
-    miestoPodnikania: '',
-    adresaBydliska: '',
+    miestoPodnikania: 'Mierová 133/24, 900 29 Nová Dedinka',
+    adresaBydliska: 'Mierová 133/24, 900 29 Nová Dedinka',
     znacka: 'Apoliak',
     adresa: '',
     // majiteľ účtu – len pri platbe prevodom (QR a údaje na platbu po objednávke): banka overuje meno príjemcu s účtom
     prijemca: 'Alex Poliak',
     krajina: 'Slovenská republika',
-    ico: '57 990 883',  // zobrazí sa v pätičke, podmienkach, ochrane údajov, kontakte a objednávke
+    ico: '57 990 883',  // 20.11.2026: len na stránke Údaje o podnikateľovi (a v doklade objednávky)
     zapis: 'zapísaný v živnostenskom registri Okresného úradu Senec, č. 140-39176', // § 3a ObZ – podmienky a ochrana údajov
     dic: '',
     icdph: '',
