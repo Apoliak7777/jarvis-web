@@ -33,6 +33,26 @@
   var cardEl = form.querySelector('[data-card-option]'), payHint = form.querySelector('[data-pay-hint]'), sendHint = form.querySelector('[data-send-hint]');
   var submitBtn = form.querySelector('button[type="submit"]');
 
+  // Jarvis 3.178.39 (Alex 22. 11. 2026: „podľa cenníkov za upgrade aby sa to logicky dopočítavalo“): celý licenčný kľúč
+  // nesie posledný zaplatený deň licencie, jej plán a rozšírenia – rozšírenie k nej sa platí pomerne do toho dňa a predĺženie
+  // nadväzuje naň (ceny.js). Jarvis Brána to isté prepočíta z kľúča, ktorý overí; samotné číslo JRV-… nič z toho nenesie,
+  // vtedy platí celý mesiac ako doteraz. Kľúč sa len prečíta v tomto prehliadači, nikam sa neukladá.
+  function fromKey(c) {
+    delete c.licenciaDo; delete c.dnes;
+    var m = c.mamLicenciu && /^JARVIS-([\w-]+)\.[\w-]+$/i.exec(String(form.elements.licencia.value || c.licencia || '').replace(/\s+/g, ''));
+    if (!m || !C.zostava) return c;
+    var p = null;
+    try { var b = m[1].replace(/-/g, '+').replace(/_/g, '/'); while (b.length % 4) b += '='; var bin = atob(b), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); p = JSON.parse(new TextDecoder().decode(u)); } catch (x) { return c; }
+    if (!p || p.t === 'trial' || !/^\d{4}-\d{2}-\d{2}$/.test(p.u || '')) return c;
+    var d = new Date(), two = function (n) { return (n < 10 ? '0' : '') + n; };
+    c.licenciaDo = p.u; c.dnes = d.getFullYear() + '-' + two(d.getMonth() + 1) + '-' + two(d.getDate());
+    var added = c.items.map(function (it) { var q = S.product(it.id); return q && q.modul ? { id: q.modul, count: q.mnozstvo ? Math.max(1, Math.min(20, Math.floor(it.qty || 1))) : 1 } : null; }).filter(Boolean);
+    var own = (Array.isArray(p.m) ? p.m : []).map(function (e) { var x = String(e).split(':'); return { id: x[0], count: /^\d{1,3}$/.test(x[1] || '') ? Math.max(1, +x[1]) : 1 }; })
+      .filter(function (x) { return /^[a-z]{2,20}$/.test(x.id) && !added.some(function (a) { return a.id === x.id; }); });
+    c.items.forEach(function (it) { if (it.id === 'predlzenie') { if (C.planOf(p.p)) it.plan = p.p; it.moduly = own.concat(added); } });
+    return c;
+  }
+
   function problems(c) {
     var out = [], ids = c.items.map(function (it) { return it.id; });
     var plan = cartPlan(c), inst = ids.indexOf('instalacia') >= 0;
@@ -51,7 +71,7 @@
   }
 
   function render() {
-    var c = normalize(S.read()); S.write(c);
+    var c = normalize(S.read()); S.write(c); fromKey(c);
     document.querySelector('[data-cart-empty]').hidden = c.items.length > 0;
     form.hidden = !c.items.length;
     if (!c.items.length) return;
@@ -65,7 +85,7 @@
       if (p.mnozstvo) ctrl += '<span class="qty"><button type="button" data-qty="' + i + '" data-d="-1" aria-label="Menos">−</button><output>' + l.qty + '</output><button type="button" data-qty="' + i + '" data-d="1" aria-label="Más">+</button></span>';
       ctrl += '<button type="button" class="link-btn" data-remove="' + i + '">Quitar</button>';
       var ic = p.balik ? 'pack' : it.id === 'instalacia' ? 'install' : p.plan || it.id === 'predlzenie' ? 'plan' : 'cart';
-      var perUnit = p.mnozstvo && l.qty > 1 ? '<small>' + l.qty + ' × ' + eur(l.cena) + '</small>' : (p.plan || p.modul || it.id === 'predlzenie') ? '<small>' + (l.variant === 'rok' ? 'al año' : 'al mes') + '</small>' : '';
+      var perUnit = p.mnozstvo && l.qty > 1 ? '<small>' + l.qty + ' × ' + eur(l.cena) + '</small>' : (p.plan || p.modul || it.id === 'predlzenie') && !l.pomerne ? '<small>' + (l.variant === 'rok' ? 'al año' : 'al mes') + '</small>' : '';
       return '<div class="cart-item"><span class="icon">' + svg(ic) + '</span><div><h3>' + esc(l.nazov) + '</h3>' + (l.detail ? '<div class="sub">' + esc(l.detail) + '</div>' : '') + '<div class="controls">' + ctrl + '</div></div><div class="item-price">' + (l.spolu === 0 && p.vCene ? '<span class="badge blue">incluido</span>' : eur(l.spolu)) + perUnit + '</div></div>';
     }).join('');
     var probs = problems(c);
@@ -75,7 +95,8 @@
     var monthly = c.items.filter(function (it) { var p = S.product(it.id); return p && (p.plan || it.id === 'predlzenie') && it.variant !== 'rok'; })[0];
     sumEl.innerHTML = c.items.map(function (it) { var l = line(it, c); return '<div class="sum-row"><span>' + esc(l.nazov) + (l.qty > 1 ? ' × ' + l.qty : '') + '</span><b>' + (l.spolu || !S.product(it.id).vCene ? eur(l.spolu) : 'incluido') + '</b></div>'; }).join('') +
       '<div class="sum-total"><span>Total a pagar</span><b>' + eur(total) + '</b></div>' +
-      '<p class="hint" style="margin:6px 0 0;font-size:13px;color:var(--muted)">' + (D.predajca.platitelDph ? 'Precios con IVA incluido.' : 'Precio final; el vendedor no es sujeto pasivo del IVA.') + (monthly ? ' Meses siguientes: ' + eur(line(monthly, c).mesacne + c.items.filter(function (it) { var p = S.product(it.id); return p && p.modul; }).reduce(function (sum, it) { return sum + line(it, c).mesacne; }, 0)) + ' al mes, por adelantado.' : '') + '</p>';
+      '<p class="hint" style="margin:6px 0 0;font-size:13px;color:var(--muted)">' + (D.predajca.platitelDph ? 'Precios con IVA incluido.' : 'Precio final; el vendedor no es sujeto pasivo del IVA.') + (monthly ? ' Meses siguientes: ' + eur(line(monthly, c).mesacne + (monthly.id === 'predlzenie' && c.licenciaDo ? 0 : c.items.filter(function (it) { var p = S.product(it.id); return p && p.modul; }).reduce(function (sum, it) { return sum + line(it, c).mesacne; }, 0))) + ' al mes, por adelantado.' : '') +
+      (c.items.some(function (it) { return line(it, c).pomerne; }) ? ' A partir del siguiente periodo de la licencia, la extensión está incluida en su precio.' : '') + '</p>';
     consentRow(); payNote(c);
   }
 
@@ -95,6 +116,7 @@
     else if (t.name === 'platba') payNote(normalize(c));
   });
   document.addEventListener('click', function (e) { if (e.target.closest('[data-add]')) setTimeout(render, 0); });
+  if (form.elements.licencia) form.elements.licencia.addEventListener('input', function () { render(); });
 
   function consentRow() {
     var osoba = form.elements.typ.value === 'osoba';
@@ -116,7 +138,7 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (sending) return;
-    var c = normalize(S.read()), f = form.elements, err = form.querySelector('[data-cart-error]'), bad = [];
+    var c = fromKey(normalize(S.read())), f = form.elements, err = form.querySelector('[data-cart-error]'), bad = [];
     var osoba = f.typ.value === 'osoba';
     // IČO zo Slovenska a Česka má 6 až 8 číslic; firma z inej krajiny EÚ zadá svoje číslo (NIP, adószám, P. IVA, HRB …)
     var domaca = f.krajina.selectedIndex < 2;

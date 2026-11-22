@@ -12,6 +12,28 @@
     var product = function (id) { return D.produkty.filter(function (p) { return p.id === id; })[0] || null; };
     var planOf = function (id) { return D.plany.filter(function (p) { return p.id === id; })[0]; };
     var qtyOf = function (p, it) { return p.mnozstvo ? Math.max(1, Math.min(20, Math.floor(it.qty || 1))) : 1; };
+    // Jarvis 3.178.39 (Alex 22. 11. 2026: „podľa cenníkov za upgrade aby sa to logicky dopočítavalo ale vždy si vie predĺžiť
+    // mesiac“): rozšírenie k licencii, ktorá ešte platí, sa platí pomerne do jej posledného zaplateného dňa. Ten deň
+    // (c.licenciaDo) a dnešok (c.dnes) dá do košíka Jarvis Brána z overeného licenčného kľúča – bez nich platí pravidlo
+    // celého mesiaca ako doteraz. Pri licencii zaplatenej najviac mesiac dopredu 1/30 mesačnej ceny za každý deň (nikdy viac
+    // ako mesiac), dlhšie dopredu (ročne) ročná cena pomerne na dni, najmenej mesiac a najviac celý rok.
+    var DEN = 864e5, pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    var utc = function (d) { var p = String(d).split('-'); return Date.UTC(+p[0], +p[1] - 1, +p[2]); };
+    var iso = function (ms) { var d = new Date(ms); return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()); };
+    var skDen = function (d) { var p = String(d).split('-'); return +p[2] + '. ' + +p[1] + '. ' + p[0]; };
+    var DATUM = /^\d{4}-\d{2}-\d{2}$/;
+    /** koľko dní ešte platí licencia (aj dnešok), 0 = bez overenej licencie alebo už skončila */
+    function zostava(c) { return c && DATUM.test(c.licenciaDo || '') && DATUM.test(c.dnes || '') ? Math.max(0, Math.round((utc(c.licenciaDo) - utc(c.dnes)) / DEN) + 1) : 0; }
+    function pomerne(mesacne, dni) {
+      var suma = dni <= 31 ? mesacne * Math.min(dni, 30) / 30 : Math.min(mesacne * K, Math.max(mesacne, mesacne * K * dni / 365));
+      return Math.round(suma * 100) / 100;
+    }
+    /** posledný deň obdobia, ktoré nadväzuje na zaplatené (Jarvis src/lib/licencia.mjs periodEnd) */
+    function koniecObdobia(posledny, mesiacov) {
+      var z = new Date(utc(posledny) + DEN), y = z.getUTCFullYear(), m = z.getUTCMonth() + mesiacov, d = z.getUTCDate();
+      var dlzka = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+      return iso(Date.UTC(y, m, Math.min(d, dlzka)) - DEN);
+    }
 
     /** Ktorý plán objednávka obsahuje (plán, balík alebo predĺženie). */
     function cartPlan(c) {
@@ -31,11 +53,16 @@
         var monthly = pl.mesacne + mods.reduce(function (s, x) { return s + x.mesacne * x.count; }, 0);
         out.cena = r ? monthly * K : monthly; out.mesacne = monthly;
         out.detail = r ? t('12 miesięcy z góry (w cenie ') + K + ')' : t('1 miesiąc z góry');
-        if (it.id === 'predlzenie') { out.nazov = t('Przedłużenie licencji – plan ') + pl.nazov; if (mods.length) out.detail += ' · ' + mods.map(function (x) { return x.nazov + (x.count > 1 ? ' (' + x.count + ')' : ''); }).join(', '); if (it.licencia) out.detail += t(' · licencja ') + String(it.licencia).slice(0, 40); }
+        if (it.id === 'predlzenie') { out.nazov = t('Przedłużenie licencji – plan ') + pl.nazov; if (zostava(c)) out.detail += t(' · ważna do ') + skDen(koniecObdobia(c.licenciaDo, r ? 12 : 1)); if (mods.length) out.detail += ' · ' + mods.map(function (x) { return x.nazov + (x.count > 1 ? ' (' + x.count + ')' : ''); }).join(', '); if (it.licencia && !zostava(c)) out.detail += t(' · licencja ') + String(it.licencia).slice(0, 40); }
         out.variant = r ? 'rok' : 'mesiac'; out.obdobie = r ? 'rok' : 'mesiac'; out.plan = pl.id;
       }
       // rozšírenie (modul) sa platí za to isté obdobie ako plán; pri balíku na 12 mesiacov, bez plánu si obdobie vyberie zákazník
-      if (p.modul) {
+      var dni = p.modul && c.mamLicenciu ? zostava(c) : 0;
+      if (dni && !c.items.some(function (x) { var q = product(x.id); return q && (q.plan || q.balik); })) {
+        // k licencii, ktorá ešte platí (Brána overila kľúč): pomerne do jej posledného dňa, ďalej spolu s plánom
+        out.cena = pomerne(p.mesacne, dni); out.mesacne = p.mesacne * qty; out.variant = 'mesiac'; out.obdobie = 'jednorazovo';
+        out.detail = t('proporcjonalnie do końca opłaconego okresu') + ' (' + skDen(c.licenciaDo) + ')'; out.modul = p.modul; out.pomerne = dni;
+      } else if (p.modul) {
         var planItem = c.items.filter(function (x) { var q = product(x.id); return q && (q.plan || x.id === 'predlzenie'); })[0];
         var bundle = c.items.some(function (x) { var q = product(x.id); return q && q.balik; });
         var yr = planItem ? planItem.variant === 'rok' : bundle ? true : it.variant === 'rok';
@@ -56,7 +83,7 @@
     }
     function lines(c) { return c.items.map(function (it) { return line(it, c); }); }
     function total(c) { return Math.round(lines(c).reduce(function (n, l) { return n + l.spolu; }, 0) * 100) / 100; }
-    return { K: K, product: product, planOf: planOf, cartPlan: cartPlan, line: line, normalize: normalize, lines: lines, total: total };
+    return { K: K, product: product, planOf: planOf, cartPlan: cartPlan, line: line, normalize: normalize, lines: lines, total: total, zostava: zostava, pomerne: pomerne, koniecObdobia: koniecObdobia };
   }
   root.JarvisCeny = { create: create };
 })(typeof window !== 'undefined' ? window : this);
