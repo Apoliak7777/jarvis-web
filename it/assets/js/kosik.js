@@ -37,6 +37,8 @@
   // nesie posledný zaplatený deň licencie, jej plán a rozšírenia – rozšírenie k nej sa platí pomerne do toho dňa a predĺženie
   // nadväzuje naň (ceny.js). Jarvis Brána to isté prepočíta z kľúča, ktorý overí; samotné číslo JRV-… nič z toho nenesie,
   // vtedy platí celý mesiac ako doteraz. Kľúč sa len prečíta v tomto prehliadači, nikam sa neukladá.
+  // Jarvis 3.178.51 (Alex 22. 11. 2026: „plán od nového obdobia tak to má byť“): predĺženie ostáva v pláne, ktorý si zákazník
+  // vybral (Moja licencia) – Jarvis ho licencii dá od prvého dňa nového obdobia; plán z kľúča len keď položka žiadny nemá.
   function fromKey(c) {
     delete c.licenciaDo; delete c.dnes;
     var m = c.mamLicenciu && /^JARVIS-([\w-]+)\.[\w-]+$/i.exec(String(form.elements.licencia.value || c.licencia || '').replace(/\s+/g, ''));
@@ -49,7 +51,7 @@
     var added = c.items.map(function (it) { var q = S.product(it.id); return q && q.modul ? { id: q.modul, count: q.mnozstvo ? Math.max(1, Math.min(20, Math.floor(it.qty || 1))) : 1 } : null; }).filter(Boolean);
     var own = (Array.isArray(p.m) ? p.m : []).map(function (e) { var x = String(e).split(':'); return { id: x[0], count: /^\d{1,3}$/.test(x[1] || '') ? Math.max(1, +x[1]) : 1 }; })
       .filter(function (x) { return /^[a-z]{2,20}$/.test(x.id) && !added.some(function (a) { return a.id === x.id; }); });
-    c.items.forEach(function (it) { if (it.id === 'predlzenie') { if (C.planOf(p.p)) it.plan = p.p; it.moduly = own.concat(added); } });
+    c.items.forEach(function (it) { if (it.id === 'predlzenie') { if (!C.planOf(it.plan) && C.planOf(p.p)) it.plan = p.p; it.moduly = own.concat(added); } });
     return c;
   }
 

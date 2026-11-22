@@ -28,8 +28,13 @@
     var box = document.querySelector('[data-renew-sum]'); if (!box || !current) return;
     var pl = planOf(document.querySelector('[data-renew-plan]').value), year = document.querySelector('[data-renew-variant]').value === 'rok';
     var monthly = pl.mesacne + currentMods.reduce(function (s, x) { return s + modOf(x.id).mesacne * x.count; }, 0);
-    box.textContent = 'Plan ' + pl.nazov + (currentMods.length ? ' + ' + currentMods.map(modName).join(', ') : '') + ': ' + eur(monthly) + ' par mois' + (year ? ' · pour 12 mois ' + eur(monthly * D.nastavenia.rocneZaMesiacov) : '');
+    // Jarvis 3.178.51 (Alex 22. 11. 2026: „plán od nového obdobia tak to má byť“): iný plán platí od prvého dňa nového
+    // obdobia – zaplatené dni ostávajú v terajšom pláne; licencia po konci a skúšobná ho dostanú hneď
+    var later = current.t !== 'trial' && pl.id !== (current.p || 'biznis') && daysLeft(current.u) >= 0;
+    box.textContent = 'Plan ' + pl.nazov + (currentMods.length ? ' + ' + currentMods.map(modName).join(', ') : '') + ': ' + eur(monthly) + ' par mois' + (year ? ' · pour 12 mois ' + eur(monthly * D.nastavenia.rocneZaMesiacov) : '') + (later ? ' · nouveau plan à partir du ' + dayAfter(current.u) : '');
   }
+  /** deň po poslednom zaplatenom dni (2026-12-31 → 1. 1. 2027) */
+  function dayAfter(u) { var p = u.split('-'), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + 1)); return d.getUTCDate() + '. ' + (d.getUTCMonth() + 1) + '. ' + d.getUTCFullYear(); }
 
   function read(key) {
     var text = String(key || '').replace(/\s+/g, '');
