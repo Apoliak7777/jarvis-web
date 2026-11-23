@@ -6,6 +6,10 @@
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#101113">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Jarvis">
 <title>Jarvis</title>
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -21,8 +25,14 @@
   input { font: inherit; padding: 12px 14px; border-radius: 12px; border: 1px solid #2c2f36; background: #181a1f; color: #e9eaee; width: 100%; }
   button { appearance: none; border: 0; border-radius: 12px; padding: 13px 20px; font: inherit; font-weight: 650; background: #e9eaee; color: #101113; cursor: pointer; }
   button:disabled { opacity: .6; }
+  main > button { width: 100%; }
+  button.ghost { background: transparent; color: #e9eaee; border: 1px solid #3a3e47; }
+  a { color: #e9eaee; } a.later { color: #b8bcc6; font-size: 14.5px; padding: 6px; }
+  ol { margin: 0; padding: 14px 16px 14px 34px; text-align: left; color: #e9eaee; background: #181a1f; border: 1px solid #2c2f36; border-radius: 14px; width: 100%; display: grid; gap: 8px; }
   .err { color: #ff8a80; min-height: 1em; }
+  .ok { color: #9be7a8; min-height: 1em; }
   small { color: #7d828e; font-size: 12.5px; }
+  body { padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom)); }
 </style>
 </head>
 <body>
@@ -30,17 +40,38 @@
 <script>
 /* Jarvis v mobile cez Bránu (3.121): the page that pairs a phone. The QR code of Jarvis on the PC opens it with the channel,
    the key and a one-time pairing code after # – the key is stored here (this phone only) and the # is wiped from the address;
-   the service worker (/m/sw.js) then seals every request of the app with it. */
+   the service worker (/m/sw.js) then seals every request of the app with it.
+   3.178.69 (iPhone of Alex's father 23. 11. 2026: paired in Safari, the icon on the home screen said „not connected yet“): an
+   app on the home screen of an iPhone has its own storage – iOS 17.2+ copies only the cookies of Safari into it, never IndexedDB
+   or the service worker that keep the connection here. So on an iPhone this page carries the connection to it itself: after
+   pairing (or Mobil → Pridať Jarvisa na plochu, #plocha) the address of this page is /m/#k=<channel>.<key>&d=<device key> –
+   after #, so it stays on the phone and no server ever gets it – and the app added to the home screen from here opens it and
+   takes the connection once (never over one it already has). Copy and paste of the same text is the way when iOS opens the app
+   without it. */
 'use strict';
 (() => {
   const T = { // i18n:off – the phone's language
-    sk: { title: 'Jarvis v mobile', ask: 'Spárovať tento mobil s Jarvisom na tvojom PC?', name: 'Názov mobilu', pair: 'Spárovať', scan: 'Tento mobil ešte nie je spojený s Jarvisom. V Jarvisovi na PC otvor Mobil → Cez internet a naskenuj QR kód.', browser: 'Tento prehliadač Jarvisa v mobile nezvládne. Otvor odkaz v Safari (iPhone) alebo v Chrome (Android).', wait: 'Pripájam sa k Jarvisovi…', secure: 'Spojenie je šifrované kľúčom, ktorý má iba tento mobil a tvoje PC.', fail: 'Niečo sa nepodarilo – skús to o chvíľu.' },
-    en: { title: 'Jarvis on your phone', ask: 'Pair this phone with Jarvis on your PC?', name: 'Phone name', pair: 'Pair', scan: 'This phone is not connected to Jarvis yet. In Jarvis on your PC open Phone → Over the internet and scan the QR code.', browser: 'This browser cannot run Jarvis on your phone. Open the link in Safari (iPhone) or Chrome (Android).', wait: 'Connecting to Jarvis…', secure: 'The connection is encrypted with a key that only this phone and your PC have.', fail: 'Something went wrong – try again in a moment.' },
-    cs: { title: 'Jarvis v mobilu', ask: 'Spárovat tento mobil s Jarvisem na tvém PC?', name: 'Název mobilu', pair: 'Spárovat', scan: 'Tento mobil ještě není spojený s Jarvisem. V Jarvisovi na PC otevři Mobil → Přes internet a naskenuj QR kód.', browser: 'Tento prohlížeč Jarvise v mobilu nezvládne. Otevři odkaz v Safari (iPhone) nebo v Chrome (Android).', wait: 'Připojuji se k Jarvisovi…', secure: 'Spojení je šifrované klíčem, který má jen tento mobil a tvé PC.', fail: 'Něco se nepovedlo – zkus to za chvíli.' },
-    de: { title: 'Jarvis auf dem Handy', ask: 'Dieses Handy mit Jarvis auf deinem PC koppeln?', name: 'Name des Handys', pair: 'Koppeln', scan: 'Dieses Handy ist noch nicht mit Jarvis verbunden. Öffne in Jarvis auf dem PC Handy → Über das Internet und scanne den QR-Code.', browser: 'Dieser Browser kann Jarvis auf dem Handy nicht ausführen. Öffne den Link in Safari (iPhone) oder Chrome (Android).', wait: 'Verbinde mit Jarvis…', secure: 'Die Verbindung ist mit einem Schlüssel verschlüsselt, den nur dieses Handy und dein PC haben.', fail: 'Etwas ist schiefgelaufen – versuch es gleich noch einmal.' },
-    pl: { title: 'Jarvis w telefonie', ask: 'Sparować ten telefon z Jarvisem na twoim PC?', name: 'Nazwa telefonu', pair: 'Sparuj', scan: 'Ten telefon nie jest jeszcze połączony z Jarvisem. W Jarvisie na PC otwórz Telefon → Przez internet i zeskanuj kod QR.', browser: 'Ta przeglądarka nie obsłuży Jarvisa w telefonie. Otwórz link w Safari (iPhone) lub w Chrome (Android).', wait: 'Łączę z Jarvisem…', secure: 'Połączenie jest szyfrowane kluczem, który mają tylko ten telefon i twój PC.', fail: 'Coś poszło nie tak – spróbuj za chwilę.' },
-    hu: { title: 'Jarvis a telefonon', ask: 'Párosítod ezt a telefont a géped Jarvisával?', name: 'A telefon neve', pair: 'Párosítás', scan: 'Ez a telefon még nincs összekötve a Jarvisszal. A gépeden a Jarvisban nyisd meg: Telefon → Interneten át, és olvasd be a QR-kódot.', browser: 'Ez a böngésző nem tudja futtatni a Jarvist a telefonon. Nyisd meg a linket Safariban (iPhone) vagy Chrome-ban (Android).', wait: 'Kapcsolódás a Jarvishoz…', secure: 'A kapcsolatot olyan kulcs titkosítja, amely csak ennél a telefonnál és a gépednél van meg.', fail: 'Valami nem sikerült – próbáld újra kicsit később.' },
-    it: { title: 'Jarvis sul telefono', ask: 'Associare questo telefono a Jarvis sul tuo PC?', name: 'Nome del telefono', pair: 'Associa', scan: 'Questo telefono non è ancora collegato a Jarvis. In Jarvis sul PC apri Telefono → Via internet e inquadra il codice QR.', browser: 'Questo browser non può eseguire Jarvis sul telefono. Apri il link in Safari (iPhone) o in Chrome (Android).', wait: 'Connessione a Jarvis…', secure: 'La connessione è cifrata con una chiave che hanno solo questo telefono e il tuo PC.', fail: 'Qualcosa non ha funzionato – riprova tra poco.' },
+    sk: { title: 'Jarvis v mobile', ask: 'Spárovať tento mobil s Jarvisom na tvojom PC?', name: 'Názov mobilu', pair: 'Spárovať', scan: 'Tento mobil ešte nie je spojený s Jarvisom. V Jarvisovi na PC otvor Mobil → Cez internet a naskenuj QR kód.', browser: 'Tento prehliadač Jarvisa v mobile nezvládne. Otvor odkaz v Safari (iPhone) alebo v Chrome (Android).', wait: 'Pripájam sa k Jarvisovi…', secure: 'Spojenie je šifrované kľúčom, ktorý má iba tento mobil a tvoje PC.', fail: 'Niečo sa nepodarilo – skús to o chvíľu.',
+      paired: 'Mobil je spárovaný. Teraz pridaj Jarvisa na plochu odtiaľto – bude ako appka a pôjdu aj upozornenia:', lead: 'Aby bol Jarvis ako appka a chodili ti upozornenia, pridaj ho na plochu odtiaľto:', step1: 'V Safari ťukni na Zdieľať (v novom Safari je pod •••).', step2: 'Vyber „Pridať na plochu“ a potvrď Pridať.', step3: 'Otvor Jarvisa z plochy – spojí sa sám, nič už neskenuješ.', carried: 'Spojenie je len v adrese tejto stránky za znakom # – ostáva v tomto mobile a na žiadny server nejde.', hint: 'Keby appka na ploche napísala, že nie je spojená, skopíruj spojenie a v appke ťukni Vložiť spojenie.', copy: 'Kopírovať spojenie', copied: 'Skopírované. Otvor Jarvisa z plochy a ťukni Vložiť spojenie.', copyFail: 'Kopírovanie nevyšlo – pridaj Jarvisa na plochu podľa krokov vyššie.', later: 'Pokračovať v Safari',
+      home: 'Táto appka na ploche ešte nie je spojená s Jarvisom. Otvor Jarvisa v Safari, ťukni Viac → Mobil → Pridať Jarvisa na plochu a postupuj podľa krokov. Alebo tam ťukni Kopírovať spojenie a vlož ho sem.', paste: 'Vložiť spojenie', field: 'Spojenie zo Safari', join: 'Spojiť', bad: 'Toto nie je spojenie z Jarvisa. V Safari ťukni Kopírovať spojenie a skús to znova.', pasteFail: 'Schránku sa nepodarilo prečítať – podrž prst v políčku nižšie a vyber Vložiť.' },
+    en: { title: 'Jarvis on your phone', ask: 'Pair this phone with Jarvis on your PC?', name: 'Phone name', pair: 'Pair', scan: 'This phone is not connected to Jarvis yet. In Jarvis on your PC open Phone → Over the internet and scan the QR code.', browser: 'This browser cannot run Jarvis on your phone. Open the link in Safari (iPhone) or Chrome (Android).', wait: 'Connecting to Jarvis…', secure: 'The connection is encrypted with a key that only this phone and your PC have.', fail: 'Something went wrong – try again in a moment.',
+      paired: 'Your phone is paired. Now add Jarvis to your Home Screen from here – it works like an app and notifications work too:', lead: 'To have Jarvis as an app with notifications, add it to your Home Screen from here:', step1: 'In Safari tap Share (in the new Safari it is under •••).', step2: 'Choose “Add to Home Screen” and tap Add.', step3: 'Open Jarvis from the Home Screen – it connects by itself, no more scanning.', carried: 'The connection is only in the address of this page after the # sign – it stays on this phone and never goes to any server.', hint: 'If the app on the Home Screen says it is not connected, copy the connection and tap Paste connection in the app.', copy: 'Copy connection', copied: 'Copied. Open Jarvis from the Home Screen and tap Paste connection.', copyFail: 'Copying did not work – add Jarvis to the Home Screen with the steps above.', later: 'Continue in Safari',
+      home: 'This Home Screen app is not connected to Jarvis yet. Open Jarvis in Safari, tap More → Phone → Add Jarvis to the home screen and follow the steps. Or tap Copy connection there and paste it here.', paste: 'Paste connection', field: 'Connection from Safari', join: 'Connect', bad: 'This is not a Jarvis connection. Tap Copy connection in Safari and try again.', pasteFail: 'The clipboard could not be read – touch and hold the field below and choose Paste.' },
+    cs: { title: 'Jarvis v mobilu', ask: 'Spárovat tento mobil s Jarvisem na tvém PC?', name: 'Název mobilu', pair: 'Spárovat', scan: 'Tento mobil ještě není spojený s Jarvisem. V Jarvisovi na PC otevři Mobil → Přes internet a naskenuj QR kód.', browser: 'Tento prohlížeč Jarvise v mobilu nezvládne. Otevři odkaz v Safari (iPhone) nebo v Chrome (Android).', wait: 'Připojuji se k Jarvisovi…', secure: 'Spojení je šifrované klíčem, který má jen tento mobil a tvé PC.', fail: 'Něco se nepovedlo – zkus to za chvíli.',
+      paired: 'Mobil je spárovaný. Teď přidej Jarvise na plochu odsud – bude jako aplikace a půjdou i upozornění:', lead: 'Aby byl Jarvis jako aplikace a chodila ti upozornění, přidej ho na plochu odsud:', step1: 'V Safari klepni na Sdílet (v novém Safari je pod •••).', step2: 'Vyber „Přidat na plochu“ a potvrď Přidat.', step3: 'Otevři Jarvise z plochy – spojí se sám, nic už neskenuješ.', carried: 'Spojení je jen v adrese této stránky za znakem # – zůstává v tomto mobilu a na žádný server nejde.', hint: 'Kdyby aplikace na ploše napsala, že není spojená, zkopíruj spojení a v aplikaci klepni na Vložit spojení.', copy: 'Kopírovat spojení', copied: 'Zkopírováno. Otevři Jarvise z plochy a klepni na Vložit spojení.', copyFail: 'Kopírování nevyšlo – přidej Jarvise na plochu podle kroků výše.', later: 'Pokračovat v Safari',
+      home: 'Tato aplikace na ploše ještě není spojená s Jarvisem. Otevři Jarvise v Safari, klepni na Víc → Mobil → Přidat Jarvise na plochu a postupuj podle kroků. Nebo tam klepni na Kopírovat spojení a vlož ho sem.', paste: 'Vložit spojení', field: 'Spojení ze Safari', join: 'Spojit', bad: 'Tohle není spojení z Jarvise. V Safari klepni na Kopírovat spojení a zkus to znovu.', pasteFail: 'Schránku se nepodařilo přečíst – podrž prst v políčku níže a vyber Vložit.' },
+    de: { title: 'Jarvis auf dem Handy', ask: 'Dieses Handy mit Jarvis auf deinem PC koppeln?', name: 'Name des Handys', pair: 'Koppeln', scan: 'Dieses Handy ist noch nicht mit Jarvis verbunden. Öffne in Jarvis auf dem PC Handy → Über das Internet und scanne den QR-Code.', browser: 'Dieser Browser kann Jarvis auf dem Handy nicht ausführen. Öffne den Link in Safari (iPhone) oder Chrome (Android).', wait: 'Verbinde mit Jarvis…', secure: 'Die Verbindung ist mit einem Schlüssel verschlüsselt, den nur dieses Handy und dein PC haben.', fail: 'Etwas ist schiefgelaufen – versuch es gleich noch einmal.',
+      paired: 'Das Handy ist gekoppelt. Füge Jarvis jetzt von hier aus zum Home-Bildschirm hinzu – dann ist er wie eine App und Mitteilungen funktionieren auch:', lead: 'Damit Jarvis wie eine App ist und du Mitteilungen bekommst, füge ihn von hier aus zum Home-Bildschirm hinzu:', step1: 'Tippe in Safari auf Teilen (im neuen Safari unter •••).', step2: 'Wähle „Zum Home-Bildschirm“ und tippe auf Hinzufügen.', step3: 'Öffne Jarvis vom Home-Bildschirm – er verbindet sich selbst, du scannst nichts mehr.', carried: 'Die Verbindung steht nur in der Adresse dieser Seite nach dem Zeichen # – sie bleibt auf diesem Handy und geht an keinen Server.', hint: 'Falls die App auf dem Home-Bildschirm meldet, dass sie nicht verbunden ist, kopiere die Verbindung und tippe in der App auf Verbindung einfügen.', copy: 'Verbindung kopieren', copied: 'Kopiert. Öffne Jarvis vom Home-Bildschirm und tippe auf Verbindung einfügen.', copyFail: 'Kopieren hat nicht geklappt – füge Jarvis mit den Schritten oben zum Home-Bildschirm hinzu.', later: 'In Safari weiter',
+      home: 'Diese App auf dem Home-Bildschirm ist noch nicht mit Jarvis verbunden. Öffne Jarvis in Safari, tippe auf Mehr → Handy → Jarvis zum Startbildschirm hinzufügen und folge den Schritten. Oder tippe dort auf Verbindung kopieren und füge sie hier ein.', paste: 'Verbindung einfügen', field: 'Verbindung aus Safari', join: 'Verbinden', bad: 'Das ist keine Verbindung von Jarvis. Tippe in Safari auf Verbindung kopieren und versuch es noch einmal.', pasteFail: 'Die Zwischenablage ließ sich nicht lesen – halte den Finger auf das Feld unten und wähle Einsetzen.' },
+    pl: { title: 'Jarvis w telefonie', ask: 'Sparować ten telefon z Jarvisem na twoim PC?', name: 'Nazwa telefonu', pair: 'Sparuj', scan: 'Ten telefon nie jest jeszcze połączony z Jarvisem. W Jarvisie na PC otwórz Telefon → Przez internet i zeskanuj kod QR.', browser: 'Ta przeglądarka nie obsłuży Jarvisa w telefonie. Otwórz link w Safari (iPhone) lub w Chrome (Android).', wait: 'Łączę z Jarvisem…', secure: 'Połączenie jest szyfrowane kluczem, który mają tylko ten telefon i twój PC.', fail: 'Coś poszło nie tak – spróbuj za chwilę.',
+      paired: 'Telefon jest sparowany. Teraz dodaj Jarvisa do ekranu początkowego stąd – będzie jak aplikacja i zadziałają też powiadomienia:', lead: 'Żeby Jarvis był jak aplikacja i przychodziły powiadomienia, dodaj go do ekranu początkowego stąd:', step1: 'W Safari stuknij Udostępnij (w nowym Safari jest pod •••).', step2: 'Wybierz „Do ekranu początkowego” i stuknij Dodaj.', step3: 'Otwórz Jarvisa z ekranu początkowego – połączy się sam, niczego już nie skanujesz.', carried: 'Połączenie jest tylko w adresie tej strony po znaku # – zostaje w tym telefonie i nie trafia na żaden serwer.', hint: 'Gdyby aplikacja na ekranie początkowym napisała, że nie jest połączona, skopiuj połączenie i stuknij w niej Wklej połączenie.', copy: 'Kopiuj połączenie', copied: 'Skopiowano. Otwórz Jarvisa z ekranu początkowego i stuknij Wklej połączenie.', copyFail: 'Kopiowanie nie wyszło – dodaj Jarvisa do ekranu początkowego według kroków powyżej.', later: 'Dalej w Safari',
+      home: 'Ta aplikacja na ekranie początkowym nie jest jeszcze połączona z Jarvisem. Otwórz Jarvisa w Safari, stuknij Więcej → Telefon → Dodaj Jarvisa do ekranu głównego i postępuj według kroków. Albo stuknij tam Kopiuj połączenie i wklej je tutaj.', paste: 'Wklej połączenie', field: 'Połączenie z Safari', join: 'Połącz', bad: 'To nie jest połączenie z Jarvisa. W Safari stuknij Kopiuj połączenie i spróbuj ponownie.', pasteFail: 'Nie udało się odczytać schowka – przytrzymaj palec na polu poniżej i wybierz Wklej.' },
+    hu: { title: 'Jarvis a telefonon', ask: 'Párosítod ezt a telefont a géped Jarvisával?', name: 'A telefon neve', pair: 'Párosítás', scan: 'Ez a telefon még nincs összekötve a Jarvisszal. A gépeden a Jarvisban nyisd meg: Telefon → Interneten át, és olvasd be a QR-kódot.', browser: 'Ez a böngésző nem tudja futtatni a Jarvist a telefonon. Nyisd meg a linket Safariban (iPhone) vagy Chrome-ban (Android).', wait: 'Kapcsolódás a Jarvishoz…', secure: 'A kapcsolatot olyan kulcs titkosítja, amely csak ennél a telefonnál és a gépednél van meg.', fail: 'Valami nem sikerült – próbáld újra kicsit később.',
+      paired: 'A telefon párosítva. Most innen add hozzá a Jarvist a Főképernyőhöz – olyan lesz, mint egy app, és az értesítések is működnek:', lead: 'Hogy a Jarvis appként működjön és értesítéseket kapj, innen add hozzá a Főképernyőhöz:', step1: 'A Safariban koppints a Megosztásra (az új Safariban a ••• alatt van).', step2: 'Válaszd a „Főképernyőhöz adás” lehetőséget, és koppints a Hozzáadásra.', step3: 'Nyisd meg a Jarvist a Főképernyőről – magától kapcsolódik, semmit nem kell újra beolvasnod.', carried: 'A kapcsolat csak ennek az oldalnak a címében van a # jel után – ezen a telefonon marad, és semmilyen szerverre nem kerül.', hint: 'Ha a Főképernyőn lévő app azt írja, hogy nincs összekötve, másold ki a kapcsolatot, és az appban koppints a Kapcsolat beillesztésére.', copy: 'Kapcsolat másolása', copied: 'Kimásolva. Nyisd meg a Jarvist a Főképernyőről, és koppints a Kapcsolat beillesztésére.', copyFail: 'A másolás nem sikerült – add hozzá a Jarvist a Főképernyőhöz a fenti lépésekkel.', later: 'Folytatás a Safariban',
+      home: 'Ez a Főképernyőn lévő app még nincs összekötve a Jarvisszal. Nyisd meg a Jarvist a Safariban, koppints: Több → Telefon → A Jarvis hozzáadása a kezdőképernyőhöz, és kövesd a lépéseket. Vagy koppints ott a Kapcsolat másolására, és illeszd be ide.', paste: 'Kapcsolat beillesztése', field: 'Kapcsolat a Safariból', join: 'Összekötés', bad: 'Ez nem a Jarvis kapcsolata. A Safariban koppints a Kapcsolat másolására, és próbáld újra.', pasteFail: 'A vágólapot nem sikerült beolvasni – tartsd az ujjad az alábbi mezőn, és válaszd a Beillesztést.' },
+    it: { title: 'Jarvis sul telefono', ask: 'Associare questo telefono a Jarvis sul tuo PC?', name: 'Nome del telefono', pair: 'Associa', scan: 'Questo telefono non è ancora collegato a Jarvis. In Jarvis sul PC apri Telefono → Via internet e inquadra il codice QR.', browser: 'Questo browser non può eseguire Jarvis sul telefono. Apri il link in Safari (iPhone) o in Chrome (Android).', wait: 'Connessione a Jarvis…', secure: 'La connessione è cifrata con una chiave che hanno solo questo telefono e il tuo PC.', fail: 'Qualcosa non ha funzionato – riprova tra poco.',
+      paired: 'Il telefono è associato. Ora aggiungi Jarvis alla schermata Home da qui – sarà come un’app e funzioneranno anche le notifiche:', lead: 'Per avere Jarvis come app e ricevere le notifiche, aggiungilo alla schermata Home da qui:', step1: 'In Safari tocca Condividi (nel nuovo Safari è sotto •••).', step2: 'Scegli «Aggiungi alla schermata Home» e tocca Aggiungi.', step3: 'Apri Jarvis dalla schermata Home – si collega da solo, non scansioni più nulla.', carried: 'La connessione è solo nell’indirizzo di questa pagina dopo il segno # – resta su questo telefono e non va a nessun server.', hint: 'Se l’app nella schermata Home dice che non è collegata, copia la connessione e nell’app tocca Incolla connessione.', copy: 'Copia connessione', copied: 'Copiato. Apri Jarvis dalla schermata Home e tocca Incolla connessione.', copyFail: 'La copia non è riuscita – aggiungi Jarvis alla schermata Home con i passaggi qui sopra.', later: 'Continua in Safari',
+      home: 'Questa app nella schermata Home non è ancora collegata a Jarvis. Apri Jarvis in Safari, tocca Altro → Telefono → Aggiungi Jarvis alla schermata Home e segui i passaggi. Oppure tocca lì Copia connessione e incollala qui.', paste: 'Incolla connessione', field: 'Connessione da Safari', join: 'Collega', bad: 'Questa non è una connessione di Jarvis. In Safari tocca Copia connessione e riprova.', pasteFail: 'Non è stato possibile leggere gli appunti – tieni premuto il campo qui sotto e scegli Incolla.' },
   }; // i18n:on
   const phone = String(navigator.language || 'sk').slice(0, 2).toLowerCase(), t = T[phone] || T.en;
   document.documentElement.lang = T[phone] ? phone : 'en';
@@ -51,23 +82,81 @@
   const get = async key => { const d = await db(); return new Promise(resolve => { const r = d.transaction('kv').objectStore('kv').get(key); r.onsuccess = () => resolve(r.result ?? null); r.onerror = () => resolve(null); }); };
   const put = async (key, value) => { const d = await db(); return new Promise(resolve => { const tr = d.transaction('kv', 'readwrite'); tr.objectStore('kv').put(value, key); tr.oncomplete = () => resolve(); tr.onerror = () => resolve(); }); };
   const model = () => { const ua = navigator.userAgent; return /iPhone/.test(ua) ? 'iPhone' : /iPad/.test(ua) ? 'iPad' : (/Android[^;]*;\s*([^;)]+?)(?:\s+Build|\))/.exec(ua)?.[1] || 'Android').slice(0, 40); };
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const standalone = () => window.matchMedia?.('(display-mode: standalone)').matches || navigator.standalone === true;
 
-  (async () => {
-    if (!('serviceWorker' in navigator) || !window.crypto?.subtle || !window.indexedDB) { show(el('p', {}, t.browser)); return; }
-    // the QR code: #k=<channel>.<key>&p=<pairing code> – kept here, then gone from the address (and the history)
-    const hash = new URLSearchParams(location.hash.slice(1)), k = hash.get('k') || '', code = hash.get('p') || '';
-    if (location.hash) history.replaceState(null, '', '/m/');
-    const [ch, key] = k.split('.');
-    if (/^[A-Za-z0-9_-]{22,64}$/.test(ch || '') && /^[A-Za-z0-9_-]{43}$/.test(key || '')) { await put('spojenie', { ch, key }); await put('cookie', null); }
-    const c = await get('spojenie');
-    if (!c) { show(el('p', {}, t.scan)); return; }
-    show(el('p', {}, t.wait));
+  // #k=<channel>.<key>&p=<pairing code> (the QR code) or #k=<channel>.<key>&d=<device key> (the connection carried to the app on
+  // the home screen) – from the address or from a pasted text; #plocha = the app asks for the step to the home screen
+  const DEVICE = /^[0-9a-f-]{36}\.[A-Za-z0-9_-]{43}$/;
+  const parse = text => {
+    const s = String(text || '').trim(), q = new URLSearchParams(s.includes('#') ? s.slice(s.indexOf('#') + 1) : s);
+    const [ch = '', key = ''] = (q.get('k') || '').split('.'), device = q.get('d') || '';
+    return { ch, key, code: q.get('p') || '', device: DEVICE.test(device) ? device : '', home: q.has('plocha'), ok: /^[A-Za-z0-9_-]{22,64}$/.test(ch) && /^[A-Za-z0-9_-]{43}$/.test(key) };
+  };
+  const carried = (c, cookie) => `/m/#k=${c.ch}.${c.key}&d=${String(cookie).replace(/^jarvis_mobil=/, '')}`;
+  /** the connection carried here – taken once and never over the one this app already has (a later start from the home screen
+   *  brings the same address again, also after the PC made a new connection); a pasted one (by hand) always */
+  async function take(h, byHand = false) {
+    const mark = h.ch + '.' + h.device.split('.')[0];
+    if (!byHand && ((await get('spojenie')) || (await get('prevzate')) === mark)) return false;
+    await put('spojenie', { ch: h.ch, key: h.key }); await put('cookie', 'jarvis_mobil=' + h.device); await put('prevzate', mark);
+    return true;
+  }
+  /** the service worker that seals the requests of the app; false = it does not control this page yet */
+  async function worker() {
     await navigator.serviceWorker.register('/m/sw.js', { scope: '/m/' });
     const ready = await navigator.serviceWorker.ready;
     ready.active?.postMessage({ type: 'spojenie' });
     if (!navigator.serviceWorker.controller) await new Promise(resolve => { navigator.serviceWorker.addEventListener('controllerchange', resolve, { once: true }); setTimeout(resolve, 4000); });
-    if (!navigator.serviceWorker.controller) { location.reload(); return; }
-    if (!/^[\w-]{8,80}$/.test(code)) { location.replace('/m/app/'); return; }
+    return Boolean(navigator.serviceWorker.controller);
+  }
+  const open = welcome => location.replace('/m/app/' + (welcome ? '#/vitaj' : ''));
+
+  /** the app on the home screen without a connection: it cannot scan a QR code (the camera opens Safari) – the step in Safari,
+   *  or the connection copied there and pasted here */
+  function notConnected() {
+    if (!standalone()) { show(el('p', {}, t.scan)); return; }
+    const field = el('input', { autocomplete: 'off', autocapitalize: 'none', autocorrect: 'off', spellcheck: 'false', inputmode: 'url' }), error = el('p', { class: 'err', role: 'alert' });
+    const join = async text => { const h = parse(text); if (!h.ok || !h.device) { error.textContent = t.bad; return; } error.textContent = ''; await take(h, true); show(el('p', {}, t.wait)); if (!(await worker())) { location.replace('/m/'); return; } open(true); };
+    const paste = navigator.clipboard?.readText ? el('button', { type: 'button' }, t.paste) : null;
+    paste?.addEventListener('click', async () => { let text = ''; try { text = await navigator.clipboard.readText(); } catch { error.textContent = t.pasteFail; field.focus(); return; } join(text).catch(() => { error.textContent = t.fail; }); });
+    const form = el('form', {}, el('label', {}, t.field, field), el('button', { type: 'submit', class: 'ghost' }, t.join));
+    form.addEventListener('submit', event => { event.preventDefault(); join(field.value).catch(() => { error.textContent = t.fail; }); });
+    show(el('p', {}, t.home), paste, error, form, el('small', {}, t.secure));
+  }
+
+  /** Safari of an iPhone: the step to the home screen – this address carries the connection to the app added from here */
+  async function homeScreen(paired) {
+    const c = await get('spojenie'), cookie = await get('cookie');
+    // only a working connection (a phone the PC unpaired gets the QR code again); the PC off is no reason to wait
+    const res = !paired && c && cookie ? await fetch('/m/app/api/m/push', { cache: 'no-store' }).catch(() => null) : null;
+    if (!c || !cookie || res?.status === 401) { show(el('p', {}, t.scan)); return; }
+    const link = carried(c, cookie);
+    history.replaceState(null, '', link);
+    const note = el('p', { class: 'ok', role: 'status' }), copy = el('button', { type: 'button', class: 'ghost' }, t.copy);
+    copy.addEventListener('click', async () => { try { await navigator.clipboard.writeText(location.origin + link); note.className = 'ok'; note.textContent = t.copied; } catch { note.className = 'err'; note.textContent = t.copyFail; } });
+    // on in Safari: the address with the connection leaves this tab (replace, not a new step of its history)
+    const later = el('a', { class: 'later', href: '/m/app/' + (paired ? '#/vitaj' : '') }, t.later);
+    later.addEventListener('click', event => { event.preventDefault(); open(paired); });
+    show(el('p', {}, paired ? t.paired : t.lead), el('ol', {}, el('li', {}, t.step1), el('li', {}, t.step2), el('li', {}, t.step3)), el('small', {}, t.carried), el('p', {}, t.hint), copy, note, later);
+  }
+
+  (async () => {
+    if (!('serviceWorker' in navigator) || !window.crypto?.subtle || !window.indexedDB) { show(el('p', {}, t.browser)); return; }
+    // the QR code (#k=…&p=…) or the carried connection (#k=…&d=…) – kept here, then gone from the address (and the history)
+    const hash = parse(location.hash), code = hash.code;
+    if (location.hash) history.replaceState(null, '', '/m/');
+    let fresh = false;
+    if (hash.ok && hash.device) fresh = await take(hash);
+    else if (hash.ok && code) { await put('spojenie', { ch: hash.ch, key: hash.key }); await put('cookie', null); }
+    const c = await get('spojenie');
+    if (!c) { notConnected(); return; }
+    show(el('p', {}, t.wait));
+    if (!(await worker())) { location.reload(); return; }
+    if (!/^[\w-]{8,80}$/.test(code)) {
+      if (ios && !standalone() && (hash.home || hash.device)) return homeScreen(false);
+      open(fresh); return;
+    }
     // a new phone: its name and one tap – the PC gives it its own key (the cookie of the pairing, kept by /m/sw.js)
     const name = el('input', { maxlength: '40', autocomplete: 'off', value: model() }), error = el('p', { class: 'err', role: 'alert' }), go = el('button', { type: 'submit' }, t.pair);
     const form = el('form', {}, el('label', {}, t.name, name), error, go);
@@ -77,7 +166,9 @@
         const res = await fetch('/pair.json', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ k: code, name: name.value.trim() || model() }) });
         const out = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(out.error || t.fail);
-        location.replace('/m/app/#/vitaj');
+        // an iPhone in Safari: the app on the home screen has its own storage – the step that carries the connection to it
+        if (ios && !standalone()) return homeScreen(true);
+        open(true);
       } catch (e) { error.textContent = e.message || t.fail; go.disabled = false; }
     });
     show(el('p', {}, t.ask), form, el('small', {}, t.secure));
