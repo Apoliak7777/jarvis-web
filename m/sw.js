@@ -1,9 +1,9 @@
-/* Jarvis v mobile cez Bránu (3.121, Alex 31. 10. 2026: „tretie tiež pridaj“) – the service worker of jarvis.apoliak.sk/m/ (and of the old jarvis.apoliak.online/m/, which the VPS serves from it).
+/* Jarvis v mobile cez Bránu (3.121, Alex 31. 10. 2026: „tretie tiež pridaj“) – the service worker of jarvis.apoliak.sk/m/.
    Every request of the phone app (/m/app/…) is sealed here with the key from the QR code (AES-256-GCM, WebCrypto) and goes
    through the Jarvis Brána to the PC, which answers sealed the same way – the Brána and the web never see what passes. The
    device cookie of the pairing is kept here (not as a cookie of this web). Notifications (Web Push) come straight from the PC. */
 'use strict';
-const API = 'https://stiahnut.apoliak.online/brana';
+const API = 'https://stiahnut.apoliak.sk/brana';
 // the page that pairs and its files come from the web itself; everything else of the app from the PC
 const OWN = new Set(['/m/', '/m/index.html', '/m/sw.js', '/m/icon-192.png', '/m/icon-512.png', '/m/icon-maskable.png', '/m/apple-touch-icon.png']);
 const SHELL = 'jarvis-tunel-1';

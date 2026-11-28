@@ -37,7 +37,7 @@ window.JARVIS_DATA = {
     rocneZaMesiacov: 10,       // ročné predplatné = 12 mesiacov za cenu 10
     // 3.121: objednávky idú cez Jarvis Bránu na VPS rovno do Alexovho Jarvisa; platbu kartou (Stripe) zapne Alex v Generátore
     // licencií → Objednávky a košík sa na ňu pýta Brány. Prázdne = objednávka sa pošle e-mailom ako predtým.
-    obchodApi: 'https://stiahnut.apoliak.online/brana',
+    obchodApi: 'https://stiahnut.apoliak.sk/brana',
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.sk', // verejná adresa od 28. 11. 2026 (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
     podmienkyOd: '18. 11. 2026'
@@ -191,7 +191,7 @@ window.JARVIS_DATA = {
     { id: 'modul-eshop', modul: 'eshop', kategoria: 'rozsirenia', nazov: 'Połączenie ze sklepem internetowym', mesacne: 9, ikona: 'cart',
       kratko: 'Zamówienia z WooCommerce lub Shoptetu same trafiają do klientów, faktur i magazynu.',
       popis: 'Co 30 minut Jarvis zagląda do sklepu na WooCommerce lub Shoptecie i sam przetwarza nowe zamówienia: klienta zapisze w Klientach, wystawi fakturę (jeśli nie wystawia jej już sklep), towar odpisze z magazynu według kodu, a sprzedaż zapisze w Biznesie. Wystarczy klucz tylko do odczytu – Jarvis niczego nie zapisuje w sklepie.' },
-    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
+    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.sk), nové Zmluvy a poistky a AI asistent na web */
     { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Zespół', mesacne: 5, zaCloveka: true, mnozstvo: true, ikona: 'team',
       kratko: 'Wspólni klienci, zadania i notatki dla wszystkich w firmie.',
       popis: 'Klienci, zadania i notatki wspólne dla całej firmy: kto odpowiada za które zlecenie, co jest gotowe, a co po terminie. Współpracownicy dołączają kodem zespołu, a zmiana na jednym komputerze w ciągu pół minuty pojawia się na pozostałych; gdy dwie osoby zmienią to samo, obowiązuje nowsza zmiana. Udostępnia się tylko to, co jest dla zespołu – Klienci, tablica Zespół w Zadaniach i notatki oznaczone dla zespołu; prywatne notatki pozostają Państwa. Dane przechodzą przez serwer Jarvisa zaszyfrowane kluczem zespołu, który ma tylko Państwa zespół – serwer nie potrafi ich odczytać. Płaci się za każdą osobę w zespole.' },

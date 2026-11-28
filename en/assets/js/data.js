@@ -37,7 +37,7 @@ window.JARVIS_DATA = {
     rocneZaMesiacov: 10,       // ročné predplatné = 12 mesiacov za cenu 10
     // 3.121: objednávky idú cez Jarvis Bránu na VPS rovno do Alexovho Jarvisa; platbu kartou (Stripe) zapne Alex v Generátore
     // licencií → Objednávky a košík sa na ňu pýta Brány. Prázdne = objednávka sa pošle e-mailom ako predtým.
-    obchodApi: 'https://stiahnut.apoliak.online/brana',
+    obchodApi: 'https://stiahnut.apoliak.sk/brana',
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.sk', // verejná adresa od 28. 11. 2026 (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
     podmienkyOd: '18. 11. 2026'
@@ -191,7 +191,7 @@ window.JARVIS_DATA = {
     { id: 'modul-eshop', modul: 'eshop', kategoria: 'rozsirenia', nazov: 'E-shop connection', mesacne: 9, ikona: 'cart',
       kratko: 'Orders from WooCommerce or Shoptet go by themselves into clients, invoices and stock.',
       popis: 'Every 30 minutes Jarvis looks into your e-shop on WooCommerce or Shoptet and processes the new orders by itself: it records the customer in Clients, issues the invoice (if the e-shop does not already), takes the goods out of stock by their code and records the sale in Business. A read-only key is enough – Jarvis writes nothing into the e-shop.' },
-    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
+    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.sk), nové Zmluvy a poistky a AI asistent na web */
     { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Team', mesacne: 5, zaCloveka: true, mnozstvo: true, ikona: 'team',
       kratko: 'Shared clients, tasks and notes for everyone in the company.',
       popis: 'Clients, tasks and notes shared by the whole company: who is in charge of which job, what is done and what is overdue. Colleagues join with the team code, and a change on one computer shows up on the others within half a minute; when two people change the same thing, the newer change wins. Only what is meant for the team is shared – Clients, the Team board in Tasks and notes marked for the team; private notes stay yours. The data travel through the Jarvis server encrypted with the team’s key, which only your team has – the server cannot read them. You pay for each person in the team.' },

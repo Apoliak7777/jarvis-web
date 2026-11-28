@@ -1,14 +1,14 @@
 {
  "v": 1,
- "verzia": "3.179.1",
- "id": "36de706b79b84caabd89e93169bd87a2",
- "builtAt": "2026-11-28T12:52:20.427Z",
+ "verzia": "3.179.2",
+ "id": "3d4b1789f41a4b03a31486c5da7a49b3",
+ "builtAt": "2026-11-28T13:22:22.349Z",
  "edicia": "zakaznik",
- "subor": "https://stiahnut.apoliak.online/Jarvis-3.179.1-zakaznik.zip",
- "velkost": 209011391,
- "sha256": "32610d325eeb1ab40e2aaf9bad22d5c68e339ae750cd8d4a43102b80223a42c9",
- "podpis": "b14UjGkbaffLzzb7C/WxAayq4kNJ54WBfOwzn/CiBOkGgeCFE1zFx8XNkNisrIFWwcefjqpDFd/pg84nTu79Aw==",
- "vydane": "2026-11-28T12:54:37.594Z",
- "instalator": "https://stiahnut.apoliak.online/Jarvis-Setup.exe",
- "instalatorVelkost": 209030863
+ "subor": "https://stiahnut.apoliak.online/Jarvis-3.179.2-zakaznik.zip",
+ "velkost": 209011388,
+ "sha256": "9e26697928bbeb0ba6ce69721c000ee8681176246fbdbe266a9f8934493ea674",
+ "podpis": "Dj4EAI3Y28At4s91B0YlXEiZQjXSGmDgnZ12JPnSDZKUQPSzN6TqOr+Td7f3i99doAQmsq2RRvM15jvvbRTxCQ==",
+ "vydane": "2026-11-28T13:26:09.580Z",
+ "instalator": "https://stiahnut.apoliak.sk/Jarvis-Setup.exe",
+ "instalatorVelkost": 209030860
 }

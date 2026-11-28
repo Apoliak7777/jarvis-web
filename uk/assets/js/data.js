@@ -37,7 +37,7 @@ window.JARVIS_DATA = {
     rocneZaMesiacov: 10,       // ročné predplatné = 12 mesiacov za cenu 10
     // 3.121: objednávky idú cez Jarvis Bránu na VPS rovno do Alexovho Jarvisa; platbu kartou (Stripe) zapne Alex v Generátore
     // licencií → Objednávky a košík sa na ňu pýta Brány. Prázdne = objednávka sa pošle e-mailom ako predtým.
-    obchodApi: 'https://stiahnut.apoliak.online/brana',
+    obchodApi: 'https://stiahnut.apoliak.sk/brana',
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.sk', // verejná adresa od 28. 11. 2026 (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
     podmienkyOd: '18. 11. 2026'
@@ -191,7 +191,7 @@ window.JARVIS_DATA = {
     { id: 'modul-eshop', modul: 'eshop', kategoria: 'rozsirenia', nazov: 'Зв’язок з інтернет-магазином', mesacne: 9, ikona: 'cart',
       kratko: 'Замовлення з WooCommerce або Shoptet самі потрапляють у клієнтів, рахунки й склад.',
       popis: 'Кожні 30 хвилин Jarvis зазирає у ваш інтернет-магазин на WooCommerce або Shoptet і сам обробляє нові замовлення: записує клієнта до Клієнтів, виставляє рахунок (якщо його вже не виставляє магазин), списує товар зі складу за кодом і записує виручку в Бізнес. Достатньо ключа лише для читання – в інтернет-магазин Jarvis нічого не записує.' },
-    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
+    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.sk), nové Zmluvy a poistky a AI asistent na web */
     { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Команда', mesacne: 5, zaCloveka: true, mnozstvo: true, ikona: 'team',
       kratko: 'Спільні клієнти, завдання й нотатки для всіх у фірмі.',
       popis: 'Клієнти, завдання й нотатки, спільні для всієї фірми: хто відповідає за яке замовлення, що зроблено, а що прострочено. Колеги приєднуються кодом команди, і зміна на одному комп’ютері за пів хвилини з’являється на інших; коли двоє змінюють те саме, діє новіша зміна. Спільним є лише те, що призначене для команди, – Клієнти, дошка Команда в Завданнях і нотатки, позначені для команди; приватні нотатки залишаються вашими. Дані йдуть через сервер Jarvis, зашифровані ключем команди, який має лише ваша команда, – сервер не може їх прочитати. Оплата за кожну людину в команді.' },

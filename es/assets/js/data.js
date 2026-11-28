@@ -37,7 +37,7 @@ window.JARVIS_DATA = {
     rocneZaMesiacov: 10,       // ročné predplatné = 12 mesiacov za cenu 10
     // 3.121: objednávky idú cez Jarvis Bránu na VPS rovno do Alexovho Jarvisa; platbu kartou (Stripe) zapne Alex v Generátore
     // licencií → Objednávky a košík sa na ňu pýta Brány. Prázdne = objednávka sa pošle e-mailom ako predtým.
-    obchodApi: 'https://stiahnut.apoliak.online/brana',
+    obchodApi: 'https://stiahnut.apoliak.sk/brana',
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
     adresaWebu: 'https://jarvis.apoliak.sk', // verejná adresa od 28. 11. 2026 (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
     podmienkyOd: '18. 11. 2026'
@@ -191,7 +191,7 @@ window.JARVIS_DATA = {
     { id: 'modul-eshop', modul: 'eshop', kategoria: 'rozsirenia', nazov: 'Conexión con la tienda online', mesacne: 9, ikona: 'cart',
       kratko: 'Los pedidos de WooCommerce o Shoptet van solos a los clientes, las facturas y el almacén.',
       popis: 'Cada 30 minutos Jarvis revisa su tienda online en WooCommerce o Shoptet y procesa solo los pedidos nuevos: registra al cliente en Clientes, emite la factura (si la tienda no la emite ya), da de baja la mercancía del almacén según su código y anota la venta en Negocio. Basta con una clave de solo lectura: Jarvis no escribe nada en la tienda.' },
-    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.online), nové Zmluvy a poistky a AI asistent na web */
+    /* Jarvis 3.120: Tím a Rezervácie online hotové (Jarvis Brána na stiahnut.apoliak.sk), nové Zmluvy a poistky a AI asistent na web */
     { id: 'modul-tim', modul: 'tim', kategoria: 'rozsirenia', nazov: 'Equipo', mesacne: 5, zaCloveka: true, mnozstvo: true, ikona: 'team',
       kratko: 'Clientes, tareas y notas compartidos para todos en la empresa.',
       popis: 'Clientes, tareas y notas compartidos por toda la empresa: quién se encarga de cada encargo, qué está hecho y qué está vencido. Los compañeros se unen con el código del equipo y un cambio en un ordenador aparece en los demás en menos de medio minuto; si dos personas cambian lo mismo, vale el cambio más reciente. Solo se comparte lo que es para el equipo: Clientes, el tablero Equipo en Tareas y las notas marcadas para el equipo; las notas privadas siguen siendo suyas. Los datos pasan por el servidor de Jarvis cifrados con la clave del equipo, que solo tiene su equipo: el servidor no puede leerlos. Se paga por cada persona del equipo.' },
