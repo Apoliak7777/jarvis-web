@@ -1,4 +1,4 @@
-/* Jarvis · AI asistent na web (3.120): <script src="https://jarvis.apoliak.online/asistent.js" data-id="w_…" async></script>
+/* Jarvis · AI asistent na web (3.120): <script src="https://jarvis.apoliak.sk/asistent.js" data-id="w_…" async></script>
    A chat bubble for the firm's own web: the visitor's question goes over the Jarvis Brána to the firm's Jarvis, its AI answers
    from what the owner gave it; with the firm's PC off, a contact form. Its look lives in a shadow root – the web's styles do
    not reach it. Every text goes in as text. */
@@ -7,8 +7,8 @@
   const script = document.currentScript, id = script?.dataset?.id || '';
   if (!/^w_[\w-]{6,30}$/.test(id) || window.__jarvisAssistant) return;
   window.__jarvisAssistant = true;
-  const origin = (() => { try { return new URL(script.src).origin; } catch { return 'https://jarvis.apoliak.online'; } })();
-  const API = origin === 'https://jarvis.apoliak.online' ? 'https://stiahnut.apoliak.online/brana' : origin + '/brana';
+  const origin = (() => { try { return new URL(script.src).origin; } catch { return 'https://jarvis.apoliak.sk'; } })();
+  const API = /^https:\/\/jarvis\.apoliak\.(?:sk|online)$/.test(origin) ? 'https://stiahnut.apoliak.online/brana' : origin + '/brana';
   const T = {
     sk: { ai: 'Odpovedá AI asistent, nie človek.', open: 'Napíšte nám', ask: 'Napíšte otázku…', send: 'Odoslať', wait: 'Píšem odpoveď…', offline: 'Teraz neodpovedám hneď – nechajte nám kontakt a ozveme sa.', name: 'Meno', email: 'E-mail', phone: 'Telefón', text: 'S čím vám pomôžeme?', consent: 'Súhlasím so spracovaním údajov na odpoveď.', leave: 'Nechať kontakt', thanks: 'Ďakujeme, ozveme sa vám čo najskôr.', fail: 'Nepodarilo sa – skúste to o chvíľu.', need: 'Nechajte e-mail alebo telefón.', close: 'Zavrieť', by: 'cez Jarvis', hi: 'Dobrý deň! S čím vám pomôžem?' },
     cs: { ai: 'Odpovídá AI asistent, ne člověk.', open: 'Napište nám', ask: 'Napište dotaz…', send: 'Odeslat', wait: 'Píšu odpověď…', offline: 'Teď neodpovídám hned – nechte nám kontakt a ozveme se.', name: 'Jméno', email: 'E-mail', phone: 'Telefon', text: 'S čím vám pomůžeme?', consent: 'Souhlasím se zpracováním údajů pro odpověď.', leave: 'Nechat kontakt', thanks: 'Děkujeme, ozveme se vám co nejdříve.', fail: 'Nepovedlo se – zkuste to za chvíli.', need: 'Nechte e-mail nebo telefon.', close: 'Zavřít', by: 'přes Jarvis', hi: 'Dobrý den! S čím vám pomohu?' },

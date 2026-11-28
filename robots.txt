@@ -21,4 +21,4 @@ Disallow: /uk/kosik.html
 Disallow: /uk/objednavka.html
 Disallow: /p/
 Disallow: /m/
-Sitemap: https://jarvis.apoliak.online/sitemap.xml
+Sitemap: https://jarvis.apoliak.sk/sitemap.xml

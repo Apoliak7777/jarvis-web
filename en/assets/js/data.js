@@ -39,7 +39,7 @@ window.JARVIS_DATA = {
     // licencií → Objednávky a košík sa na ňu pýta Brány. Prázdne = objednávka sa pošle e-mailom ako predtým.
     obchodApi: 'https://stiahnut.apoliak.online/brana',
     verejnyKluc: '',           // Jarvis → Nastavenia → Generátor licencií → Cenník → Kopírovať verejný kľúč (PEM)
-    adresaWebu: 'https://jarvis.apoliak.online', // verejná adresa (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
+    adresaWebu: 'https://jarvis.apoliak.sk', // verejná adresa od 28. 11. 2026 (náhľad v sieťach, Google, mapa stránok); zverejní nastroje/zverejni.mjs
     podmienkyOd: '18. 11. 2026'
   },
 

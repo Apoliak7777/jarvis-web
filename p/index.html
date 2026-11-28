@@ -42,7 +42,7 @@
 <script>
 'use strict';
 (() => {
-  const API = location.hostname === 'jarvis.apoliak.online' ? 'https://stiahnut.apoliak.online/brana' : location.origin + '/brana';
+  const API = /^jarvis\.apoliak\.(?:sk|online)$/.test(location.hostname) ? 'https://stiahnut.apoliak.online/brana' : location.origin + '/brana';
   const T = {
     sk: { offer: 'Cenová ponuka', for: 'Pre', item: 'Položka', qty: 'Množstvo', price: 'Cena/j.', total: 'Spolu', net: 'Základ', vat: 'DPH', grand: 'Spolu', grandVat: 'Spolu s DPH', valid: 'Platí do', pdf: 'Stiahnuť PDF', accept: 'Prijať ponuku', ask: 'Mám otázku', name: 'Vaše meno', note: 'Poznámka (nepovinné)', agree: 'Prijímam túto ponuku a súhlasím s jej podmienkami.', send: 'Odoslať', question: 'Vaša otázka', email: 'E-mail na odpoveď', accepted: 'Ďakujeme, ponuka je prijatá. Ozveme sa vám.', already: 'Ponuka už bola prijatá.', asked: 'Ďakujeme, otázku sme dostali a odpovieme e-mailom.', expired: 'Platnosť ponuky uplynula. Napíšte nám, radi ju obnovíme.', withdrawn: 'Táto ponuka už nie je platná.', missing: 'Ponuka sa nenašla. Skontrolujte odkaz.', fail: 'Niečo sa nepodarilo – skúste to o chvíľu.', by: 'Ponuka cez' },
     cs: { offer: 'Cenová nabídka', for: 'Pro', item: 'Položka', qty: 'Množství', price: 'Cena/j.', total: 'Celkem', net: 'Základ', vat: 'DPH', grand: 'Celkem', grandVat: 'Celkem s DPH', valid: 'Platí do', pdf: 'Stáhnout PDF', accept: 'Přijmout nabídku', ask: 'Mám dotaz', name: 'Vaše jméno', note: 'Poznámka (nepovinné)', agree: 'Přijímám tuto nabídku a souhlasím s jejími podmínkami.', send: 'Odeslat', question: 'Váš dotaz', email: 'E-mail pro odpověď', accepted: 'Děkujeme, nabídka je přijata. Ozveme se vám.', already: 'Nabídka už byla přijata.', asked: 'Děkujeme, dotaz jsme dostali a odpovíme e-mailem.', expired: 'Platnost nabídky vypršela. Napište nám, rádi ji obnovíme.', withdrawn: 'Tato nabídka už neplatí.', missing: 'Nabídka nebyla nalezena. Zkontrolujte odkaz.', fail: 'Něco se nepovedlo – zkuste to za chvíli.', by: 'Nabídka přes' },
@@ -71,7 +71,7 @@
     const r = await fetch(API + '/v1/verejne/ponuky/' + encodeURIComponent(tok) + path, body ? { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) } : {});
     const json = await r.json().catch(() => ({})); if (!r.ok) throw Object.assign(new Error(json.error || t.fail), { status: r.status }); return json;
   }
-  function shell(...kids) { app.replaceChildren(el('div', { class: 'card' }, ...kids), el('footer', {}, t.by + ' ', el('a', { href: 'https://jarvis.apoliak.online', target: '_blank', rel: 'noopener' }, 'Jarvis'))); }
+  function shell(...kids) { app.replaceChildren(el('div', { class: 'card' }, ...kids), el('footer', {}, t.by + ' ', el('a', { href: 'https://jarvis.apoliak.sk', target: '_blank', rel: 'noopener' }, 'Jarvis'))); }
   function render(message = null) {
     const o = offer, vat = o.vatPayer;
     const rows = o.items.map(i => el('tr', {}, el('td', {}, el('strong', {}, i.name)), el('td', { class: 'r' }, `${new Intl.NumberFormat(LOCALE[lang], { maximumFractionDigits: 3 }).format(i.qty)} ${i.unit || ''}`), el('td', { class: 'r' }, money(i.price)), el('td', { class: 'r' }, money(i.total))));

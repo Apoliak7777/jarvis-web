@@ -46,7 +46,7 @@
 <script>
 'use strict';
 (() => {
-  const API = location.hostname === 'jarvis.apoliak.online' ? 'https://stiahnut.apoliak.online/brana' : location.origin + '/brana';
+  const API = /^jarvis\.apoliak\.(?:sk|online)$/.test(location.hostname) ? 'https://stiahnut.apoliak.online/brana' : location.origin + '/brana';
   // 3.156: the breaks, rooms and equipment, the waiting list, a booking moved by its client, the private feedback after a
   // visit, the optional consent to news – and all ten languages of Jarvis
   const T = {
@@ -132,7 +132,7 @@
   // the reason the Brána gave, in the language of the page (a sentence of the Brána itself for anything else)
   const why = e => ({ taken: t.taken, late: t.late.replace('{x}', page?.cancelHours ?? ''), past: t.past, off: t.moveOff, cancelled: t.cancelled })[e.code] || e.message;
   const home = () => `${location.pathname}?f=${encodeURIComponent(slug)}`;
-  function shell(...kids) { app.replaceChildren(el('div', { class: 'card' }, ...kids), el('footer', {}, t.by + ' ', el('a', { href: 'https://jarvis.apoliak.online', target: '_blank', rel: 'noopener' }, 'Jarvis'))); }
+  function shell(...kids) { app.replaceChildren(el('div', { class: 'card' }, ...kids), el('footer', {}, t.by + ' ', el('a', { href: 'https://jarvis.apoliak.sk', target: '_blank', rel: 'noopener' }, 'Jarvis'))); }
   const head = () => [el('h1', {}, page.firm || t.title), page.address || page.phone ? el('div', { class: 'muted' }, [page.address, page.phone].filter(Boolean).join(' · ')) : null, page.intro ? el('div', { class: 'intro' }, page.intro) : null];
   /** the days and the times of a list of starts: `chosen` the picked start, `pick(iso)` when one is clicked */
   function calendar(starts, chosen, pick) {
