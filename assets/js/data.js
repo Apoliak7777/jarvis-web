@@ -276,7 +276,8 @@ window.JARVIS_DATA = {
     { id: 'sukromie', nazov: 'Súkromie a bezpečnosť', text: 'Dáta sú vo vašom počítači, heslá šifruje Windows a AI ich nikdy nedostane. Antivírus a VPN jedným klikom, Inkognito pošle firmám žiadosti o výmaz vašich údajov podľa GDPR.' }
   ],
 
-  /* Appky v Jarvisovi (podľa Jarvis\public\mini\catalog.json, bez Generátora licencií – ten má len predajca). */
+  /* Appky v Jarvisovi zákazníka (podľa Jarvis\public\mini\catalog.json). Nikdy appky, ktoré má len predajca –
+     PERSONAL_APPS v Jarvis\src\lib\funkcie.mjs (napr. Generátor licencií); čo sa zámerne nevypisuje, je v README. */
   appky: [
     { kategoria: 'Každý deň', polozky: [
       ['Poznámky', 'Rýchle poznámky s hľadaním, pripnutím a úpravou cez AI'],
@@ -294,17 +295,34 @@ window.JARVIS_DATA = {
       ['Čítačka článkov', 'Článok bez reklám a vyskakovačiek, AI zhrnutie a čítanie nahlas'],
       ['Cvičenie', 'Intervalový tréning – Tabata, HIIT, plank, Jarvis hlási cviky'],
       ['Dátumy a lehoty', 'Posledný deň lehoty podľa zákona, pracovné dni, sviatky a fond pracovného času'],
-      ['Kto komu koľko', 'Spoločné výdavky na výlete či chate – kto komu pošle koľko, najmenej platbami']
+      ['Kto komu koľko', 'Spoločné výdavky na výlete či chate – kto komu pošle koľko, najmenej platbami'],
+      ['Trezor', 'Heslá a poznámky na nástenke s kartami, šifrované AES-256, úplne offline'],
+      ['Zásielky', 'Balíky z pošty samé – kde sú, kód na vyzdvihnutie a odkaz na sledovanie (Packeta, SPS, GLS, DPD, pošta…)'],
+      ['Záruky', 'Bločky a záručné listy na jednom mieste – Jarvis pripomenie koniec záruky a pripraví reklamáciu'],
+      ['Triedenie pošty', 'Jarvis sám triedi poštu zo všetkých schránok, newslettre a notifikácie odloží, upozorní len na dôležité a ráno a večer dá krátky prehľad – nič neodošle ani nezmaže']
     ] },
     { kategoria: 'Práca', polozky: [
       ['Obchodník', 'Záujemcovia zo schránok, pripravené odpovede a pripomienky – vy len odošlete'],
       ['Klienti · CRM', 'Zákazky od záujmu po zaplatenie, ľudia a firmy s posledným kontaktom a ďalším krokom'],
       ['Databáza kontaktov', 'Firmy a ľudia s číslami – z pošty, Excelu a webov, z registra podľa IČO konatelia a tržby'],
       ['Cenová ponuka', 'Ponuka pre klienta s položkami a DPH ako PDF jedným klikom'],
+      ['Pohľadávky', 'Kto vám koľko dlží a ako dlho po splatnosti – podľa zákazníka, s CSV pre Excel'],
       ['Texty pre firmu', 'Príspevky, odpovede na recenzie, ponuky e-mailom a reklamy cez AI'],
+      ['Kalendár príspevkov', 'Príspevky na LinkedIn, Facebook, Instagram a TikTok v kalendári – AI napíše mesiac naraz, Jarvis pripomenie čas'],
+      ['Prezentácie', 'Z témy hotová prezentácia v PowerPointe s logom a farbami firmy – na snímkach podstata, reč v poznámkach'],
       ['Zápis zo stretnutia', 'Nahrajte hovor alebo poradu – prepis s tým, kto hovoril, a AI zápis s úlohami'],
       ['Výkaz práce', 'Stopky na projekty a klientov, hodiny × sadzba, výkaz pre klienta a CSV'],
+      ['Odrátané hodiny', 'Šichty a pichačky, hodiny × hodinovka so sobotou, nedeľou a sviatkami, sedí výplata – výpis pre šéfa, CSV a kalendár'],
+      ['Podpora', 'Tikety zákazníkov s číslom, stavom a sľúbeným časom odpovede – odpovedáte e-mailom z Pošty a odpoveď zákazníka si Jarvis vezme do tiketu sám'],
+      ['Ľudia', 'Dovolenky, PN a lekár so schválením, nárok na dovolenku so sviatkami SK a CZ, tímový kalendár a dochádzka s výkazom pre účtovníčku'],
+      ['Wiki', 'Firemná wiki v strome – postupy, návody a dohody s verziami, obľúbenými, zámkom a košom'],
+      ['Servisné pripomienky', 'Pravidelný servis a revízie zákazníkov – Jarvis včas pripomenie termín a pripraví zákazníkovi mail do Konceptov'],
+      ['Kniha jázd', 'Jazdy autom pre firmu, tankovanie a spotreba, cestovné náhrady, STK, známka a PZP včas – export pre účtovníčku'],
+      ['Mzdová kalkulačka', 'Čistá mzda, cena práce, živnosť a mzda či dividenda podľa pravidiel na rok 2026'],
+      ['Daňový kalendár', 'Termíny DPH, preddavkov, odvodov a daňového priznania podľa vašej firmy – posunuté na pracovný deň, s odhadom DPH a strážením obratu pre DPH'],
+      ['Podpis do mailu', 'Pekný podpis do e-mailu s logom a kontaktmi – skopírujete ho do Gmailu, Outlooku aj Pošty'],
       ['PDF nástroje', 'Spojiť, rozdeliť, otočiť a preusporiadať strany, obrázky do PDF'],
+      ['Zmenšovač PDF', 'PDF pod 1 MB – zmenší len obrázky, text ostane textom, originál sa nemení'],
       ['Text z obrázka', 'Text zo snímky obrazovky alebo obrázka, offline vo Windows'],
       ['QR kódy', 'QR na odkaz, Wi-Fi, kontakt a QR platbu PAY by square'],
       ['Kontakty a tabuľky', 'CSV a Excel: duplicity preč, kontrola e-mailov, filter, rozdelenie'],
@@ -312,6 +330,7 @@ window.JARVIS_DATA = {
       ['Nahrávanie obrazovky', 'Obrazovka alebo okno so zvukom a mikrofónom do videa'],
       ['Video a zvuk', 'Video pod zvolené MB, vystrihnutá časť, zvuk do MP3, GIF'],
       ['Strážca stránok', 'Sleduje weby (výzvy, ceny, inzeráty) a ozve sa, keď sa na nich niečo zmení'],
+      ['Control Center – stráženie webov', 'Beží všetko, čo máte online? Každý web na vlastnom intervale, incidenty s dĺžkou výpadku, SSL certifikáty a audit so snímkami'],
       ['Kontrola webu', 'SEO a technika webu za pár sekúnd – s radami, čo opraviť'],
       ['Prehľad webu', 'Celý web stránku po stránke – nefunkčné odkazy, SEO chyby, sitemap.xml'],
       ['SEO kód pre web', 'Titulok, popis, zdieľanie, firma pre Google a robots.txt – s náhľadom v Google'],
@@ -322,7 +341,6 @@ window.JARVIS_DATA = {
     { kategoria: 'Vývoj', polozky: [
       ['HTML tester', 'Vložte HTML a hneď vidíte web na počítači, tablete aj mobile, s chybami na červeno'],
       ['Servery · WinSCP', 'Súbory na vašich serveroch cez SFTP, FTP aj SCP – nahrať, stiahnuť, upraviť'],
-      ['Odoo dielňa', 'Kód serverových akcií pre Odoo 17 – 20 skontrolovaný offline, vaše moduly so zipom'],
       ['Vývojár', 'JSON, Base64, URL, hash, UUID, JWT, čas a regex'],
       ['Text', 'Počítadlo, bez diakritiky, slug, veľké a malé písmená, riadky'],
       ['Heslá', 'Silné heslá a ľahko zapamätateľné frázy, sila hesla'],
@@ -332,6 +350,7 @@ window.JARVIS_DATA = {
     { kategoria: 'Počítač', polozky: [
       ['Disk', 'Čo zaberá miesto na disku, priečinok po priečinku'],
       ['Rýchlosť internetu', 'Ping, sťahovanie a odosielanie, história meraní'],
+      ['Ping a Wi-Fi', 'Ping na router a do internetu každú sekundu, výpadky Wi-Fi, signál a kanál'],
       ['Sieť a DNS', 'DNS, e-mailová doména (SPF, DKIM, DMARC), SSL certifikát, ping, porty'],
       ['O počítači', 'Procesor, grafika, pamäť, disky, batéria a Windows'],
       ['Programy v Jarvisovi', 'Git, Node.js a Ollama priamo v Jarvisovi namiesto samostatných aplikácií'],
@@ -345,8 +364,11 @@ window.JARVIS_DATA = {
       ['Písanie všetkými desiatimi', 'Rýchlosť a presnosť písania na slovenských textoch'],
       ['Encyklopédia', 'Wikipédia po slovensky priamo v Jarvisovi, zhrnutie a čítanie nahlas'],
       ['Kvíz', 'AI kvíz na hocijakú tému – aj na maturitu, s vysvetlením'],
+      ['Maturita tréner', 'Otázky z oficiálnych testov maturity zo SJL a ANJ, opakovanie v pravý čas, krátke odpovede opraví AI'],
       ['Graf funkcií', 'Funkcie ako v škole – graf, nulové body, priesečníky a tabuľka hodnôt'],
-      ['Zemepis', 'Vlajky a hlavné mestá – kvíz pre Európu aj celý svet']
+      ['Zemepis', 'Vlajky a hlavné mestá – kvíz pre Európu aj celý svet'],
+      ['EduPage', 'Školský rozvrh so suplovaním z EduPage priamo v Jarvisovi'],
+      ['Poznámky zo školy', 'Učivo podľa predmetov ako vo Worde – ukladá sa samo do počítača aj bez internetu, nič sa nestratí']
     ] },
     { kategoria: 'Hry', polozky: [
       ['2048', 'Spájajte čísla až do 2048'], ['Sudoku', 'Tri obtiažnosti, poznámky, kontrola a čas'],

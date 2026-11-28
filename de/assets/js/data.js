@@ -276,7 +276,8 @@ window.JARVIS_DATA = {
     { id: 'sukromie', nazov: 'Privatsphäre und Sicherheit', text: 'Ihre Daten liegen auf Ihrem Computer, Passwörter verschlüsselt Windows, und die KI bekommt sie nie zu sehen. Virenschutz und VPN mit einem Klick; Inkognito schickt Firmen Löschanträge für Ihre Daten nach DSGVO.' }
   ],
 
-  /* Appky v Jarvisovi (podľa Jarvis\public\mini\catalog.json, bez Generátora licencií – ten má len predajca). */
+  /* Appky v Jarvisovi zákazníka (podľa Jarvis\public\mini\catalog.json). Nikdy appky, ktoré má len predajca –
+     PERSONAL_APPS v Jarvis\src\lib\funkcie.mjs (napr. Generátor licencií); čo sa zámerne nevypisuje, je v README. */
   appky: [
     { kategoria: 'Alltag', polozky: [
       ['Notizen', 'Schnelle Notizen mit Suche, Anheften und Bearbeitung per KI'],
@@ -294,17 +295,34 @@ window.JARVIS_DATA = {
       ['Artikelleser', 'Artikel ohne Werbung und Pop-ups, KI-Zusammenfassung und Vorlesen'],
       ['Übung', 'Intervalltraining – Tabata, HIIT, Plank, Jarvis sagt die Übungen an'],
       ['Daten und Fristen', 'Letzter Tag der Frist nach Gesetz, Arbeitstage, Feiertage und Arbeitszeitkontingent'],
-      ['Wer wem wie viel', 'Gemeinsame Ausgaben auf dem Ausflug oder in der Hütte – wer wem wie viel überweist, mit möglichst wenigen Zahlungen']
+      ['Wer wem wie viel', 'Gemeinsame Ausgaben auf dem Ausflug oder in der Hütte – wer wem wie viel überweist, mit möglichst wenigen Zahlungen'],
+      ['Tresor', 'Passwörter und Notizen auf einer Kartenpinnwand, AES-256-verschlüsselt, komplett offline'],
+      ['Pakete', 'Pakete automatisch aus der Post – wo sie sind, der Abholcode und der Link zur Sendungsverfolgung (Packeta, SPS, GLS, DPD, Post…)'],
+      ['Garantien', 'Kassenbons und Garantiescheine an einem Ort – Jarvis erinnert vor dem Garantieende und bereitet die Reklamation vor'],
+      ['Postsortierung', 'Jarvis sortiert die Post aller Postfächer selbst, legt Newsletter und Benachrichtigungen weg, meldet nur Wichtiges und gibt morgens und abends einen kurzen Überblick – es sendet und löscht nichts']
     ] },
     { kategoria: 'Arbeit', polozky: [
       ['Händler', 'Interessenten aus den Postfächern, vorbereitete Antworten und Erinnerungen – Sie müssen nur noch senden'],
       ['Kunden · CRM', 'Aufträge von der Anfrage bis zur Bezahlung, Personen und Firmen mit letztem Kontakt und nächstem Schritt'],
       ['Kontaktdatenbank', 'Firmen und Personen samt Kennzahlen – aus E-Mails, Excel und Websites; Geschäftsführer und Umsatz aus dem Register nach Firmennummer'],
       ['Angebot', 'Angebot für den Kunden mit Positionen und MwSt. als PDF mit einem Klick'],
+      ['Forderungen', 'Wer Ihnen wie viel schuldet und wie lange nach Fälligkeit – nach Kunde, mit CSV für Excel'],
       ['Texte für die Firma', 'Beiträge, Antworten auf Bewertungen, Angebote per E-Mail und Werbung über KI'],
+      ['Beitragskalender', 'Beiträge für LinkedIn, Facebook, Instagram und TikTok im Kalender – die KI schreibt einen Monat auf einmal, Jarvis erinnert an die Zeit'],
+      ['Präsentationen', 'Aus einem Thema eine fertige PowerPoint-Präsentation mit Logo und Farben der Firma – auf den Folien das Wesentliche, die Rede in den Notizen'],
       ['Besprechungsprotokoll', 'Nehmen Sie ein Gespräch oder eine Besprechung auf – Transkript mit Angabe, wer gesprochen hat, und KI-Protokoll mit Aufgaben'],
       ['Arbeitsbericht', 'Stoppuhr für Projekte und Kunden, Stunden × Satz, Bericht für den Kunden und CSV'],
+      ['Abgezogene Stunden', 'Schichten und Stempeluhr, Stunden × Stundenlohn mit Samstag, Sonntag und Feiertagen, stimmt der Lohn – Auszug für den Chef, CSV und Kalender'],
+      ['Support', 'Kundentickets mit Nummer, Status und zugesagter Antwortzeit – Sie antworten per E-Mail aus Post, und die Antwort des Kunden übernimmt Jarvis selbst ins Ticket'],
+      ['Leute', 'Urlaub, Krankmeldung und Arztbesuch mit Genehmigung, Urlaubsanspruch mit Feiertagen SK und CZ, Teamkalender und Anwesenheit mit Bericht für die Buchhaltung'],
+      ['Wiki', 'Firmen-Wiki als Baum – Abläufe, Anleitungen und Vereinbarungen mit Versionen, Favoriten, Sperre und Papierkorb'],
+      ['Service-Erinnerungen', 'Regelmäßige Wartung und Prüfungen der Kunden – Jarvis erinnert rechtzeitig an den Termin und legt dem Kunden eine E-Mail in die Entwürfe'],
+      ['Fahrtenbuch', 'Dienstfahrten, Tanken und Verbrauch, Reisekosten, Hauptuntersuchung, Vignette und Versicherung rechtzeitig – Export für die Buchhaltung'],
+      ['Lohnrechner', 'Nettolohn, Arbeitgeberkosten, Selbständigkeit und Lohn oder Dividende nach den Regeln für 2026'],
+      ['Steuerkalender', 'Fristen für MwSt., Steuervorauszahlungen, Sozialabgaben und Steuererklärung passend zu Ihrer Firma – auf einen Arbeitstag verschoben, mit MwSt.-Schätzung und Überwachung der Umsatzgrenze für die MwSt.'],
+      ['E-Mail-Signatur', 'Eine schöne E-Mail-Signatur mit Logo und Kontakten – Sie kopieren sie in Gmail, Outlook und die Post'],
       ['PDF-Werkzeuge', 'Seiten zusammenfügen, teilen, drehen und neu ordnen, Bilder in PDF'],
+      ['PDF-Verkleinerer', 'PDF unter 1 MB – verkleinert nur die Bilder, Text bleibt Text, das Original bleibt unverändert'],
       ['Text aus dem Bild', 'Text aus einem Screenshot oder Bild, offline in Windows'],
       ['QR-Codes', 'QR für Link, WLAN, Kontakt und QR-Zahlung PAY by square'],
       ['Kontakte und Tabellen', 'CSV und Excel: Duplikate weg, E-Mail-Prüfung, Filter, Aufteilen'],
@@ -312,6 +330,7 @@ window.JARVIS_DATA = {
       ['Bildschirmaufnahme', 'Bildschirm oder Fenster mit Ton und Mikrofon als Video'],
       ['Video und Ton', 'Video auf die gewünschte Größe in MB bringen, Ausschnitt schneiden, Ton als MP3, GIF'],
       ['Seitenwächter', 'Beobachtet Websites (Ausschreibungen, Preise, Anzeigen) und meldet sich, wenn sich dort etwas ändert'],
+      ['Control Center – Website-Überwachung', 'Läuft alles, was Sie online haben? Jede Website in ihrem eigenen Intervall, Vorfälle mit Ausfalldauer, SSL-Zertifikate und Audits mit Snapshots'],
       ['Website-Prüfung', 'SEO und Technik der Website in wenigen Sekunden – mit Hinweisen, was zu beheben ist'],
       ['Website-Überblick', 'Die ganze Website Seite für Seite – defekte Links, SEO-Fehler, sitemap.xml'],
       ['SEO-Code für die Website', 'Titel, Beschreibung, Teilen, Firma für Google und robots.txt – mit Vorschau bei Google'],
@@ -322,7 +341,6 @@ window.JARVIS_DATA = {
     { kategoria: 'Entwicklung', polozky: [
       ['HTML-Tester', 'Fügen Sie HTML ein und sehen Sie sofort die Website auf Computer, Tablet und Handy, mit Fehlern in Rot'],
       ['Server · WinSCP', 'Dateien auf Ihren Servern über SFTP, FTP und SCP – hochladen, herunterladen, bearbeiten'],
-      ['Odoo-Werkstatt', 'Code von Serveraktionen für Odoo 17 – 20, offline geprüft, Ihre Module als Zip'],
       ['Entwickler', 'JSON, Base64, URL, Hash, UUID, JWT, Zeit und Regex'],
       ['Text', 'Zähler, ohne Akzente, Slug, Groß- und Kleinbuchstaben, Zeilen'],
       ['Passwörter', 'Starke Passwörter und leicht merkbare Phrasen, Passwortstärke'],
@@ -332,6 +350,7 @@ window.JARVIS_DATA = {
     { kategoria: 'Computer', polozky: [
       ['Festplatte', 'Was auf der Festplatte Platz belegt, Ordner für Ordner'],
       ['Internetgeschwindigkeit', 'Ping, Download und Upload, Messverlauf'],
+      ['Ping und WLAN', 'Ping zum Router und ins Internet jede Sekunde, WLAN-Ausfälle, Signal und Kanal'],
       ['Netzwerk und DNS', 'DNS, E-Mail-Domain (SPF, DKIM, DMARC), SSL-Zertifikat, Ping, Ports'],
       ['Über den Computer', 'Prozessor, Grafik, Speicher, Laufwerke, Akku und Windows'],
       ['Programme in Jarvis', 'Git, Node.js und Ollama direkt in Jarvis statt als eigene Anwendungen'],
@@ -345,8 +364,11 @@ window.JARVIS_DATA = {
       ['Zehnfingerschreiben', 'Geschwindigkeit und Genauigkeit beim Tippen slowakischer Texte'],
       ['Enzyklopädie', 'Wikipedia auf Slowakisch direkt in Jarvis, Zusammenfassung und Vorlesen'],
       ['Quiz', 'KI-Quiz zu jedem Thema – auch fürs Abitur, mit Erklärung'],
+      ['Abitur-Trainer', 'Fragen aus offiziellen Matura-Tests in Slowakisch und Englisch, Wiederholung zur richtigen Zeit, kurze Antworten bewertet die KI'],
       ['Funktionsgraph', 'Funktionen wie in der Schule – Graph, Nullstellen, Schnittpunkte und Wertetabelle'],
-      ['Geografie', 'Flaggen und Hauptstädte – Quiz für Europa und die ganze Welt']
+      ['Geografie', 'Flaggen und Hauptstädte – Quiz für Europa und die ganze Welt'],
+      ['EduPage', 'Stundenplan mit Vertretungen aus EduPage direkt in Jarvis'],
+      ['Schulnotizen', 'Lernstoff nach Fächern wie in Word – speichert sich selbst auf dem Computer, auch ohne Internet, nichts geht verloren']
     ] },
     { kategoria: 'Spiele', polozky: [
       ['2048', 'Zahlen verschmelzen bis zur 2048'], ['Sudoku', 'Drei Schwierigkeitsstufen, Notizen, Fehlerprüfung und Zeit'],

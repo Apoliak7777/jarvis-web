@@ -276,7 +276,8 @@ window.JARVIS_DATA = {
     { id: 'sukromie', nazov: 'Adatvédelem és biztonság', text: 'Az adatai az Ön számítógépén vannak, a jelszavakat a Windows titkosítja, és az AI soha nem kapja meg őket. Vírusirtó és VPN egy kattintással; az Inkognitó a GDPR alapján kéri a cégektől az Ön adatainak törlését.' }
   ],
 
-  /* Appky v Jarvisovi (podľa Jarvis\public\mini\catalog.json, bez Generátora licencií – ten má len predajca). */
+  /* Appky v Jarvisovi zákazníka (podľa Jarvis\public\mini\catalog.json). Nikdy appky, ktoré má len predajca –
+     PERSONAL_APPS v Jarvis\src\lib\funkcie.mjs (napr. Generátor licencií); čo sa zámerne nevypisuje, je v README. */
   appky: [
     { kategoria: 'Mindennapi', polozky: [
       ['Jegyzetek', 'Gyors jegyzetek kereséssel, kitűzéssel és AI-s szerkesztéssel'],
@@ -294,17 +295,34 @@ window.JARVIS_DATA = {
       ['Cikkolvasó', 'Cikk reklámok és felugró ablakok nélkül, AI-összefoglaló és felolvasás'],
       ['Gyakorlat', 'Intervallumedzés – Tabata, HIIT, plank, a Jarvis bemondja a gyakorlatokat'],
       ['Dátumok és határidők', 'A határidő utolsó napja a törvény szerint, munkanapok, ünnepnapok és munkaidőkeret'],
-      ['Ki kinek mennyit', 'Közös kiadások kiránduláson vagy nyaralóban – ki kinek mennyit küld, a lehető legkevesebb utalással']
+      ['Ki kinek mennyit', 'Közös kiadások kiránduláson vagy nyaralóban – ki kinek mennyit küld, a lehető legkevesebb utalással'],
+      ['Széf', 'Jelszavak és jegyzetek kártyás táblán, AES-256 titkosítással, teljesen offline'],
+      ['Csomagok', 'Csomagok magától a levelekből – hol vannak, az átvételi kód és a nyomkövetési link (Packeta, SPS, GLS, DPD, posta…)'],
+      ['Garanciák', 'Blokkok és garanciajegyek egy helyen – Jarvis emlékeztet a garancia végére és megírja a reklamációt'],
+      ['Levelek válogatása', 'Jarvis magától válogatja az összes postafiók leveleit, félreteszi a hírleveleket és értesítéseket, csak a fontosra figyelmeztet, reggel és este rövid áttekintést ad – semmit sem küld el és nem töröl']
     ] },
     { kategoria: 'Munka', polozky: [
       ['Kereskedő', 'Érdeklődők a postafiókokból, előkészített válaszok és emlékeztetők – Önnek csak el kell küldenie'],
       ['Ügyfelek · CRM', 'Megrendelések az érdeklődéstől a kifizetésig, személyek és cégek az utolsó kapcsolatfelvétellel és a következő lépéssel'],
       ['Kapcsolat-adatbázis', 'Cégek és személyek telefonszámokkal – a levelezésből, Excelből és weboldalakról; a nyilvántartásból az IČO (szlovák cégazonosító) alapján az ügyvezetők és a bevétel'],
       ['Árajánlat', 'Ajánlat az ügyfélnek tételekkel és áfával PDF-ben egy kattintással'],
+      ['Kintlévőségek', 'Ki mennyivel tartozik Önnek és mióta lejárt – ügyfelenként, CSV-vel Excelhez'],
       ['Szövegek a cégnek', 'Bejegyzések, válaszok az értékelésekre, ajánlatok e-mailben és hirdetések AI-jal'],
+      ['Bejegyzésnaptár', 'Bejegyzések LinkedInre, Facebookra, Instagramra és TikTokra naptárban – az AI egyszerre megír egy hónapot, Jarvis emlékeztet az időpontra'],
+      ['Prezentációk', 'Témából kész PowerPoint-prezentáció a cég logójával és színeivel – a diákon a lényeg, a beszéd a jegyzetekben'],
       ['Megbeszélés jegyzőkönyve', 'Vegyen fel egy hívást vagy megbeszélést – átirat a beszélők megnevezésével és AI-jegyzőkönyv feladatokkal'],
       ['Munkaidő-kimutatás', 'Stopper projektekhez és ügyfelekhez, órák × díj, kimutatás az ügyfélnek és CSV'],
+      ['Ledolgozott órák', 'Műszakok és blokkolás, órák × órabér szombattal, vasárnappal és ünnepnapokkal, stimmel-e a fizetés – kimutatás a főnöknek, CSV és naptár'],
+      ['Ügyfélszolgálat', 'Ügyféljegyek számmal, állapottal és vállalt válaszidővel – Ön a Postából válaszol e-mailben, az ügyfél válaszát pedig a Jarvis magától a jegyhez csatolja'],
+      ['Emberek', 'Szabadság, betegszabadság és orvosi vizit jóváhagyással, szabadságkeret SK és CZ ünnepnapokkal, csapatnaptár és jelenléti ív kimutatással a könyvelőnek'],
+      ['Wiki', 'Céges wiki faszerkezetben – eljárások, útmutatók és megállapodások verziókkal, kedvencekkel, zárolással és lomtárral'],
+      ['Szerviz-emlékeztetők', 'Az ügyfelek rendszeres szervize és felülvizsgálatai – a Jarvis időben emlékeztet az időpontra, és e-mailt készít az ügyfélnek a Piszkozatokba'],
+      ['Útnyilvántartás', 'Céges autós utak, tankolás és fogyasztás, útiköltség-térítés, műszaki vizsga, matrica és biztosítás időben – export a könyvelőnek'],
+      ['Bérkalkulátor', 'Nettó bér, bérköltség, egyéni vállalkozás és bér vagy osztalék a 2026-os szabályok szerint'],
+      ['Adónaptár', 'Az áfa, az adóelőlegek, a járulékok és az adóbevallás határidői a cége szerint – munkanapra igazítva, áfabecsléssel és az áfahatár szerinti forgalom figyelésével'],
+      ['E-mail-aláírás', 'Szép e-mail-aláírás logóval és elérhetőségekkel – bemásolja a Gmailbe, az Outlookba és a Postába'],
       ['PDF-eszközök', 'Oldalak összefűzése, szétszedése, forgatása és átrendezése, képek PDF-be'],
+      ['PDF-tömörítő', '1 MB alatti PDF – csak a képeket kicsinyíti, a szöveg szöveg marad, az eredeti nem változik'],
       ['Szöveg a képről', 'Szöveg képernyőképről vagy képről, offline a Windowsban'],
       ['QR-kódok', 'QR-kód hivatkozáshoz, Wi-Fi-hez, névjegyhez és PAY by square QR-fizetéshez'],
       ['Kapcsolatok és táblázatok', 'CSV és Excel: ismétlődések törlése, e-mail-címek ellenőrzése, szűrés, felosztás'],
@@ -312,6 +330,7 @@ window.JARVIS_DATA = {
       ['Képernyőfelvétel', 'Képernyő vagy ablak hanggal és mikrofonnal videóba'],
       ['Videó és hang', 'Videó a megadott MB-méret alá, kivágott részlet, hang MP3-ba, GIF'],
       ['Oldalőr', 'Weboldalakat figyel (pályázati felhívások, árak, hirdetések), és jelentkezik, ha valami változik rajtuk'],
+      ['Control Center – webhelyek figyelése', 'Minden fut, ami Önnek online van? Minden webhely saját időközzel, incidensek a kiesés hosszával, SSL-tanúsítványok és audit pillanatképekkel'],
       ['Webhely-ellenőrzés', 'A weboldal SEO-ja és technikai állapota néhány másodperc alatt – tanácsokkal, mit érdemes javítani'],
       ['Webhely-áttekintés', 'Az egész webhely oldalról oldalra – hibás hivatkozások, SEO-hibák, sitemap.xml'],
       ['SEO-kód a webhelyhez', 'Cím, leírás, megosztás, cég a Google számára és robots.txt – Google-előnézettel'],
@@ -322,7 +341,6 @@ window.JARVIS_DATA = {
     { kategoria: 'Fejlesztés', polozky: [
       ['HTML-tesztelő', 'Illessze be a HTML-kódot, és azonnal látja a weboldalt számítógépen, táblagépen és telefonon, a hibákat pirossal jelölve'],
       ['Szerverek · WinSCP', 'Fájlok a szervereken SFTP-n, FTP-n és SCP-n keresztül – feltöltés, letöltés, szerkesztés'],
-      ['Odoo-műhely', 'Az Odoo 17 – 20 szerverműveleteinek kódja offline ellenőrizve, a moduljai zip-fájlban'],
       ['Fejlesztő', 'JSON, Base64, URL, hash, UUID, JWT, idő és regex'],
       ['Szöveg', 'Számláló, ékezetek nélkül, slug, nagy- és kisbetűk, sorok'],
       ['Jelszavak', 'Erős jelszavak és könnyen megjegyezhető kifejezések, jelszóerősség'],
@@ -332,6 +350,7 @@ window.JARVIS_DATA = {
     { kategoria: 'Számítógép', polozky: [
       ['Lemez', 'Mi foglalja a helyet a lemezen, mappáról mappára'],
       ['Internetsebesség', 'Ping, letöltés és feltöltés, mérési előzmények'],
+      ['Ping és Wi-Fi', 'Ping a routerre és az internetre másodpercenként, Wi-Fi-kiesések, jel és csatorna'],
       ['Hálózat és DNS', 'DNS, e-mail-domain (SPF, DKIM, DMARC), SSL-tanúsítvány, ping, portok'],
       ['A számítógépről', 'Processzor, videokártya, memória, lemezek, akkumulátor és Windows'],
       ['Programok a Jarvisban', 'Git, Node.js és Ollama közvetlenül a Jarvisban, különálló alkalmazások helyett'],
@@ -345,8 +364,11 @@ window.JARVIS_DATA = {
       ['Tízujjas gépelés', 'A gépelés sebessége és pontossága szlovák szövegeken'],
       ['Lexikon', 'Wikipédia szlovákul közvetlenül a Jarvisban, összefoglaló és felolvasás'],
       ['Kvíz', 'AI-kvíz bármilyen témában – érettségire is, magyarázattal'],
+      ['Érettségi tréner', 'Kérdések a hivatalos érettségi tesztekből szlovákból és angolból, ismétlés a megfelelő időben, a rövid válaszokat az AI javítja'],
       ['Függvénygrafikon', 'Függvények, mint az iskolában – grafikon, zérushelyek, metszéspontok és értéktáblázat'],
-      ['Földrajz', 'Zászlók és fővárosok – kvíz Európáról és az egész világról']
+      ['Földrajz', 'Zászlók és fővárosok – kvíz Európáról és az egész világról'],
+      ['EduPage', 'Órarend helyettesítésekkel az EduPage-ből, közvetlenül a Jarvisban'],
+      ['Iskolai jegyzetek', 'Tananyag tantárgyanként, mint a Wordben – magától menti a számítógépre internet nélkül is, semmi sem vész el']
     ] },
     { kategoria: 'Játékok', polozky: [
       ['2048', 'Egyesítse a számokat egészen 2048-ig'], ['Sudoku', 'Három nehézségi szint, jegyzetek, ellenőrzés és idő'],

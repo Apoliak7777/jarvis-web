@@ -276,7 +276,8 @@ window.JARVIS_DATA = {
     { id: 'sukromie', nazov: 'Privacy and security', text: 'Your data stays on your computer, Windows encrypts your passwords and the AI never receives them. Antivirus and VPN in one click; Incognito sends companies requests to erase your data under the GDPR.' }
   ],
 
-  /* Appky v Jarvisovi (podľa Jarvis\public\mini\catalog.json, bez Generátora licencií – ten má len predajca). */
+  /* Appky v Jarvisovi zákazníka (podľa Jarvis\public\mini\catalog.json). Nikdy appky, ktoré má len predajca –
+     PERSONAL_APPS v Jarvis\src\lib\funkcie.mjs (napr. Generátor licencií); čo sa zámerne nevypisuje, je v README. */
   appky: [
     { kategoria: 'Everyday', polozky: [
       ['Notes', 'Quick notes with search, pinning and AI-powered editing'],
@@ -294,17 +295,34 @@ window.JARVIS_DATA = {
       ['Article reader', 'An article without ads or pop-ups, an AI summary and read-aloud'],
       ['Exercise', 'Interval training – Tabata, HIIT, plank; Jarvis calls out the exercises'],
       ['Dates and deadlines', 'The last day of a legal deadline, working days, public holidays and available working hours'],
-      ['Who owes whom', 'Shared expenses on a trip or at a cottage – who sends how much to whom, with the fewest payments']
+      ['Who owes whom', 'Shared expenses on a trip or at a cottage – who sends how much to whom, with the fewest payments'],
+      ['Vault', 'Passwords and notes on a board of cards, AES-256 encrypted, fully offline'],
+      ['Parcels', 'Parcels from your mail by themselves – where they are, the pick-up code and the tracking link (Packeta, SPS, GLS, DPD, post…)'],
+      ['Warranties', 'Receipts and warranty cards in one place – Jarvis reminds you before the warranty ends and drafts the complaint'],
+      ['Mail sorting', 'Jarvis sorts the mail of all your mailboxes by itself, puts newsletters and notifications away, alerts you only to what matters and gives a short overview in the morning and evening – it sends and deletes nothing']
     ] },
     { kategoria: 'Work', polozky: [
       ['Salesman', 'Leads from your mailboxes, prepared replies and reminders – you just hit send'],
       ['Clients · CRM', 'Jobs from first interest to payment, people and companies with the last contact and the next step'],
       ['Contact database', 'Companies and people with their figures – from mail, Excel and websites; directors and revenue from the business register by company ID (IČO)'],
       ['Price quote', 'A quote for your client with line items and VAT, as a PDF in one click'],
+      ['Receivables', 'Who owes you how much and how long past the due date – by customer, with a CSV for Excel'],
       ['Texts for the company', 'Posts, replies to reviews, e-mail offers and ads written with AI'],
+      ['Post calendar', 'Posts for LinkedIn, Facebook, Instagram and TikTok in a calendar – the AI writes a month at once, Jarvis reminds you of the time'],
+      ['Presentations', 'A finished PowerPoint presentation from a topic with the company logo and colors – the gist on the slides, the talk in the notes'],
       ['Meeting minutes', 'Record a call or a meeting – a transcript showing who spoke, plus AI-written minutes with tasks'],
       ['Timesheet', 'A stopwatch for projects and clients, hours × rate, a timesheet for your client and CSV'],
+      ['Hours counted off', 'Shifts and the time clock, hours × hourly rate with Saturdays, Sundays and holidays, does the pay add up – a statement for the boss, CSV and calendar'],
+      ['Support', 'Customer tickets with a number, a status and a promised response time – you reply by e-mail from Mail and Jarvis files the customer\'s reply into the ticket by itself'],
+      ['People', 'Leave, sick leave and doctor visits with approval, leave entitlement with SK and CZ public holidays, a team calendar and attendance with a report for the accountant'],
+      ['Wiki', 'A company wiki in a tree – procedures, guides and agreements with versions, favourites, locking and a bin'],
+      ['Service reminders', 'Regular service and inspections of customers – Jarvis reminds the date in time and prepares an e-mail for the customer in Drafts'],
+      ['Trip log', 'Company car trips, refuelling and consumption, travel allowances, vehicle inspection, vignette and insurance on time – export for the accountant'],
+      ['Payroll calculator', 'Net salary, labour cost, self-employment and salary or dividend under the 2026 rules'],
+      ['Tax calendar', 'Deadlines for VAT, tax advances, contributions and the tax return tailored to your company – moved to a working day, with a VAT estimate and a watch on the VAT registration threshold'],
+      ['E-mail signature', 'A nice e-mail signature with your logo and contacts – copy it into Gmail, Outlook or Mail'],
       ['PDF tools', 'Merge, split, rotate and rearrange pages, images to PDF'],
+      ['PDF compressor', 'PDF under 1 MB – shrinks only the pictures, text stays text, the original is not changed'],
       ['Text from an image', 'Text from a screenshot or an image, offline in Windows'],
       ['QR codes', 'QR codes for a link, Wi-Fi, a contact and a PAY by square QR payment'],
       ['Contacts and tables', 'CSV and Excel: remove duplicates, check e-mails, filter, split'],
@@ -312,6 +330,7 @@ window.JARVIS_DATA = {
       ['Screen recording', 'Record your screen or a window to video, with sound and microphone'],
       ['Video and audio', 'Video under a chosen size in MB, a trimmed section, audio to MP3, GIF'],
       ['Page watcher', 'Watches websites (calls for proposals, prices, listings) and lets you know when something changes on them'],
+      ['Control Center – website monitoring', 'Is everything you have online up and running? Every website on its own interval, incidents with outage duration, SSL certificates and an audit with snapshots'],
       ['Website check', 'SEO and technical checks for your website in a few seconds – with tips on what to fix'],
       ['Website overview', 'Your whole website page by page – broken links, SEO errors, sitemap.xml'],
       ['SEO code for the website', 'Title, description, sharing, company details for Google and robots.txt – with a preview in Google'],
@@ -322,7 +341,6 @@ window.JARVIS_DATA = {
     { kategoria: 'Development', polozky: [
       ['HTML tester', 'Paste in HTML and instantly see the page on desktop, tablet and mobile, with errors in red'],
       ['Servers · WinSCP', 'Files on your servers over SFTP, FTP and SCP – upload, download, edit'],
-      ['Odoo workshop', 'Server action code for Odoo 17 – 20 checked offline, your modules packed as a zip'],
       ['Developer', 'JSON, Base64, URL, hash, UUID, JWT, time and regex'],
       ['Text', 'Counter, remove diacritics, slug, upper and lower case, lines'],
       ['Passwords', 'Strong passwords and easy-to-remember phrases, password strength'],
@@ -332,6 +350,7 @@ window.JARVIS_DATA = {
     { kategoria: 'Computer', polozky: [
       ['Disk', 'What takes up space on your disk, folder by folder'],
       ['Internet speed', 'Ping, download and upload, measurement history'],
+      ['Ping and Wi-Fi', 'Ping to the router and the internet every second, Wi-Fi drops, signal and channel'],
       ['Network and DNS', 'DNS, e-mail domain (SPF, DKIM, DMARC), SSL certificate, ping, ports'],
       ['About the computer', 'Processor, graphics, memory, disks, battery and Windows'],
       ['Programs in Jarvis', 'Git, Node.js and Ollama right inside Jarvis instead of separate applications'],
@@ -345,8 +364,11 @@ window.JARVIS_DATA = {
       ['Touch typing', 'Typing speed and accuracy on Slovak texts'],
       ['Encyclopedia', 'Wikipedia in Slovak right inside Jarvis, with a summary and read-aloud'],
       ['Quiz', 'An AI quiz on any topic – including the maturita school-leaving exam – with explanations'],
+      ['Exam trainer', 'Questions from the official Slovak school-leaving exam tests in Slovak and English, repetition at the right time, short answers graded by AI'],
       ['Function graph', 'Functions like at school – a graph, zeros, intersections and a table of values'],
-      ['Geography', 'Flags and capitals – a quiz for Europe and the whole world']
+      ['Geography', 'Flags and capitals – a quiz for Europe and the whole world'],
+      ['EduPage', 'School timetable with substitutions from EduPage right in Jarvis'],
+      ['School notes', 'Notes by subject, like in Word – saved by itself on this computer, even without internet, nothing gets lost']
     ] },
     { kategoria: 'Games', polozky: [
       ['2048', 'Merge numbers all the way up to 2048'], ['Sudoku', 'Three difficulty levels, notes, checking and a timer'],
